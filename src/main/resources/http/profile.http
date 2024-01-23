@@ -1,0 +1,9 @@
+###Created Admin
+GET localhost:8080/init/admin
+###Created Admin
+POST localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": ""
+}
