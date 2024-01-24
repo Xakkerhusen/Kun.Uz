@@ -16,7 +16,7 @@ public class InitService {
     private ProfileRepository profileRepository;
 
     public void initAdmin() {
-        String adminEmail = "admin@mail.ru";
+        String adminEmail = "husen@mail.ru";
         Optional<ProfileEntity> optional = profileRepository.findByEmail(adminEmail);
         if (optional.isPresent()) {
             return;

@@ -1,0 +1,30 @@
+###Create Article type
+POST localhost:8080/articleType
+Content-Type: application/json
+
+{
+  "orderNumber": 6,
+  "nameEn": "en",
+  "nameRu" : "ru",
+  "nameUz": "uz"
+}
+
+###Update Article type
+PUT localhost:8080/articleType/2
+Content-Type: application/json
+
+{
+  "nameUz": "aaa",
+  "nameEn": "bbbb",
+  "nameRu": "ssss",
+  "orderNumber": 2
+}
+
+###Delete Article type
+DELETE localhost:8080/articleType/1
+
+###Get Article type list By pagination
+GET localhost:8080/articleType/pagination?page=2
+
+###Get Article type list By Language
+GET localhost:8080/articleType/lang?language=ru

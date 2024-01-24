@@ -1,0 +1,29 @@
+###Create Region type
+POST localhost:8080/region
+Content-Type: application/json
+
+{
+  "orderNumber": 5,
+  "nameEn": "en",
+  "nameRu" : "ru",
+  "nameUz": "uz"
+}
+
+###Update Region type
+PUT localhost:8080/region/2
+Content-Type: application/json
+
+{
+  "nameUz": "aaa",
+  "nameEn": "bbbb",
+  "nameRu": "ssss"
+}
+
+###Delete Region type
+DELETE localhost:8080/region/2
+
+###Get Region type list
+GET localhost:8080/region
+
+###Get Region type list By Language
+GET localhost:8080/region/lang?language=uz
