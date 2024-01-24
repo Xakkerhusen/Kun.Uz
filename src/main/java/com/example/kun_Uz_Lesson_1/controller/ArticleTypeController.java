@@ -24,7 +24,7 @@ public class ArticleTypeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Boolean> update(@PathVariable("id") Integer id,
+    public ResponseEntity<ArticleType> update(@PathVariable("id") Integer id,
                                           @RequestBody ArticleType dto) {
         return ResponseEntity.ok(articleTypeService.update(id, dto));
     }

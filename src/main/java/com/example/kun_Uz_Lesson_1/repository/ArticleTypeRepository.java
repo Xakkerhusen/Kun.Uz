@@ -25,22 +25,17 @@ public interface ArticleTypeRepository extends CrudRepository<ArticleTypeEntity,
 
     @Transactional
     @Modifying
-    @Query("delete ArticleTypeEntity where id=:id")
+    @Query("update ArticleTypeEntity ate set ate.visible=false where ate.id=:id")
     Integer deleteArticleTypeById(Integer id);
 
     @Query(value = "select ate.id,ate.order_number,ate.created_date,ate.name_uz from article_type ate ", nativeQuery = true)
     List<Mapper> allByLangUz2();
 
-    @Query(value = "from ArticleTypeEntity ")
-    List<ArticleTypeEntity> allByLangUz();
+    @Query("from ArticleTypeEntity ate where ate.visible=true")
+    Page<ArticleTypeEntity> findAllArticle(Pageable pageable);
 
-    @Query(value = "from ArticleTypeEntity ")
-    List<ArticleTypeEntity> allByLangEn();
-
-    @Query(value = "from ArticleTypeEntity ")
-    List<ArticleTypeEntity> allByLangRu();
-
-
+    @Query("from ArticleTypeEntity where visible=true ")
+    List<ArticleTypeEntity> findAllArticleType();
 
 
 //    @Query("from ArticleTypeEntity where ")

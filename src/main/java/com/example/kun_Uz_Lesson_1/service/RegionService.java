@@ -1,6 +1,7 @@
 package com.example.kun_Uz_Lesson_1.service;
 
 import com.example.kun_Uz_Lesson_1.dto.Region;
+import com.example.kun_Uz_Lesson_1.entity.ArticleTypeEntity;
 import com.example.kun_Uz_Lesson_1.entity.RegionEntity;
 import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
@@ -58,7 +59,7 @@ public class RegionService {
     }
 
     public List<Region> all() {
-        Iterable<RegionEntity> all = regionRepository.findAll();
+        Iterable<RegionEntity> all = regionRepository.findAllRegion();
         List<Region> regionList = new LinkedList<>();
         for (RegionEntity entity : all) {
             regionList.add(toDo(entity));
@@ -74,21 +75,11 @@ public class RegionService {
         }
         Language language1 = Language.valueOf(language.toUpperCase());
         List<Region> regionList = new LinkedList<>();
-        List<RegionEntity> allRegionByLang = null;
-        if (language1.equals(Language.UZ)) {
-            allRegionByLang = regionRepository.getAllByLanUz();
-        } else if (language1.equals(Language.EN)) {
-            allRegionByLang = regionRepository.getAllByLanEn();
-        } else if (language1.equals(Language.RU)) {
-            allRegionByLang = regionRepository.getAllByLanRu();
-        }
-        if (allRegionByLang.isEmpty()) {
-            throw new AppBadException("ERROR!!!");
-        }
-        for (RegionEntity entity : allRegionByLang) {
-            regionList.add(toDo2(entity, language1));
-        }
+        Iterable<RegionEntity> allRegion = regionRepository.findAllRegion();
 
+        for (RegionEntity entity : allRegion) {
+            regionList.add(toDo2(entity,language1));
+        }
         return regionList;
     }
 

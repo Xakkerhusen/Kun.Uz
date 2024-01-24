@@ -3,7 +3,7 @@ package com.example.kun_Uz_Lesson_1.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MDUtil {
+public class MD5Util {
     public static String encode(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");

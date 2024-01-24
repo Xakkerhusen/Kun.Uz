@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ###Delete Region type
-DELETE localhost:8080/region/2
+DELETE localhost:8080/region/1
 
 ###Get Region type list
 GET localhost:8080/region

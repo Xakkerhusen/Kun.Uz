@@ -19,14 +19,9 @@ public interface RegionRepository extends CrudRepository<RegionEntity,Integer> {
 
     @Transactional
     @Modifying
-    @Query("delete RegionEntity where id=:id")
+    @Query("update RegionEntity re set re.visible=false where re.id=:id")
     Integer deleteRegionById(Integer id);
 
-    @Query("from RegionEntity ")
-    List<RegionEntity> getAllByLanUz();
-
-    @Query("from RegionEntity ")
-    List<RegionEntity> getAllByLanEn();
-    @Query("from RegionEntity ")
-    List<RegionEntity> getAllByLanRu();
+    @Query("from RegionEntity re where re.visible=true ")
+    Iterable<RegionEntity> findAllRegion();
 }

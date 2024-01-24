@@ -5,7 +5,7 @@ import com.example.kun_Uz_Lesson_1.dto.Profile;
 import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.ProfileRepository;
-import com.example.kun_Uz_Lesson_1.utils.MDUtil;
+import com.example.kun_Uz_Lesson_1.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class AuthService {
 
     public Profile auth(Auth auth){
         Optional<ProfileEntity> optional =
-                profileRepository.findByEmailAndPassword(auth.getEmail(), MDUtil.encode(auth.getPassword()));
+                profileRepository.findByEmailAndPassword(auth.getEmail(), MD5Util.encode(auth.getPassword()));
         if (optional.isEmpty()) {
             throw new AppBadException("Email or Password is wrong");
         }

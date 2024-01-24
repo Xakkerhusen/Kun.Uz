@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ArticleTypeService {
@@ -42,16 +43,37 @@ public class ArticleTypeService {
         return articleType;
     }
 
-    public boolean update(Integer id, ArticleType dto) {
-        String nameUz = dto.getNameUz().trim();
-        String nameRu = dto.getNameRu().trim();
-        String nameEn = dto.getNameEn().trim();
-        Long orderNumber = dto.getOrderNumber();
-        Integer effectiveRows = articleTypeRepository.updateArticle(id, nameUz, nameRu, nameEn, orderNumber);
-        if (effectiveRows == 0) {
-            throw new AppBadException("Article type not found");
+    public ArticleType update(Integer id, ArticleType dto) {
+        Optional<ArticleTypeEntity> optional = articleTypeRepository.findById(id);
+        if (optional.isEmpty()) {
+            throw new AppBadException("ArticleType not found");
         }
-        return true;
+        ArticleTypeEntity entity = optional.get();
+        if (dto.getOrderNumber() != null) {
+            entity.setOrderNumber(dto.getOrderNumber());
+        }else {
+            dto.setOrderNumber(entity.getOrderNumber());
+        }
+        if (dto.getNameUz() != null) {
+            entity.setNameUz(dto.getNameUz());
+        }else {
+            dto.setNameUz(entity.getNameUz());
+        }
+        if (dto.getNameRu() != null) {
+            entity.setNameRu(dto.getNameRu());
+        }else {
+            dto.setNameRu(entity.getNameRu());
+        }
+        if (dto.getNameEn() != null) {
+            entity.setNameEn(dto.getNameEn());
+        }else {
+            dto.setNameEn(entity.getNameEn());
+        }
+        articleTypeRepository.updateArticle(entity.getId(),entity.getNameUz(),entity.getNameRu(),entity.getNameEn(),entity.getOrderNumber());
+        dto.setVisible(entity.getVisible());
+        dto.setId(entity.getId());
+        dto.setCreatedDate(entity.getCreatedDate());
+        return dto;
     }
 
     public boolean delete(Integer id) {
@@ -63,7 +85,7 @@ public class ArticleTypeService {
     }
 
     public PageImpl<ArticleType> all(Pageable pageable) {
-        Page<ArticleTypeEntity> all = articleTypeRepository.findAll(pageable);
+        Page<ArticleTypeEntity> all = articleTypeRepository.findAllArticle(pageable);
         List<ArticleTypeEntity> content = all.getContent();
         long totalElements = all.getTotalElements();
         List<ArticleType> listAll = new LinkedList<>();
@@ -80,34 +102,14 @@ public class ArticleTypeService {
             throw new AppBadException("Wrong language");
         }
         Language language1 = Language.valueOf(language.toUpperCase());
-        List<ArticleTypeEntity> atlUz = null;
+        List<ArticleTypeEntity> allArticleType = articleTypeRepository.findAllArticleType();
         List<ArticleType> listAll = new LinkedList<>();
-        if (language1.equals(Language.UZ)) {
-            atlUz = articleTypeRepository.allByLangUz();
-        } else if (language1.equals(Language.EN)) {
-            atlUz = articleTypeRepository.allByLangEn();
-//            if (atlUz.isEmpty()) {
-//                throw new AppBadException("ERROR!!!");
-//            }
-//            for (ArticleTypeEntity mapper : atlUz) {
-//                listAll.add(toDo2(mapper,language1));
-//            }
-        }else if (language1.equals(Language.RU)) {
-            atlUz = articleTypeRepository.allByLangRu();
-//            if (atlUz.isEmpty()) {
-//                throw new AppBadException("ERROR!!!");
-//            }
-//            for (ArticleTypeEntity mapper : atlUz) {
-//                listAll.add(toDo2(mapper,language1));
-//            }
-        }
-        if (atlUz.isEmpty()) {
+        if (allArticleType.isEmpty()) {
             throw new AppBadException("ERROR!!!");
         }
-        for (ArticleTypeEntity mapper : atlUz) {
-            listAll.add(toDo2(mapper,language1));
+        for (ArticleTypeEntity entity : allArticleType) {
+            listAll.add(toDo2(entity,language1));
         }
-
         return listAll;
     }
 

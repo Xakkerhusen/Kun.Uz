@@ -4,7 +4,7 @@ import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.enums.ProfileStatus;
 import com.example.kun_Uz_Lesson_1.repository.ProfileRepository;
-import com.example.kun_Uz_Lesson_1.utils.MDUtil;
+import com.example.kun_Uz_Lesson_1.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class InitService {
         admin.setEmail(adminEmail);
         admin.setStatus(ProfileStatus.ACTIVE);
         admin.setRole(ProfileRole.ADMIN);
-        admin.setPassword(MDUtil.encode("1999"));
+        admin.setPassword(MD5Util.encode("1999"));
         profileRepository.save(admin);
     }
 
