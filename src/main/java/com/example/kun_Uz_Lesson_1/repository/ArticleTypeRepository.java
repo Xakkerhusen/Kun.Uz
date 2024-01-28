@@ -1,8 +1,6 @@
 package com.example.kun_Uz_Lesson_1.repository;
 
-import com.example.kun_Uz_Lesson_1.dto.ArticleType;
 import com.example.kun_Uz_Lesson_1.entity.ArticleTypeEntity;
-import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.mapper.Mapper;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -37,7 +35,4 @@ public interface ArticleTypeRepository extends CrudRepository<ArticleTypeEntity,
     @Query("from ArticleTypeEntity where visible=true ")
     List<ArticleTypeEntity> findAllArticleType();
 
-
-//    @Query("from ArticleTypeEntity where ")
-//    Page<ArticleTypeEntity> allByLang(Pageable pageable, Language language1);
 }

@@ -1,32 +1,33 @@
-###Create Article type
-POST localhost:8080/articleType
+###Create category type
+POST localhost:8080/category
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
 
 {
-  "orderNumber": 13,
+  "orderNumber": 4,
   "nameEn": "en",
   "nameRu" : "ru",
   "nameUz": "uz"
 }
 
-###Update Article type
-PUT localhost:8080/articleType/2
+###Update category type
+PUT localhost:8080/category/1
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
 
 {
-  "nameUz": "aaaaaaaaa",
-  "nameEn": "bbbbbbbbb"
+  "nameUz": "aaa",
+  "nameEn": "bbbb",
+  "nameRu": "ssss"
 }
 
-###Delete Article type
-DELETE localhost:8080/articleType/3
+###Delete category type
+DELETE localhost:8080/category/2
 Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
 
-###Get Article type list By pagination
-GET localhost:8080/articleType/pagination?page=5
+###Get category type list
+GET localhost:8080/category/pagination
 Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
 
-###Get Article type list By Language
-GET localhost:8080/articleType/lang?language=UZ
+###Get category type list By Language
+GET localhost:8080/category/lang?lang=UZ

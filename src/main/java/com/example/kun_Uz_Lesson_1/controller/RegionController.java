@@ -1,9 +1,15 @@
 package com.example.kun_Uz_Lesson_1.controller;
 
-import com.example.kun_Uz_Lesson_1.dto.Region;
-import com.example.kun_Uz_Lesson_1.entity.RegionEntity;
+import com.example.kun_Uz_Lesson_1.dto.region.CreatedRegionDTO;
+import com.example.kun_Uz_Lesson_1.dto.region.Region;
+import com.example.kun_Uz_Lesson_1.enums.Language;
+import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.RegionService;
+import com.example.kun_Uz_Lesson_1.controller.config.HTTPRequestUtil;
+import com.example.kun_Uz_Lesson_1.utils.JWTUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,30 +19,40 @@ import java.util.List;
 @RequestMapping("/region")
 public class RegionController {
     @Autowired
-     private RegionService regionService;
+    private RegionService regionService;
 
-    @PostMapping("")
-    public ResponseEntity<Region>create(@RequestBody Region dto){
-        return ResponseEntity.ok(regionService.create(dto));
+    @PostMapping("/adm")
+    public ResponseEntity<?> create(@RequestBody CreatedRegionDTO dto,
+                                    @RequestHeader("Authorization") String jwt) {
+
+        return JWTUtil.checkingRole(jwt)? ResponseEntity.ok(regionService.create(dto)):
+        ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Boolean>update(@PathVariable("id")Integer id,
-                                         @RequestBody Region region){
-        return ResponseEntity.ok(regionService.update(id,region));
+    public ResponseEntity<?> update(@PathVariable("id") Integer id,
+                                    @RequestBody Region region,
+                                    @RequestHeader("Authorization") String jwt) {
+        return JWTUtil.checkingRole(jwt)? ResponseEntity.ok(regionService.update(id, region)):
+        ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean>delete(@PathVariable("id") Integer id){
-        return ResponseEntity.ok(regionService.delete(id));
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id,
+                                    @RequestHeader("Authorization") String jwt) {
+        return JWTUtil.checkingRole(jwt)? ResponseEntity.ok(regionService.delete(id)):
+        ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
+
     @CrossOrigin(value = "*")
     @GetMapping("")
-    public ResponseEntity<List<Region>>all(){
-        return ResponseEntity.ok(regionService.all());
+    public ResponseEntity<?> all(@RequestHeader("Authorization") String jwt) {
+        return JWTUtil.checkingRole(jwt)? ResponseEntity.ok(regionService.all()):
+        ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @GetMapping("/lang")
-    public ResponseEntity<List<Region>>getAllByLang(@RequestParam("language")String language){
+    public ResponseEntity<List<Region>> getAllByLang(@RequestParam(value = "language", defaultValue = "uz") Language language) {
         return ResponseEntity.ok(regionService.getAllByLang(language));
     }
 }

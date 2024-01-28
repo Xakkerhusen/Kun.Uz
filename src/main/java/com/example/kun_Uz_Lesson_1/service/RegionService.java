@@ -1,7 +1,8 @@
 package com.example.kun_Uz_Lesson_1.service;
 
-import com.example.kun_Uz_Lesson_1.dto.Region;
-import com.example.kun_Uz_Lesson_1.entity.ArticleTypeEntity;
+import com.example.kun_Uz_Lesson_1.dto.region.CreatedRegionDTO;
+import com.example.kun_Uz_Lesson_1.dto.region.Region;
+import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
 import com.example.kun_Uz_Lesson_1.entity.RegionEntity;
 import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
@@ -9,15 +10,17 @@ import com.example.kun_Uz_Lesson_1.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RegionService {
     @Autowired
     private RegionRepository regionRepository;
 
-    public Region create(Region dto) {
+    public CreatedRegionDTO create(CreatedRegionDTO dto) {
         if (dto.getOrderNumber() == null || dto.getOrderNumber() <= 0) {
             throw new AppBadException("Article Type order number required ");
         }
@@ -32,22 +35,39 @@ public class RegionService {
         entity.setNameRu(dto.getNameRu());
         entity.setNameEn(dto.getNameEn());
         regionRepository.save(entity);
-        dto.setId(entity.getId());
-        dto.setVisible(entity.getVisible());
-        dto.setCreatedDate(entity.getCreatedDate());
 
         return dto;
     }
 
-    public Boolean update(Integer id, Region region) {
-        String nameUz = region.getNameUz().trim();
-        String nameEn = region.getNameEn().trim();
-        String nameRu = region.getNameRu().trim();
-        Integer effectiveRows = regionRepository.update(id, nameUz, nameEn, nameRu);
+    public Region update(Integer id, Region dto) {
+        RegionEntity entity = get(id);
+
+        if (dto.getOrderNumber() != null) {
+            entity.setOrderNumber(dto.getOrderNumber());
+        } else {
+            dto.setOrderNumber(entity.getOrderNumber());
+        }
+        if (dto.getNameUz() != null) {
+            entity.setNameUz(dto.getNameUz());
+        } else {
+            dto.setNameUz(entity.getNameUz());
+        }
+        if (dto.getNameRu() != null) {
+            entity.setNameRu(dto.getNameRu());
+        } else {
+            dto.setNameRu(entity.getNameRu());
+        }
+        if (dto.getNameEn() != null) {
+            entity.setNameEn(dto.getNameEn());
+        } else {
+            dto.setNameEn(entity.getNameEn());
+        }
+        entity.setUpdatedDate(LocalDateTime.now());
+        Integer effectiveRows = regionRepository.update(id, entity.getNameUz(), entity.getNameEn(), entity.getNameEn());
         if (effectiveRows == 0) {
             throw new AppBadException("Region not found");
         }
-        return true;
+        return dto;
     }
 
     public Boolean delete(Integer id) {
@@ -67,20 +87,20 @@ public class RegionService {
         return regionList;
     }
 
-    public List<Region> getAllByLang(String language) {
-        if (!language.toUpperCase().equals(String.valueOf(Language.EN)) &&
-                !language.toUpperCase().equals(String.valueOf(Language.UZ)) &&
-                !language.toUpperCase().equals(String.valueOf(Language.RU))) {
-            throw new AppBadException("Wrong language");
+    public List<Region> getAllByLang(Language language) {
+        Iterable<RegionEntity> all = regionRepository.findAllRegion();
+        List<Region> dtoList = new LinkedList<>();
+        for (RegionEntity entity : all) {
+            Region dto = new Region();
+                dto.setId(entity.getId());
+                switch (language) {
+                    case UZ -> dto.setName(entity.getNameUz());
+                    case RU -> dto.setName(entity.getNameRu());
+                    default -> dto.setName(entity.getNameEn());
+                }
+            dtoList.add(dto);
         }
-        Language language1 = Language.valueOf(language.toUpperCase());
-        List<Region> regionList = new LinkedList<>();
-        Iterable<RegionEntity> allRegion = regionRepository.findAllRegion();
-
-        for (RegionEntity entity : allRegion) {
-            regionList.add(toDo2(entity,language1));
-        }
-        return regionList;
+        return dtoList;
     }
 
     private Region toDo(RegionEntity entity) {
@@ -95,18 +115,8 @@ public class RegionService {
         return region;
     }
 
-    private Region toDo2(RegionEntity entity, Language language) {
-        Region region = new Region();
-        region.setId(entity.getId());
-        region.setCreatedDate(entity.getCreatedDate());
-        region.setOrderNumber(entity.getOrderNumber());
-        if (language.equals(Language.UZ)) {
-            region.setNameUz(entity.getNameUz());
-        } else if (language.equals(Language.EN)) {
-            region.setNameEn(entity.getNameEn());
-        } else if (language.equals(Language.RU)) {
-            region.setNameRu(entity.getNameRu());
-        }
-        return region;
+    private RegionEntity get(Integer id) {
+        return regionRepository.findById(id).orElseThrow(() -> new AppBadException("Region not found"));
     }
+
 }

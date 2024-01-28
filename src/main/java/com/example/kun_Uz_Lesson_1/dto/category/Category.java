@@ -1,8 +1,7 @@
-package com.example.kun_Uz_Lesson_1.dto;
+package com.example.kun_Uz_Lesson_1.dto.category;
 
-import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
-import com.example.kun_Uz_Lesson_1.enums.ProfileStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,15 +12,15 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Profile {
+public class Category {
     protected Integer id;
-    private String name;
-    private String surname;
-    private String email;
-    private String password;
-    private ProfileStatus status;
-    private ProfileRole role;
     protected LocalDateTime createdDate;
     protected LocalDateTime updatedDate;
     private Boolean visible;
+    private Long orderNumber;
+
+    private String nameUz;
+    private String nameRu;
+    private String nameEn;
+    private String name;
 }

@@ -1,4 +1,4 @@
-package com.example.kun_Uz_Lesson_1.dto;
+package com.example.kun_Uz_Lesson_1.dto.region;
 
 import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -17,9 +17,9 @@ public class Region {
     protected LocalDateTime updatedDate;
     private Boolean visible;
     private Long orderNumber;
-    private Language language;
 
     private String nameUz;
     private String nameRu;
     private String nameEn;
+    private String name;
 }

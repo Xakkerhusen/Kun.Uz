@@ -1,17 +1,19 @@
 ###Create Region type
-POST localhost:8080/region
+POST localhost:8080/region/adm
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0MjUwMzYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MTE0MzYsImlzcyI6Ikt1blV6VGVzdCJ9.93VBMk9KSJXUUSE777l8TmMDtSUhcwq25OOT3SyOF-B3wjjL2r2BEE-5DisHo9ELD8D1JvwimQRUmSV-6X1teA
 
 {
-  "orderNumber": 5,
+  "orderNumber": 8,
   "nameEn": "en",
   "nameRu" : "ru",
   "nameUz": "uz"
 }
 
 ###Update Region type
-PUT localhost:8080/region/2
+PUT localhost:8080/region/3
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
 
 {
   "nameUz": "aaa",
@@ -20,10 +22,12 @@ Content-Type: application/json
 }
 
 ###Delete Region type
-DELETE localhost:8080/region/1
+DELETE localhost:8080/region/4
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
 
 ###Get Region type list
 GET localhost:8080/region
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
 
 ###Get Region type list By Language
-GET localhost:8080/region/lang?language=uz
+GET localhost:8080/region/lang?language=UZ

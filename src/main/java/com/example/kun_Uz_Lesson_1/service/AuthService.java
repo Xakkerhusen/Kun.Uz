@@ -1,10 +1,11 @@
 package com.example.kun_Uz_Lesson_1.service;
 
 import com.example.kun_Uz_Lesson_1.dto.Auth;
-import com.example.kun_Uz_Lesson_1.dto.Profile;
+import com.example.kun_Uz_Lesson_1.dto.profile.Profile;
 import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.ProfileRepository;
+import com.example.kun_Uz_Lesson_1.utils.JWTUtil;
 import com.example.kun_Uz_Lesson_1.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class AuthService {
         dto.setName(entity.getName());
         dto.setSurname(entity.getSurname());
         dto.setRole(entity.getRole());
+        dto.setJwt(JWTUtil.encode(entity.getId(),entity.getRole()));
 
         return dto;
     }

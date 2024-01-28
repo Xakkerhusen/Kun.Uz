@@ -1,15 +1,32 @@
 package com.example.kun_Uz_Lesson_1.repository;
 
 import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
+import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
+import com.example.kun_Uz_Lesson_1.enums.ProfileStatus;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface ProfileRepository extends CrudRepository<ProfileEntity,Integer> {
+public interface ProfileRepository extends CrudRepository<ProfileEntity, Integer>, PagingAndSortingRepository<ProfileEntity,Integer> {
     Optional<ProfileEntity> findByEmail(String email);
-    Optional<ProfileEntity> findByEmailAndPassword(String email,String password);
 
+    Optional<ProfileEntity> findByEmailAndPassword(String email, String password);
 
+    @Transactional
+    @Modifying
+    @Query("update ProfileEntity p set p.name=:name,p.surname=:surname,p.role=:role,p.status=:status where p.id=:id")
+    Integer update(String name, String surname, ProfileRole role, ProfileStatus status, Integer id);
+
+    @Transactional
+    @Modifying
+    @Query("update ProfileEntity set visible=false where id=:id")
+    Integer deleteByIdProfile(Integer id);
+
+    Boolean finByEmail(String email);
 }

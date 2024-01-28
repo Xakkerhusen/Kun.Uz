@@ -1,9 +1,49 @@
-###Created Admin
-GET localhost:8080/init/admin
-###Created Admin
-POST localhost:8080/auth/login
+###Created Profile
+POST localhost:8080/profile
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
+
+{
+  "name": "n5",
+  "surname": "sn5",
+  "email": "efg@mail.com",
+  "password": "5",
+  "role": "PUBLISHER"
+}
+
+###Update profile
+PUT localhost:8080/profile/38
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
+
+{
+  "name": "hasan",
+  "surname": "teshayev",
+  "email": "hasan@gmail.com",
+  "status": "ACTIVE",
+  "role": "PUBLISHER"
+}
+
+###Update profile detail
+PUT localhost:8080/profile/updateDetail
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
+
+{
+  "name": "husen",
+  "surname": "teshayev"
+}
+
+###Delete profile
+DELETE localhost:8080/profile/48
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
+
+###Profile filter
+POST localhost:8080/profile/filter
 Content-Type: application/json
 
 {
-  "email": ""
+  "name": "husen",
+  "surname": "teshayev"
 }
+
