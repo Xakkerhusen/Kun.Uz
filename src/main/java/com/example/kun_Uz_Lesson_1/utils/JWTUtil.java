@@ -9,7 +9,21 @@ import java.util.Date;
 
 public class JWTUtil {
     private static final int tokenLiveTime = 1000 * 3600 * 24; // 1-day
+    private static final int emailTokenLiveTime = 1000 * 300  ; // 1-hour
     private static final String secretKey = "mazgiqwertyuiop[]';lkjhgfdsazxcvbnm,.//.,mnbvcxzasdfghjkl;'][poiuytrewq";
+
+    public static String encodeForEmail(Integer profileId) {
+        JwtBuilder jwtBuilder = Jwts.builder();
+        jwtBuilder.issuedAt(new Date());
+        SignatureAlgorithm sa = SignatureAlgorithm.HS512;
+        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), sa.getJcaName());
+        jwtBuilder.signWith(secretKeySpec);
+        jwtBuilder.claim("id", profileId);
+        jwtBuilder.expiration(new Date(System.currentTimeMillis() + (emailTokenLiveTime)));
+        jwtBuilder.issuer("KunUzTest");
+        return jwtBuilder.compact();
+    }
+
 
     public static String encode(Integer profileId, ProfileRole role) {
         JwtBuilder jwtBuilder = Jwts.builder();
@@ -40,14 +54,11 @@ public class JWTUtil {
 
         Integer id = (Integer) claims.get("id");
         String role = (String) claims.get("role");
-        ProfileRole profileRole = ProfileRole.valueOf(role);
-
-        return new JWTDTO(id, profileRole);
-    }
-    public static boolean checkingRole(String jwt) {
-        JWTDTO decode = JWTUtil.decode(jwt);
-        ProfileRole role = decode.getRole();
-        return role.equals(ProfileRole.ADMIN);
+        if (role != null) {
+            ProfileRole profileRole = ProfileRole.valueOf(role);
+            return new JWTDTO(id, profileRole);
+        }
+        return new JWTDTO(id);
     }
 
 

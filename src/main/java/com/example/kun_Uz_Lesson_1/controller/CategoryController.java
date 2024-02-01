@@ -4,8 +4,11 @@ import com.example.kun_Uz_Lesson_1.dto.category.Category;
 import com.example.kun_Uz_Lesson_1.dto.category.CreateCategoryDTO;
 import com.example.kun_Uz_Lesson_1.dto.region.Region;
 import com.example.kun_Uz_Lesson_1.enums.Language;
+import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.CategoryService;
+import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
 import com.example.kun_Uz_Lesson_1.utils.JWTUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,36 +25,44 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping("")
+    @PostMapping("/adm")
     public ResponseEntity<?> create(@RequestBody CreateCategoryDTO dto,
-                                    @RequestHeader("Authorization") String jwt) {
-        return JWTUtil.checkingRole(jwt) ? ResponseEntity.ok(categoryService.create(dto)) :
-                ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                                    HttpServletRequest request) {
+
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+
+        return ResponseEntity.ok(categoryService.create(dto));
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/adm/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Integer id,
                                     @RequestBody Category dto,
-                                    @RequestHeader("Authorization") String jwt) {
-        return JWTUtil.checkingRole(jwt) ? ResponseEntity.ok(categoryService.update(id, dto)) :
-                ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                                    HttpServletRequest request) {
+
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+
+        return ResponseEntity.ok(categoryService.update(id, dto));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/adm/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id,
-                                    @RequestHeader("Authorization") String jwt) {
-        return JWTUtil.checkingRole(jwt) ? ResponseEntity.ok(categoryService.delete(id)) :
-                ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                                    HttpServletRequest request) {
+
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+
+        return ResponseEntity.ok(categoryService.delete(id));
     }
 
     @CrossOrigin(value = "*")
-    @GetMapping("/pagination")
+    @GetMapping("/adm/pagination")
     public ResponseEntity<?> getAll(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                     @RequestParam(value = "size", defaultValue = "2") Integer size,
-                                    @RequestHeader("Authorization") String jwt) {
+                                    HttpServletRequest request) {
+
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "orderNumber");
-        return JWTUtil.checkingRole(jwt) ? ResponseEntity.ok(categoryService.all(pageable)) :
-                ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.ok(categoryService.all(pageable));
     }
 
     @GetMapping("/lang")

@@ -1,19 +1,19 @@
 ###Create Article type
-POST localhost:8080/articleType
+POST localhost:8080/articleType/adm
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
 
 {
-  "orderNumber": 13,
+  "orderNumber": 20,
   "nameEn": "en",
   "nameRu" : "ru",
   "nameUz": "uz"
 }
 
 ###Update Article type
-PUT localhost:8080/articleType/2
+PUT localhost:8080/articleType/adm/47
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
 
 {
   "nameUz": "aaaaaaaaa",
@@ -21,12 +21,12 @@ Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoi
 }
 
 ###Delete Article type
-DELETE localhost:8080/articleType/3
-Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
+DELETE localhost:8080/articleType/adm/47
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
 
 ###Get Article type list By pagination
-GET localhost:8080/articleType/pagination?page=5
-Authorization: eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDYzNjAyMjEsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY0NDY2MjEsImlzcyI6Ikt1blV6VGVzdCJ9._ity6dvEl8yByyPpt89Wfo4UvPl4wkek0iNh-RL4gcnSRR--jZgsDkPiM0ntkdvyk8Uu9dVFWOSK-SvjeENY6w
+GET localhost:8080/articleType/adm/pagination?page=2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
 
 ###Get Article type list By Language
 GET localhost:8080/articleType/lang?language=UZ

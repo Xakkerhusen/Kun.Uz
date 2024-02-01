@@ -5,7 +5,7 @@ import com.example.kun_Uz_Lesson_1.dto.region.Region;
 import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.RegionService;
-import com.example.kun_Uz_Lesson_1.controller.config.HTTPRequestUtil;
+import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
 import com.example.kun_Uz_Lesson_1.utils.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,32 +23,35 @@ public class RegionController {
 
     @PostMapping("/adm")
     public ResponseEntity<?> create(@RequestBody CreatedRegionDTO dto,
-                                    @RequestHeader("Authorization") String jwt) {
+                                    HttpServletRequest request) {
 
-        return JWTUtil.checkingRole(jwt)? ResponseEntity.ok(regionService.create(dto)):
-        ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+       HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        return ResponseEntity.ok(regionService.create(dto));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/adm/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Integer id,
                                     @RequestBody Region region,
-                                    @RequestHeader("Authorization") String jwt) {
-        return JWTUtil.checkingRole(jwt)? ResponseEntity.ok(regionService.update(id, region)):
-        ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                                    HttpServletRequest request) {
+
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        return ResponseEntity.ok(regionService.update(id,region));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/adm/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id,
-                                    @RequestHeader("Authorization") String jwt) {
-        return JWTUtil.checkingRole(jwt)? ResponseEntity.ok(regionService.delete(id)):
-        ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                                    HttpServletRequest request) {
+
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        return ResponseEntity.ok(regionService.delete(id));
     }
 
     @CrossOrigin(value = "*")
-    @GetMapping("")
-    public ResponseEntity<?> all(@RequestHeader("Authorization") String jwt) {
-        return JWTUtil.checkingRole(jwt)? ResponseEntity.ok(regionService.all()):
-        ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    @GetMapping("/adm")
+    public ResponseEntity<?> all(HttpServletRequest request) {
+
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        return ResponseEntity.ok(regionService.all());
     }
 
     @GetMapping("/lang")

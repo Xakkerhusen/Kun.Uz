@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ProfileRepository extends CrudRepository<ProfileEntity, Integer>, PagingAndSortingRepository<ProfileEntity,Integer> {
+public interface ProfileRepository extends CrudRepository<ProfileEntity, Integer>, PagingAndSortingRepository<ProfileEntity, Integer> {
     Optional<ProfileEntity> findByEmail(String email);
 
     Optional<ProfileEntity> findByEmailAndPassword(String email, String password);
@@ -28,5 +28,17 @@ public interface ProfileRepository extends CrudRepository<ProfileEntity, Integer
     @Query("update ProfileEntity set visible=false where id=:id")
     Integer deleteByIdProfile(Integer id);
 
-    Boolean finByEmail(String email);
+    Optional<ProfileEntity> findBySms(String sms);
+
+    @Transactional
+    @Modifying
+    @Query("update ProfileEntity set status='ACTIVE' where email=:email")
+    Integer register(String email);
+
+    @Transactional
+    @Modifying
+    @Query("Update ProfileEntity  set status =?2 where id = ?1")
+    void updateStatus(Integer id, ProfileStatus active);
+
+
 }

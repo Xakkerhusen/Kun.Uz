@@ -3,8 +3,11 @@ package com.example.kun_Uz_Lesson_1.controller;
 import com.example.kun_Uz_Lesson_1.dto.article.ArticleType;
 import com.example.kun_Uz_Lesson_1.dto.article.CreatedArticleDTO;
 import com.example.kun_Uz_Lesson_1.enums.Language;
+import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.ArticleTypeService;
+import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
 import com.example.kun_Uz_Lesson_1.utils.JWTUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,37 +24,41 @@ public class ArticleTypeController {
     @Autowired
     private ArticleTypeService articleTypeService;
 
-    @PostMapping("")
+    @PostMapping("/adm")
     public ResponseEntity<?> create(@RequestBody CreatedArticleDTO articleType,
-                                    @RequestHeader(value = "Authorization") String jwt) {
-        return JWTUtil.checkingRole(jwt)? ResponseEntity.ok(articleTypeService.create(articleType)):
-                ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                                    HttpServletRequest request) {
+
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        return ResponseEntity.ok(articleTypeService.create(articleType));
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping("/adm/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Integer id,
                                     @RequestBody ArticleType dto,
-                                    @RequestHeader("Authorization") String jwt) {
-        return JWTUtil.checkingRole(jwt)? ResponseEntity.ok(articleTypeService.update(id, dto)):
-                ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                                    HttpServletRequest request) {
+
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        return ResponseEntity.ok(articleTypeService.update(id, dto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/adm/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id,
-                                    @RequestHeader("Authorization") String jwt) {
-        return JWTUtil.checkingRole(jwt)? ResponseEntity.ok(articleTypeService.delete(id)):
-                ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                                    HttpServletRequest request) {
+
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        return ResponseEntity.ok(articleTypeService.delete(id));
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping("/pagination")
+    @GetMapping("/adm/pagination")
     public ResponseEntity<?> all(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                  @RequestParam(value = "size", defaultValue = "2") Integer size,
-                                 @RequestHeader("Authorization") String jwt) {
+                                 HttpServletRequest request) {
+
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdDate");
-        return JWTUtil.checkingRole(jwt)? ResponseEntity.ok(articleTypeService.all(pageable)):
-                ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return ResponseEntity.ok(articleTypeService.all(pageable));
     }
 
     @GetMapping("/lang")

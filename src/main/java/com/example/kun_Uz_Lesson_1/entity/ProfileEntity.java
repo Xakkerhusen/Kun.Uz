@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 @ToString
@@ -21,7 +23,7 @@ public class ProfileEntity extends BaseEntity {
     private String email;
     @Column(nullable = false)
     private String password;
-     @Column()
+    @Column()
     private String phoneNumber;
 
 
@@ -31,6 +33,11 @@ public class ProfileEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private ProfileRole role;
+
+    @Column(name = "sms")
+    private String sms;
+    @Column(name = "time_sent_sms")
+    private LocalDateTime TimeSentSms;
 
 
 }

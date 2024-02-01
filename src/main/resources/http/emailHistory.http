@@ -1,0 +1,7 @@
+###Get email history by email
+GET localhost:8080/emailHistory/husenteshayev8@gmail.com
+###Get email history by date
+GET localhost:8080/emailHistory/date?date=2024-01-30
+###Get email history pagination
+GET localhost:8080/emailHistory/adm/pagination?page=1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY2ODgzODMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY3NzQ3ODMsImlzcyI6Ikt1blV6VGVzdCJ9.BXyxdRoby7PvnT92eFzdlmZ5frhpO44ftc7rrO02F7bOQqH1oNrp30iM5cyDCWlhuei8fEgm_SLI6fEjnr0Pjw

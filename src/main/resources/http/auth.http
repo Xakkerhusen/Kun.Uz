@@ -7,3 +7,20 @@ Content-Type: application/json
   "email": "husen@mail.ru",
   "password": "1998"
 }
+
+####Registration
+POST localhost:8080/auth/registration
+Content-Type: application/json
+
+{
+  "phoneNumber": "998991339906",
+  "name": "aaaaaaaa",
+  "surname": "bbbbbbbbbb",
+  "email": "sirojiddin2@gmail.com",
+  "password": "Sirojjjon3@"
+}
+
+###Verification By email
+GET localhost:8080/auth/verification/email/1
+###Verification By phone number
+GET localhost:8080/auth/verification/phone/
