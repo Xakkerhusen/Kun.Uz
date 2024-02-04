@@ -1,6 +1,6 @@
 package com.example.kun_Uz_Lesson_1.controller;
 
-import com.example.kun_Uz_Lesson_1.dto.EmailHistoryDTO;
+
 import com.example.kun_Uz_Lesson_1.dto.SmsHistoryDTO;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.SmsHistoryService;
@@ -24,9 +24,9 @@ public class SmsHistoryController {
     @Autowired
     private SmsHistoryService smsHistoryService;
 
-    @GetMapping("/{phone}")
-    public ResponseEntity<List  <SmsHistoryDTO>>getHistoryByPhoneNumber(@PathVariable("phone")String phone){
-        return ResponseEntity.ok(smsHistoryService.getSmsHistoryByPhoneNumber(phone));
+    @PostMapping("")
+    public ResponseEntity<List<SmsHistoryDTO>>getHistoryByPhoneNumber(@RequestBody SmsHistoryDTO dto){
+        return ResponseEntity.ok(smsHistoryService.getSmsHistoryByPhoneNumber(dto.getPhone()));
     }
 
     @GetMapping("/date")

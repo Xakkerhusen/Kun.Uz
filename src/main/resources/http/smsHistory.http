@@ -1,5 +1,11 @@
 ###Get sms history by phone number
-GET localhost:8080/sms_history/1
+POST localhost:8080/smsHistory
+Content-Type: application/json
+
+{
+  "phone": "+998939559020"
+}
+
 ###Get sms history by date
 GET localhost:8080/sms_history/date?date=2024-01-31
 ###Get sms history pagination

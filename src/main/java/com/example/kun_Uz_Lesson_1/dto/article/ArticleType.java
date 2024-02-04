@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ArticleType {
     private Integer id;
-    protected LocalDateTime createdDate;
-    protected LocalDateTime updatedDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
     private Boolean visible;
     private Long orderNumber;
 

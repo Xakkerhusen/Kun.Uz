@@ -28,6 +28,9 @@ public class SmsHistoryService {
     private SmsHistoryRepository smsHistoryRepository;
 
     public List<SmsHistoryDTO> getSmsHistoryByPhoneNumber(String phone) {
+        if (phone.startsWith("+")) {
+            phone=phone.substring(1);
+        }
         List<SmsHistoryEntity> byPhone = smsHistoryRepository.findByPhone(phone);
         if (byPhone.isEmpty()) {
             throw new AppBadException("History not found");

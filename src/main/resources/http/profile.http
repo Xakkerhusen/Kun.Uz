@@ -1,14 +1,14 @@
 ###Created Profile
 POST localhost:8080/profile/adm
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY4NzgzNjQsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY5NjQ3NjQsImlzcyI6Ikt1blV6VGVzdCJ9.ZxMK3uj9V2UJGXfZno_bUU1lDE83bufVcpl81gzdSeMf46XgNlkn-8CFWLxxkWkb3MN-Hogsu681x-z4zYs8uQ
 
 {
-  "name": "n6",
-  "surname": "sn6",
-  "email": "ffg@mail.com",
-  "password": "5",
-  "role": "PUBLISHER"
+  "name": "modera",
+  "surname": "tor",
+  "email": "moderator@mail.com",
+  "password": "$Maderotor$",
+  "role": "MODERATOR"
 }
 
 ###Update profile

@@ -1,0 +1,23 @@
+### Create
+POST http://localhost:8080/attach/adm/upload
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY5NTM5MjQsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDcwNDAzMjQsImlzcyI6Ikt1blV6VGVzdCJ9.JQP8cv1YO_2FWoGsQFQ_-Fs7qsN1fYdaCCVtV7hJ1iE4KEXbbYCeMAO0SgafMmdE4NeL8tlHzxWNQflRlUcsIQ
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="akon-right-now-na-na-na - Copy.mp3"
+
+< C:\Users\user\Music\akon-right-now-na-na-na - Copy.mp3
+
+###Get attach
+GET localhost:8080/attach/open/eyfel.jpg
+
+###Get attach
+GET localhost:8080/attach/open_general/cfc7adc2-7f78-4731-a764-b4599da19626.mp3
+
+###Get attach By Pagination
+GET localhost:8080/attach/adm/pagination?page=1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY5NTM5MjQsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDcwNDAzMjQsImlzcyI6Ikt1blV6VGVzdCJ9.JQP8cv1YO_2FWoGsQFQ_-Fs7qsN1fYdaCCVtV7hJ1iE4KEXbbYCeMAO0SgafMmdE4NeL8tlHzxWNQflRlUcsIQ
+
+###Delate attach By id
+DELETE localhost:8080/attach/adm/1d34de16-c1db-434c-9665-682eb1bf3cf5
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY5NTM5MjQsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDcwNDAzMjQsImlzcyI6Ikt1blV6VGVzdCJ9.JQP8cv1YO_2FWoGsQFQ_-Fs7qsN1fYdaCCVtV7hJ1iE4KEXbbYCeMAO0SgafMmdE4NeL8tlHzxWNQflRlUcsIQ

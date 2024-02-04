@@ -5,22 +5,33 @@ Content-Type: application/json
 
 {
   "email": "husen@mail.ru",
-  "password": "1998"
+  "password": "1999"
 }
+
+//{
+//  "email": "moderator@mail.com",
+//  "password": "$Maderotor$"
+//}
 
 ####Registration
 POST localhost:8080/auth/registration
 Content-Type: application/json
 
 {
-  "phoneNumber": "998991339906",
-  "name": "aaaaaaaa",
-  "surname": "bbbbbbbbbb",
-  "email": "sirojiddin2@gmail.com",
-  "password": "Sirojjjon3@"
+  "name": "Husen",
+  "surname": "Husenjon",
+  "email": "husenteshayev8@gmail.com",
+  "password": "Husenjon123@"
 }
 
 ###Verification By email
 GET localhost:8080/auth/verification/email/1
 ###Verification By phone number
-GET localhost:8080/auth/verification/phone/
+POST localhost:8080/auth/verification/phone/
+Content-Type: application/json
+
+{
+  "code": "37348",
+  "phoneNumber": "998939559030"
+}
+

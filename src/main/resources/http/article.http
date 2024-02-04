@@ -1,32 +1,13 @@
-###Create Article type
-POST localhost:8080/articleType/adm
+##A#Create Article
+POST localhost:8080/article/mod
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY4Nzg4MzQsImlkIjoyMiwicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTcwNjk2NTIzNCwiaXNzIjoiS3VuVXpUZXN0In0.Apyonz5s6oUEFBD2wgNYiILREncnz30gUYgn30a5rAIWEgoZFhWQ2VB1DUtjHtXHt3059mCZZn0g5P0Zp3nStQ
 
 {
-  "orderNumber": 20,
-  "nameEn": "en",
-  "nameRu" : "ru",
-  "nameUz": "uz"
+  "title": "salom",
+  "description": "salomlar",
+  "content": "salomjon",
+  "imagesId": "123",
+  "regionId": 1,
+  "categoryId": 1
 }
-
-###Update Article type
-PUT localhost:8080/articleType/adm/47
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
-
-{
-  "nameUz": "aaaaaaaaa",
-  "nameEn": "bbbbbbbbb"
-}
-
-###Delete Article type
-DELETE localhost:8080/articleType/adm/47
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
-
-###Get Article type list By pagination
-GET localhost:8080/articleType/adm/pagination?page=2
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
-
-###Get Article type list By Language
-GET localhost:8080/articleType/lang?language=UZ

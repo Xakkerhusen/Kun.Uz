@@ -19,13 +19,12 @@ public class ProfileEntity extends BaseEntity {
     private String name;
     @Column(nullable = false)
     private String surname;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String email;
     @Column(nullable = false)
     private String password;
-    @Column()
+    @Column(unique = true)
     private String phoneNumber;
-
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -33,11 +32,5 @@ public class ProfileEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private ProfileRole role;
-
-    @Column(name = "sms")
-    private String sms;
-    @Column(name = "time_sent_sms")
-    private LocalDateTime TimeSentSms;
-
 
 }

@@ -2,13 +2,14 @@ package com.example.kun_Uz_Lesson_1.service;
 
 import com.example.kun_Uz_Lesson_1.dto.Auth;
 import com.example.kun_Uz_Lesson_1.dto.JWTDTO;
+import com.example.kun_Uz_Lesson_1.dto.SmsSendDTO;
 import com.example.kun_Uz_Lesson_1.dto.profile.Profile;
 import com.example.kun_Uz_Lesson_1.dto.profile.RegistrationProfileDTO;
-import com.example.kun_Uz_Lesson_1.entity.EmailSentHistoryEntity;
 import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
 import com.example.kun_Uz_Lesson_1.entity.SmsHistoryEntity;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.enums.ProfileStatus;
+import com.example.kun_Uz_Lesson_1.enums.SmsStatus;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.EmailSentHistoryRepository;
 import com.example.kun_Uz_Lesson_1.repository.ProfileRepository;
@@ -21,11 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
-import java.util.regex.Pattern;
 
 @Service
 public class AuthService {
@@ -91,6 +88,9 @@ public class AuthService {
         if (emailSendHistoryRepository.countSendEmail(dto.getEmail(), from, to) >= 4) {
             throw new AppBadException("To many attempt. Please try after 1 minute.");
         }
+        if (smsHistoryRepository.countSendPhone(dto.getPhoneNumber(), from, to) >= 1) {
+            throw new AppBadException("To many attempt. Please try after 1 minute.");
+        }
 
         if (dto.getEmail() != null && dto.getPhoneNumber() == null) {
             registrationByEmail(dto);
@@ -137,7 +137,7 @@ public class AuthService {
         profileRepository.save(entity);
 
         String code = RandomUtil.getRandomCode();
-        smsSenderService.send(dto.getPhoneNumber(), "Husendan salomlar yuborilgan kodni kriting->https://localhost:8080/auth/verification/phone/ linkga kiriting:\nkod:", code);
+    //        smsSenderService.send(dto.getPhoneNumber(), " Salom sizning verification kodingiz:", code);
 
         smsHistoryService.create(dto, code);
     }
@@ -170,11 +170,27 @@ public class AuthService {
         emailHistoryService.create(dto, text);
     }
 
-    public String smsVerification(String phone, String code) {
+    public Profile smsVerification(SmsSendDTO dto) {
 
+        Optional<SmsHistoryEntity> bySentSms = smsHistoryRepository.findBySentSmsAndPhone(dto.getCode(), dto.getPhoneNumber());
+        LocalDateTime createdDate = bySentSms.get().getCreatedDate();
+        if (LocalDateTime.now().minusMinutes(1).isAfter(createdDate) || bySentSms.get().getStatus().equals(SmsStatus.USED)) {
+            throw new AppBadException("SMS is invalid");
+        }
+//        else if (bySentSms.get().getSentSms().equals(dto.getCode()) &&
+//                bySentSms.get().getPhone().equals(dto.getPhoneNumber())) {
+            profileRepository.updateStatusActive(bySentSms.get().getPhone(), ProfileStatus.ACTIVE);
 
+            Optional<ProfileEntity> entity = profileRepository.findByPhoneNumber(bySentSms.get().getPhone());
 
-        return null;
+            Profile profile = new Profile();
+            profile.setName(entity.get().getName());
+            profile.setSurname(entity.get().getSurname());
+            profile.setRole(entity.get().getRole());
+            profile.setJwt(JWTUtil.encode(entity.get().getId(), entity.get().getRole()));
+            smsHistoryRepository.updateStatus(bySentSms.get().getSentSms(), SmsStatus.USED);
+//        }
+        return profile;
     }
 
 

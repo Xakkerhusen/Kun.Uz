@@ -33,6 +33,12 @@ public class SecurityConfigFilter {
         bean.addUrlPatterns("/smsHistory/adm");
         bean.addUrlPatterns("/smsHistory/adm/*");
 
+        bean.addUrlPatterns("/article/mod");
+        bean.addUrlPatterns("/article/mod/*");
+
+        bean.addUrlPatterns("/attach/adm");
+        bean.addUrlPatterns("/attach/adm/*");
+
 
 
 
