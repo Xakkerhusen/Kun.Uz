@@ -3,33 +3,33 @@ package com.example.kun_Uz_Lesson_1.service;
 import com.example.kun_Uz_Lesson_1.dto.AttachDTO;
 import com.example.kun_Uz_Lesson_1.entity.AttachEntity;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
-import com.example.kun_Uz_Lesson_1.repository.ArticleRepository;
 import com.example.kun_Uz_Lesson_1.repository.AttachRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
+
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-
-
+@Slf4j
 @Service
 public class AttachService {
     @Autowired
@@ -121,6 +121,7 @@ public class AttachService {
             return toDTO(entity);
         } catch (IOException e) {
             e.printStackTrace();
+            log.warn("Save {}",e.getMessage());
         }
         return null;
     }
@@ -135,11 +136,12 @@ public class AttachService {
             return data;
         } catch (IOException e) {
             e.printStackTrace();
+            log.warn(e.getMessage());
         }
         return new byte[0];
     }
 
-    AttachEntity get(String id) {
+    public AttachEntity get(String id) {
         return attachRepository.findById(id).orElseThrow(() -> new AppBadException("File not found"));
     }
 
@@ -173,11 +175,30 @@ public class AttachService {
 
     public boolean delete(String uuid) {
         AttachEntity attachEntity = get(uuid);
-
         new File(String.valueOf(Path.of("uploads/" + attachEntity.getPath() + "/" + attachEntity.getId() + "." + attachEntity.getExtension()))).deleteOnExit();
-
         Integer effectiveRows = attachRepository.deleteAttach(uuid);
         return effectiveRows != 0;
-//        new File("uploads/" + attachEntity.getPath() + "/" + attachEntity.getId() + "." + attachEntity.getExtension()).deleteOnExit();
     }
+
+    public ResponseEntity download(String attachId) {
+        String id = attachId.substring(0, attachId.lastIndexOf("."));
+        AttachEntity entity = get(id);
+        try {
+            Path file = Paths.get("uploads/" + entity.getPath() + "/" + entity.getId() + "." + entity.getExtension());
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+               return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + entity.getOriginalName() + "\"").body(resource);
+//                return resource;
+            } else {
+                log.error("Could not read the file!{}",resource);
+                throw new RuntimeException("Could not read the file!");
+            }
+        } catch (MalformedURLException e) {
+                log.error("Error: {}",e.getMessage());
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
+
+
 }

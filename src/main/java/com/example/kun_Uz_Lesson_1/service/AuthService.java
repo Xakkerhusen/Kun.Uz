@@ -18,12 +18,13 @@ import com.example.kun_Uz_Lesson_1.utils.JWTUtil;
 import com.example.kun_Uz_Lesson_1.utils.MD5Util;
 import com.example.kun_Uz_Lesson_1.utils.RandomUtil;
 import io.jsonwebtoken.JwtException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-
+@Slf4j
 @Service
 public class AuthService {
     @Autowired
@@ -46,15 +47,11 @@ public class AuthService {
     public Profile auth(Auth auth) {
         Optional<ProfileEntity> optional =
                 profileRepository.findByEmailAndPassword(auth.getEmail(), MD5Util.encode(auth.getPassword()));
-        if (optional.isEmpty()) {
-            throw new AppBadException("Email or Password is wrong");
-        }
         if (!optional.get().getStatus().equals(ProfileStatus.ACTIVE)) {
+            log.warn("Profile not active {}",optional.get().getStatus());
             throw new AppBadException("Profile not active");
         }
-
         ProfileEntity entity = optional.get();
-
         Profile dto = new Profile();
         dto.setName(entity.getName());
         dto.setSurname(entity.getSurname());
@@ -65,13 +62,12 @@ public class AuthService {
     }
 
     public Boolean registration(RegistrationProfileDTO dto) {
-        if (dto.getName() == null || dto.getName().trim().length() <= 2) {
-            throw new AppBadException("Name required");
-        }
-        if (dto.getSurname() == null || dto.getSurname().trim().length() <= 2) {
-            throw new AppBadException("Surname required");
+        if (dto.getPhoneNumber()!=null&&!dto.getPhoneNumber().matches("^\\+(?:[0-9] ?){6,14}[0-9]$")) {
+            log.warn("phone number required {}",dto.getPhoneNumber());
+            throw new AppBadException(" phone number required");
         }
         if (!dto.getPassword().matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,}$")) {
+            log.warn("Password required {}",dto.getPassword());
             throw new AppBadException("Password required");
         }
         Optional<ProfileEntity> optional = profileRepository.findByEmail(dto.getEmail());
@@ -79,6 +75,7 @@ public class AuthService {
             if (optional.get().getStatus().equals(ProfileStatus.REGISTRATION)) {
                 profileRepository.delete(optional.get());
             } else {
+            log.warn("Email exists {}",dto.getEmail());
                 throw new AppBadException("Email exists");
             }
         }
@@ -86,9 +83,11 @@ public class AuthService {
         LocalDateTime from = LocalDateTime.now().minusMinutes(1);
         LocalDateTime to = LocalDateTime.now();
         if (emailSendHistoryRepository.countSendEmail(dto.getEmail(), from, to) >= 4) {
+            log.warn("To many attempt. Please try after 1 minute. {}",dto.getEmail());
             throw new AppBadException("To many attempt. Please try after 1 minute.");
         }
         if (smsHistoryRepository.countSendPhone(dto.getPhoneNumber(), from, to) >= 1) {
+            log.warn("To many attempt. Please try after 1 minute. {}",dto.getPhoneNumber());
             throw new AppBadException("To many attempt. Please try after 1 minute.");
         }
 
@@ -106,10 +105,12 @@ public class AuthService {
 
             Optional<ProfileEntity> optional = profileRepository.findById(jwtDTO.getId());
             if (optional.isEmpty()) {
+                log.warn("Profile not found {}",jwtDTO.getId());
                 throw new AppBadException("Profile not found");
             }
             ProfileEntity entity = optional.get();
             if (!entity.getStatus().equals(ProfileStatus.REGISTRATION)) {
+                log.warn("Profile in wrong status {}",entity.getStatus());
                 throw new AppBadException("Profile in wrong status");
             }
             Profile profile = new Profile();
@@ -120,6 +121,7 @@ public class AuthService {
             profile.setJwt(JWTUtil.encode(entity.getId(), entity.getRole()));
 
         } catch (JwtException e) {
+                log.warn("Please tyre again. {}",jwt);
             throw new AppBadException("Please tyre again.");
         }
         return null;
@@ -137,7 +139,7 @@ public class AuthService {
         profileRepository.save(entity);
 
         String code = RandomUtil.getRandomCode();
-    //        smsSenderService.send(dto.getPhoneNumber(), " Salom sizning verification kodingiz:", code);
+        //        smsSenderService.send(dto.getPhoneNumber(), " Salom sizning verification kodingiz:", code);
 
         smsHistoryService.create(dto, code);
     }
@@ -177,19 +179,16 @@ public class AuthService {
         if (LocalDateTime.now().minusMinutes(1).isAfter(createdDate) || bySentSms.get().getStatus().equals(SmsStatus.USED)) {
             throw new AppBadException("SMS is invalid");
         }
-//        else if (bySentSms.get().getSentSms().equals(dto.getCode()) &&
-//                bySentSms.get().getPhone().equals(dto.getPhoneNumber())) {
-            profileRepository.updateStatusActive(bySentSms.get().getPhone(), ProfileStatus.ACTIVE);
+        profileRepository.updateStatusActive(bySentSms.get().getPhone(), ProfileStatus.ACTIVE);
 
-            Optional<ProfileEntity> entity = profileRepository.findByPhoneNumber(bySentSms.get().getPhone());
+        Optional<ProfileEntity> entity = profileRepository.findByPhoneNumber(bySentSms.get().getPhone());
 
-            Profile profile = new Profile();
-            profile.setName(entity.get().getName());
-            profile.setSurname(entity.get().getSurname());
-            profile.setRole(entity.get().getRole());
-            profile.setJwt(JWTUtil.encode(entity.get().getId(), entity.get().getRole()));
-            smsHistoryRepository.updateStatus(bySentSms.get().getSentSms(), SmsStatus.USED);
-//        }
+        Profile profile = new Profile();
+        profile.setName(entity.get().getName());
+        profile.setSurname(entity.get().getSurname());
+        profile.setRole(entity.get().getRole());
+        profile.setJwt(JWTUtil.encode(entity.get().getId(), entity.get().getRole()));
+        smsHistoryRepository.updateStatus(bySentSms.get().getSentSms(), SmsStatus.USED);
         return profile;
     }
 

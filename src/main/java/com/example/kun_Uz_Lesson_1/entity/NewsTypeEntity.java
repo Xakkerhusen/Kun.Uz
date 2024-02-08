@@ -11,8 +11,8 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-@Table(name = "article_type")
-public class ArticleTypeEntity extends BaseEntity {
+@Table(name = "news_type")
+public class NewsTypeEntity extends BaseEntity {
     @Column(name = "order_number")
     private Long orderNumber;
 

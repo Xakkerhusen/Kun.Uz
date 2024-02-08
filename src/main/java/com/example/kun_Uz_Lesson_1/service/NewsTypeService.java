@@ -1,12 +1,12 @@
 package com.example.kun_Uz_Lesson_1.service;
 
-import com.example.kun_Uz_Lesson_1.dto.article.ArticleType;
-import com.example.kun_Uz_Lesson_1.dto.article.CreatedArticleDTO;
-import com.example.kun_Uz_Lesson_1.entity.ArticleTypeEntity;
-import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
+import com.example.kun_Uz_Lesson_1.dto.article.CreatedNewsTypeDTO;
+import com.example.kun_Uz_Lesson_1.dto.article.NewsType;
+import com.example.kun_Uz_Lesson_1.entity.NewsTypeEntity;
 import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
-import com.example.kun_Uz_Lesson_1.repository.ArticleTypeRepository;
+import com.example.kun_Uz_Lesson_1.repository.NewsTypeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,35 +16,24 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
-
+@Slf4j
 @Service
-public class ArticleTypeService {
+public class NewsTypeService {
     @Autowired
-    private ArticleTypeRepository articleTypeRepository;
-    private byte[] bytes;
+    private NewsTypeRepository articleTypeRepository;
 
-    public CreatedArticleDTO create(CreatedArticleDTO articleType) {
-        if (articleType.getOrderNumber() == null || articleType.getOrderNumber() <= 0) {
-            throw new AppBadException("Article Type order number required ");
-        }
-        if (articleType.getNameEn() == null || articleType.getNameEn().trim().length() <= 1
-                || articleType.getNameUz() == null || articleType.getNameUz().trim().length() <= 1
-                || articleType.getNameRu() == null || articleType.getNameRu().trim().length() <= 1) {
-            throw new AppBadException("Article Type Language required ");
-        }
-        ArticleTypeEntity entity = new ArticleTypeEntity();
+    public CreatedNewsTypeDTO create(CreatedNewsTypeDTO articleType) {
+        NewsTypeEntity entity = new NewsTypeEntity();
         entity.setOrderNumber(articleType.getOrderNumber());
         entity.setNameUz(articleType.getNameUz());
         entity.setNameRu(articleType.getNameRu());
         entity.setNameEn(articleType.getNameEn());
         articleTypeRepository.save(entity);
-
         return articleType;
     }
 
-    public ArticleType update(Integer id, ArticleType dto) {
-        ArticleTypeEntity entity = get(id);
+    public NewsType update(Integer id, NewsType dto) {
+        NewsTypeEntity entity = get(id);
 
         if (dto.getOrderNumber() != null) {
             entity.setOrderNumber(dto.getOrderNumber());
@@ -77,31 +66,32 @@ public class ArticleTypeService {
     public boolean delete(Integer id) {
         Integer effectiveRows = articleTypeRepository.deleteArticleTypeById(id);
         if (effectiveRows == 0) {
+            log.warn("Article type not found{}",id);
             throw new AppBadException("Article type not found");
         }
         return true;
     }
 
-    public PageImpl<ArticleType> all(Pageable pageable) {
-        Page<ArticleTypeEntity> all = articleTypeRepository.findAllArticle(pageable);
-        List<ArticleTypeEntity> content = all.getContent();
+    public PageImpl<NewsType> all(Pageable pageable) {
+        Page<NewsTypeEntity> all = articleTypeRepository.findAllArticle(pageable);
+        List<NewsTypeEntity> content = all.getContent();
         long totalElements = all.getTotalElements();
-        List<ArticleType> listAll = new LinkedList<>();
-        for (ArticleTypeEntity entity : content) {
+        List<NewsType> listAll = new LinkedList<>();
+        for (NewsTypeEntity entity : content) {
             listAll.add(toDo(entity));
         }
         return new PageImpl<>(listAll, pageable, totalElements);
     }
 
-    public List<ArticleType> allByLang(Language language) {
-
-        List<ArticleTypeEntity> allArticleType = articleTypeRepository.findAllArticleType();
-        List<ArticleType> listAll = new LinkedList<>();
+    public List<NewsType> allByLang(Language language) {
+        List<NewsTypeEntity> allArticleType = articleTypeRepository.findAllArticleType();
+        List<NewsType> listAll = new LinkedList<>();
         if (allArticleType.isEmpty()) {
+            log.warn("Article type not found{}",language);
             throw new AppBadException("Article is empty");
         }
-        for (ArticleTypeEntity entity : allArticleType) {
-            ArticleType dto = new ArticleType();
+        for (NewsTypeEntity entity : allArticleType) {
+            NewsType dto = new NewsType();
             dto.setId(entity.getId());
             dto.setOrderNumber(entity.getOrderNumber());
             dto.setCreatedDate(entity.getCreatedDate());
@@ -115,8 +105,8 @@ public class ArticleTypeService {
         return listAll;
     }
 
-    private ArticleType toDo(ArticleTypeEntity entity) {
-        ArticleType dto = new ArticleType();
+    private NewsType toDo(NewsTypeEntity entity) {
+        NewsType dto = new NewsType();
         dto.setId(entity.getId());
         dto.setOrderNumber(entity.getOrderNumber());
         dto.setNameUz(entity.getNameUz());
@@ -130,8 +120,12 @@ public class ArticleTypeService {
         dto.setVisible(entity.getVisible());
         return dto;
     }
-    private ArticleTypeEntity get(Integer id) {
-        return articleTypeRepository.findById(id).orElseThrow(() -> new AppBadException("Article not found"));
+    public NewsTypeEntity get(Integer id) {
+//        return articleTypeRepository.findById(id).orElseThrow(() -> new AppBadException("Article not found"));
+        return articleTypeRepository.findById(id).orElseThrow(() -> {
+            log.warn("Article not found{}",id);
+            return new AppBadException("Article not found");
+        });
     }
 
 }

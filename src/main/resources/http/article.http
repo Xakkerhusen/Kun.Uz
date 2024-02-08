@@ -1,13 +1,61 @@
-##A#Create Article
+####Create Article
 POST localhost:8080/article/mod
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY4Nzg4MzQsImlkIjoyMiwicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTcwNjk2NTIzNCwiaXNzIjoiS3VuVXpUZXN0In0.Apyonz5s6oUEFBD2wgNYiILREncnz30gUYgn30a5rAIWEgoZFhWQ2VB1DUtjHtXHt3059mCZZn0g5P0Zp3nStQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc0MDQ3MjYsImlkIjoyMiwicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTcwNzQ5MTEyNiwiaXNzIjoiS3VuVXpUZXN0In0.cK0C-SdMKbq-RHBPmFOXUu6VXbmz4E5j0G0NO4C6eXW3KxX1EDOw-1mqFxuAnFamlz5Z7gZFhkdEFnClOqQTpw
 
 {
-  "title": "salom",
-  "description": "salomlar",
-  "content": "salomjon",
-  "imagesId": "123",
-  "regionId": 1,
-  "categoryId": 1
+  "titleUz": "tu5",
+  "titleRu": "tr5",
+  "titleEn": "te5",
+  "descriptionUz": "du5",
+  "descriptionRu": "dr5",
+  "descriptionEn": "de5",
+  "contentUz": "cu5",
+  "contentRu": "cr5",
+  "contentEn": "ce5",
+  "imageId": "7f8c907e-246b-4847-ba5d-0980003aa1a2",
+  "regionId": 3,
+  "categoryId": 5,
+  "newsType": [6,2]
 }
+
+####Update article
+PUT localhost:8080/article/mod/2ed90c88-0a78-4ba9-89f8-68037a0055e6
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDcyODk0OTcsImlkIjoyMiwicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTcwNzM3NTg5NywiaXNzIjoiS3VuVXpUZXN0In0.Ou4UGHrVn4Hvw_SyDNRnsUbXAxpnVeGn_sjC5L_I95MsXs4h7_mV7_bxNZrP2YdNfZ8u4VNsL9p3eWUcrBcs2g
+
+{
+  "title": "pppppp",
+  "description": "pppppppppp",
+  "content": "pppppppppppp",
+  "categoryId": 2,
+  "regionId": 6,
+  "imageId": "6eedee51-1c89-4e92-8335-098682561da9",
+  "newsType": [1,2,3,4,5]
+}
+
+###Delete article
+DELETE localhost:8080/article/mod/40cd0011-44cc-4be0-9630-70dfda83c9b3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDcyODk0OTcsImlkIjoyMiwicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTcwNzM3NTg5NywiaXNzIjoiS3VuVXpUZXN0In0.Ou4UGHrVn4Hvw_SyDNRnsUbXAxpnVeGn_sjC5L_I95MsXs4h7_mV7_bxNZrP2YdNfZ8u4VNsL9p3eWUcrBcs2g
+
+###Change status by id
+POST localhost:8080/article/pub/c837ec69-f0ca-4dd2-a821-f037fc4716b1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDcyMzAxMDgsImlkIjozMSwicm9sZSI6IlBVQkxJU0hFUiIsImV4cCI6MTcwNzMxNjUwOCwiaXNzIjoiS3VuVXpUZXN0In0.5WZ3fBVaiViCTj663JqFwQ12cLdt7Wj9J3J5Jq0mCeVB4gQ0OvsBReVweXGY7PpWZtCEwbl0fC6lh_5cTV1PHQ
+
+###get last five article by types
+GET localhost:8080/article/3?limit=2
+
+###list Of Articles Except Given Ids
+GET localhost:8080/article/articleId?ids=40cd0011-44cc-4be0-9630-70dfda83c9b3&limit=8
+
+###increase Article View Count
+PUT localhost:8080/article/viewCount/6d1f5580-8693-48a3-8c62-3af71e95a654
+###increase Article Share Count
+PUT localhost:8080/article/shareCount/6d1f5580-8693-48a3-8c62-3af71e95a654
+
+###get Article By Id And Language
+GET localhost:8080/article/language?id=6d1f5580-8693-48a3-8c62-3af71e95a654&language=UZ
+
+###get most Read Articles
+GET localhost:8080/article/mostReaArticle?limit=4

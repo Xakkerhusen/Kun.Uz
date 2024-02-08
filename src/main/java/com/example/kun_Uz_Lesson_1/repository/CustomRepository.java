@@ -22,7 +22,7 @@ public class CustomRepository {
     private EntityManager entityManager;
 
 
-    public PaginationResultDTO<ProfileEntity> profileFilter(FilterProfileDTO filter, Pageable pageable) {
+    public PaginationResultDTO<ProfileEntity>   profileFilter(FilterProfileDTO filter, Pageable pageable) {
         StringBuilder builder = new StringBuilder();
         Map<String, Object> params = new HashMap<>();
         if (filter.getId() != null) {

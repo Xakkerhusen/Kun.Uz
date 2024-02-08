@@ -6,6 +6,7 @@ import com.example.kun_Uz_Lesson_1.dto.profile.RegistrationProfileDTO;
 import com.example.kun_Uz_Lesson_1.entity.SmsHistoryEntity;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.SmsHistoryRepository;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
-
+@Slf4j
 @Service
 public class SmsHistoryService {
     @Autowired
@@ -33,6 +34,7 @@ public class SmsHistoryService {
         }
         List<SmsHistoryEntity> byPhone = smsHistoryRepository.findByPhone(phone);
         if (byPhone.isEmpty()) {
+            log.warn("History not found{}",phone);
             throw new AppBadException("History not found");
         }
         List<SmsHistoryDTO>dtoList=new LinkedList<>();

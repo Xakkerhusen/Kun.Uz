@@ -35,6 +35,8 @@ public class SecurityConfigFilter {
 
         bean.addUrlPatterns("/article/mod");
         bean.addUrlPatterns("/article/mod/*");
+        bean.addUrlPatterns("/article/pub");
+        bean.addUrlPatterns("/article/pub/*");
 
         bean.addUrlPatterns("/attach/adm");
         bean.addUrlPatterns("/attach/adm/*");

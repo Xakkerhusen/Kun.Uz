@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ArticleType {
+public class NewsType {
     private Integer id;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;

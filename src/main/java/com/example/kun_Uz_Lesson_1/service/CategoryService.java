@@ -9,6 +9,7 @@ import com.example.kun_Uz_Lesson_1.entity.RegionEntity;
 import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.CategoryRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,21 +20,13 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-
+@Slf4j
 @Service
 public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
     public CreateCategoryDTO create(CreateCategoryDTO dto) {
-        if (dto.getOrderNumber() == null || dto.getOrderNumber() <= 0) {
-            throw new AppBadException("Category  order number required ");
-        }
-        if (dto.getNameEn() == null || dto.getNameEn().trim().length() <= 1
-                || dto.getNameUz() == null || dto.getNameUz().trim().length() <= 1
-                || dto.getNameRu() == null || dto.getNameRu().trim().length() <= 1) {
-            throw new AppBadException("Category  Language required ");
-        }
         CategoryEntity entity = new CategoryEntity();
         entity.setOrderNumber(dto.getOrderNumber());
         entity.setNameUz(dto.getNameUz());
@@ -70,13 +63,18 @@ public class CategoryService {
         return dto;
     }
 
-    private CategoryEntity get(Integer id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new AppBadException("Category not found"));
+    public CategoryEntity get(Integer id) {
+//        return categoryRepository.findById(id).orElseThrow(() -> new AppBadException("Category not found"));
+        return categoryRepository.findById(id).orElseThrow(() -> {
+            log.warn("Category not found{}",id);
+            return new AppBadException("Category not found");
+        });
     }
 
     public Boolean delete(Integer id) {
         Integer effectiveRows = categoryRepository.deleteCategoryById(id);
         if (effectiveRows == 0) {
+            log.warn("Category not found {}",effectiveRows);
             throw new AppBadException("Category not found");
         }
         return true;
@@ -111,6 +109,7 @@ public class CategoryService {
     public List<Category> gatAllByLang(Language language) {
         List<CategoryEntity> allCategoryByLang = categoryRepository.findAllCategoryByLang();
         if (allCategoryByLang.isEmpty()) {
+            log.warn("Category not found {}",allCategoryByLang);
             throw new AppBadException("Category is empty");
         }
         List<Category> categoryList = new LinkedList<>();

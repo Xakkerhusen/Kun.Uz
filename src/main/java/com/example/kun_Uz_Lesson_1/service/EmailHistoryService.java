@@ -5,6 +5,7 @@ import com.example.kun_Uz_Lesson_1.dto.profile.RegistrationProfileDTO;
 import com.example.kun_Uz_Lesson_1.entity.EmailSentHistoryEntity;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.EmailSentHistoryRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,16 +17,15 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
-
+@Slf4j
 @Service
 public class EmailHistoryService {
     @Autowired
     private EmailSentHistoryRepository emailSentHistoryRepository;
-
-
     public List<EmailHistoryDTO> getByEmail(String email) {
         List<EmailSentHistoryEntity> optional = emailSentHistoryRepository.findByEmail(email);
         if (optional.isEmpty()) {
+            log.warn("History not found{}",email);
             throw new AppBadException("History not found");
         }
         List<EmailHistoryDTO> dtoList = new LinkedList<>();
@@ -50,9 +50,6 @@ public class EmailHistoryService {
         EmailHistoryDTO dto = new EmailHistoryDTO();
         dto.setId(entity.getId());
         dto.setEmail(entity.getEmail());
-//        dto.setSentSmsTime(entity.getSentSmsTime());
-//        dto.setProfileId(entity.getProfile().getId());
-//        dto.setSentSms(entity.getSentSms());
         return dto;
     }
 

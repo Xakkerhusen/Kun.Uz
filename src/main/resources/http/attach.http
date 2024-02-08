@@ -1,12 +1,12 @@
 ### Create
 POST http://localhost:8080/attach/adm/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY5NTM5MjQsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDcwNDAzMjQsImlzcyI6Ikt1blV6VGVzdCJ9.JQP8cv1YO_2FWoGsQFQ_-Fs7qsN1fYdaCCVtV7hJ1iE4KEXbbYCeMAO0SgafMmdE4NeL8tlHzxWNQflRlUcsIQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDcyMTk4MzIsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDczMDYyMzIsImlzcyI6Ikt1blV6VGVzdCJ9.74UlartfQLTJOCXBTrnl2P8SHLjffwtDkqjJVlEXrh7b2NjWpWH425zznz17UL5ujZ5kGyHFlcAIcuPb95zSeQ
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="akon-right-now-na-na-na - Copy.mp3"
+Content-Disposition: form-data; name="file"; filename="photo_2024-02-06_16-42-23.jpg"
 
-< C:\Users\user\Music\akon-right-now-na-na-na - Copy.mp3
+< D:\Asosiy modul(JAVA)\kun.uz\foto\photo_2024-02-06_16-42-23.jpg
 
 ###Get attach
 GET localhost:8080/attach/open/eyfel.jpg

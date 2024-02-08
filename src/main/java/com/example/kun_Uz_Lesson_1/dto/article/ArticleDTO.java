@@ -18,18 +18,30 @@ import java.util.UUID;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ArticleDTO {
-    private UUID id;
+    private String id;
+    private String titleUz;
+    private String titleRu;
+    private String titleEn;
     private String title;
+
+    private String descriptionUz;
+    private String descriptionEn;
+    private String descriptionRu;
     private String description;
+
+    private String contentUz;
+    private String contentRu;
+    private String contentEn;
     private String content;
+
     private Integer sharedCount;
-    private String imagesId;
     private LocalDateTime createdDate;
     private LocalDateTime publishedDate;
     private Boolean visible;
     private Integer viewCount;
     private ArticleStatus status;
 
+    private String imagesId;
     private Integer regionId;
     private Integer categoryId;
     private Integer moderatorId;

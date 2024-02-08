@@ -12,6 +12,7 @@ import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.CustomRepository;
 import com.example.kun_Uz_Lesson_1.repository.ProfileRepository;
 import com.example.kun_Uz_Lesson_1.utils.MD5Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
-
+@Slf4j
 @Service
 public class ProfileService {
     @Autowired
@@ -29,32 +30,15 @@ public class ProfileService {
     private CustomRepository customRepository;
 
     public CreatedProfileDTO create(CreatedProfileDTO dto) {
-        if (dto.getName() == null || dto.getName().trim().length() <= 1) {
-            throw new AppBadException("Profile name required");
-        }
-        if (dto.getSurname() == null || dto.getSurname().trim().length() <= 1) {
-            throw new AppBadException("Profile surname required");
-        }
-        if (dto.getEmail() == null || dto.getEmail().trim().length() < 8) {
-            throw new AppBadException("Profile email required");
-        }
-        if (dto.getPassword() == null || dto.getPassword().trim().isEmpty()) {
+        if (!dto.getPassword().matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,}$")) {
+            log.warn("Profile password required{}",dto.getPassword());
             throw new AppBadException("Profile password required");
         }
         ProfileEntity entity = new ProfileEntity();
-        if (dto.getStatus() == null) {
-            entity.setStatus(ProfileStatus.ACTIVE);
-        } else {
-            entity.setStatus(dto.getStatus());
-        }
-        if (dto.getRole() == null) {
-            entity.setRole(ProfileRole.USER);
-        } else {
-            entity.setRole(dto.getRole());
-        }
         entity.setName(dto.getName());
         entity.setSurname(dto.getSurname());
         entity.setEmail(dto.getEmail());
+        entity.setRole(dto.getRole());
         entity.setPassword(MD5Util.encode(dto.getPassword()));
         profileRepository.save(entity);
 
@@ -92,6 +76,7 @@ public class ProfileService {
         ProfileEntity profileEntity = get(id);
         Integer effectiveRows = profileRepository.deleteByIdProfile(profileEntity.getId());
         if (effectiveRows == 0) {
+            log.warn("Profile not found{}",effectiveRows);
             throw new AppBadException("Profile not found");
         }
         return true;
@@ -116,16 +101,17 @@ public class ProfileService {
         return dto;
     }
 
-    private ProfileEntity get(Integer id) {
-        return profileRepository.findById(id).orElseThrow(() -> new AppBadException("Profile not found"));
+    public ProfileEntity get(Integer id) {
+//        return profileRepository.findById(id).orElseThrow(() -> new AppBadException("Profile not found"));
+        return profileRepository.findById(id).orElseThrow(() -> {
+            log.warn("Profile not found{}",id);
+            return new AppBadException("Profile not found");
+        });
     }
 
 
     public Profile updateDetail(Profile dto, Integer id) {
         ProfileEntity entity = get(id);
-        if (entity == null) {
-            throw new AppBadException("Profile not found");
-        }
         if (dto.getName() != null) {
             entity.setName(dto.getName());
         }else {

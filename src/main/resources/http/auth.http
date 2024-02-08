@@ -2,16 +2,25 @@
 ###Created Admin
 POST localhost:8080/auth/login
 Content-Type: application/json
+#admin
+//{
+//  "email": "husen@mail.ru",
+//  "password": "1999"
+//}
 
+#moderator
 {
-  "email": "husen@mail.ru",
-  "password": "1999"
+  "email": "moderator@mail.com",
+  "password": "$Maderotor$"
 }
 
+#publisher
 //{
-//  "email": "moderator@mail.com",
-//  "password": "$Maderotor$"
+//  "email": "pulisher@mail.com",
+//  "password": "@Publisher777"
 //}
+
+
 
 ####Registration
 POST localhost:8080/auth/registration
@@ -20,7 +29,7 @@ Content-Type: application/json
 {
   "name": "Husen",
   "surname": "Husenjon",
-  "email": "husenteshayev8@gmail.com",
+  "email": "hasdfgh@gmail.com",
   "password": "Husenjon123@"
 }
 

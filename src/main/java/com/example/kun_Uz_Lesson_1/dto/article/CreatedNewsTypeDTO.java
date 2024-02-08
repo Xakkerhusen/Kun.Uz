@@ -1,15 +1,13 @@
-package com.example.kun_Uz_Lesson_1.dto.category;
+package com.example.kun_Uz_Lesson_1.dto.article;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Setter
 @Getter
-public class CreateCategoryDTO {
-    @NotNull(message = "Category order number required")
+public class CreatedNewsTypeDTO {
+    @NotNull(message = "NewsType order number required")
     private Long orderNumber;
     @NotNull(message = "NewsType name uz required")
     private String nameUz;
@@ -17,4 +15,5 @@ public class CreateCategoryDTO {
     private String nameRu;
     @NotNull(message = "NewsType name en required")
     private String nameEn;
+    private String name;
 }

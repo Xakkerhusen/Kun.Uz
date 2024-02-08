@@ -7,6 +7,7 @@ import com.example.kun_Uz_Lesson_1.entity.RegionEntity;
 import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.RegionRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,28 +15,19 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-
+@Slf4j
 @Service
 public class RegionService {
     @Autowired
     private RegionRepository regionRepository;
 
     public CreatedRegionDTO create(CreatedRegionDTO dto) {
-        if (dto.getOrderNumber() == null || dto.getOrderNumber() <= 0) {
-            throw new AppBadException("Article Type order number required ");
-        }
-        if (dto.getNameEn() == null || dto.getNameEn().trim().length() <= 1
-                || dto.getNameUz() == null || dto.getNameUz().trim().length() <= 1
-                || dto.getNameRu() == null || dto.getNameRu().trim().length() <= 1) {
-            throw new AppBadException("Article Type Language required ");
-        }
         RegionEntity entity = new RegionEntity();
         entity.setOrderNumber(dto.getOrderNumber());
         entity.setNameUz(dto.getNameUz());
         entity.setNameRu(dto.getNameRu());
         entity.setNameEn(dto.getNameEn());
         regionRepository.save(entity);
-
         return dto;
     }
 
@@ -65,6 +57,7 @@ public class RegionService {
         entity.setUpdatedDate(LocalDateTime.now());
         Integer effectiveRows = regionRepository.update(id, entity.getNameUz(), entity.getNameEn(), entity.getNameEn());
         if (effectiveRows == 0) {
+            log.warn("Region not found{}",effectiveRows);
             throw new AppBadException("Region not found");
         }
         return dto;
@@ -73,6 +66,7 @@ public class RegionService {
     public Boolean delete(Integer id) {
         Integer effectiveRows = regionRepository.deleteRegionById(id);
         if (effectiveRows == 0) {
+            log.warn("Region not found{}",effectiveRows);
             throw new AppBadException("Region not found");
         }
         return true;
@@ -115,8 +109,13 @@ public class RegionService {
         return region;
     }
 
-    private RegionEntity get(Integer id) {
-        return regionRepository.findById(id).orElseThrow(() -> new AppBadException("Region not found"));
+
+    public  RegionEntity get(Integer id) {
+//        return regionRepository.findById(id).orElseThrow(() -> new AppBadException("Region not found"));
+        return regionRepository.findById(id).orElseThrow(() -> {
+            log.warn("Region not found{}",id);
+            return new AppBadException("Region not found");
+        });
     }
 
 }

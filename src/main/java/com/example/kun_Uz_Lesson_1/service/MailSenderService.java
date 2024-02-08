@@ -7,6 +7,7 @@ import com.example.kun_Uz_Lesson_1.repository.EmailSentHistoryRepository;
 import com.example.kun_Uz_Lesson_1.utils.JWTUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -23,16 +24,13 @@ import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-
+@Slf4j
 @Service
 public class MailSenderService {
     @Autowired
     private JavaMailSender javaMailSender;
-
     @Value("${spring.mail.username}")
     private String fromAccount;
-
-
 
     public void sendEmail(String toAccount, String subject, String text) {
 //        SimpleMailMessage msg = new SimpleMailMessage();
@@ -53,6 +51,7 @@ public class MailSenderService {
             javaMailSender.send(msg);
 
         } catch (MessagingException e) {
+            log.error(e.toString());
             throw new RuntimeException(e);
         }
 

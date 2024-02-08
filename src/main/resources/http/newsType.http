@@ -1,10 +1,10 @@
 ###Create Article type
 POST localhost:8080/articleType/adm
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDcyMjA5ODgsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDczMDczODgsImlzcyI6Ikt1blV6VGVzdCJ9.OS30ZkXYy45vCWHrPleqxpHInGZU-kTHsUg9DgmVpVskil45ooqjHj58WD0vlRdHZc4ugHnmKA1IcRwGMZp_AA
 
 {
-  "orderNumber": 20,
+  "orderNumber": 8,
   "nameEn": "en",
   "nameRu" : "ru",
   "nameUz": "uz"
