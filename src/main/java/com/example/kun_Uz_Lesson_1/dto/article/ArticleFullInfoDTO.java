@@ -1,5 +1,6 @@
 package com.example.kun_Uz_Lesson_1.dto.article;
 
+import com.example.kun_Uz_Lesson_1.dto.TagNameDTO;
 import com.example.kun_Uz_Lesson_1.dto.category.Category;
 import com.example.kun_Uz_Lesson_1.dto.region.Region;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -36,8 +37,10 @@ public class ArticleFullInfoDTO {
     private LocalDateTime publishedDate;
     private Integer likeCount;
 
-    private String region;
-    private String category;
+    private Region region;
+    private Category category;
+    private TagNameDTO tagName;
+
 
 
 }

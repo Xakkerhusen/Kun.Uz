@@ -1,0 +1,18 @@
+###Create ArticleLike
+POST localhost:8080/articleLike/837bb237-a501-4d61-a08b-86308252b9a7
+Content-Type: application/json
+#Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc1NjkxMDQsImlkIjoyMiwicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTcwNzY1NTUwNCwiaXNzIjoiS3VuVXpUZXN0In0.3KPU56J2qnOnHshfFUfaA6oyy8_-Su4z8O-WmoRwePKGR17IT2kpUrxqyVY3bp2O7iDa8jLSQjUoQrtlpqRZjg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc1NzMzMjUsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDc2NTk3MjUsImlzcyI6Ikt1blV6VGVzdCJ9.Pmy738qnvMbTW5pctWbQMfZ9MNE6VsBMNItfQTNsEauISs13snQEAcD2GFY1v5Ql_wlXyVInsaO_PJ2vMS3mHA
+
+{
+  "status": "LIKE"
+}
+###Create CommentLike
+POST localhost:8080/commentLike/5
+Content-Type: application/json
+##moderator
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc2NTkxODAsImlkIjoyMiwicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTcwNzc0NTU4MCwiaXNzIjoiS3VuVXpUZXN0In0.nTsSu-4aAv934q-Lypts4rAw2TyGv67L5fvYPlPnp_nJN8YQWuZppr-kk4YdD0cUX87gPfQBNUiN0qcsNc7SZQ
+
+{
+  "status": "LIKE"
+}

@@ -1,10 +1,12 @@
 ###Create Region type
 POST localhost:8080/region/adm
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
+##admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc3NTE2NTYsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3ODM4MDU2LCJpc3MiOiJLdW5VelRlc3QifQ.-E35uSKKC4JczQHpteZqQQAOMYemsYUHf-8aEczo7shbmSSYeOXGjC8lB2iInNPLEiq1Vx_f483SVs1Frq7vxg
+#Authorization: Basic dXNlcjo3YzI3Mzg5YS0zYjFlLTRiY2ItOWM2Ni0zZjhmNTJlYmUzYjA=
 
 {
-  "orderNumber": 12,
+  "orderNumber": 31,
   "nameEn": "en",
   "nameRu" : "ru",
   "nameUz": "uz"

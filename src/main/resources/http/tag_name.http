@@ -1,0 +1,8 @@
+### create by admin
+POST http://localhost:8080/tagName/adm
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc1NTU3MDUsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDc2NDIxMDUsImlzcyI6Ikt1blV6VGVzdCJ9.BWx39cU4tsYhSCGnJGTJ7z7GZxR10oKzOh5ddh83_IaDHmrm6B5Da0TjlN8IYD_T4wmx8Ujp_KAgbg0yGvUtjg
+
+{
+  "name": "#world"
+}

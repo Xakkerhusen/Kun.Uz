@@ -42,4 +42,5 @@ public class CreatedArticleDTO {
     private Integer regionId;
     private Integer categoryId;
     private List<Integer> newsType;
+    private List<Long> tagName;
 }

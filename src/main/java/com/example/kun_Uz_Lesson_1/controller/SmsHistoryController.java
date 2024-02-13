@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.PrimitiveIterator;
+
 @Slf4j
 @Tag(name = "SMS History API list",description = "API list for SMS History")
 @RestController
@@ -47,7 +47,7 @@ public class SmsHistoryController {
     public ResponseEntity<PageImpl<SmsHistoryDTO>>getAllHistoryByPagination(@RequestParam(value = "page",defaultValue = "1")Integer page,
                                                                   @RequestParam(value = "size",defaultValue = "2")Integer size,
                                                                   HttpServletRequest request){
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdDate");
         log.info("Get all sms History By pagination{}",pageable);
         return ResponseEntity.ok(smsHistoryService.getAllHistoryByPagination(pageable));

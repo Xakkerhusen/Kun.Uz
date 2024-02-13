@@ -33,7 +33,7 @@ public class NewsTypeController {
     public ResponseEntity<?> create(@Valid @RequestBody CreatedNewsTypeDTO articleType,
                                     HttpServletRequest request) {
          log.info("Create news type{} ",articleType);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(articleTypeService.create(articleType));
     }
 
@@ -44,7 +44,7 @@ public class NewsTypeController {
                                     @RequestBody NewsType dto,
                                     HttpServletRequest request) {
         log.info("Update news type by id {}",dto);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(articleTypeService.update(id, dto));
     }
 
@@ -53,7 +53,7 @@ public class NewsTypeController {
     public ResponseEntity<?> delete(@PathVariable("id") Integer id,
                                     HttpServletRequest request) {
         log.info("Delete nws type by id{}",id);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(articleTypeService.delete(id));
     }
 
@@ -63,7 +63,7 @@ public class NewsTypeController {
     public ResponseEntity<?> all(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                  @RequestParam(value = "size", defaultValue = "2") Integer size,
                                  HttpServletRequest request) {
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdDate");
         log.info("Get all nws type by pagination{}",pageable);
         return ResponseEntity.ok(articleTypeService.all(pageable));

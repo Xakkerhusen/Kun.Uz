@@ -2,23 +2,31 @@
 ###Created Admin
 POST localhost:8080/auth/login
 Content-Type: application/json
-#admin
-//{
-//  "email": "husen@mail.ru",
-//  "password": "1999"
-//}
+//#admin
 
-#moderator
 {
-  "email": "moderator@mail.com",
-  "password": "$Maderotor$"
+  "email": "husen@mail.ru",
+  "password": "1999"
 }
 
-#publisher
+//#moderator
+//{
+//  "email": "moderator@mail.com",
+//  "password": "$Maderotor$"
+//}
+
+//#publisher
 //{
 //  "email": "pulisher@mail.com",
 //  "password": "@Publisher777"
+
+//}//#user
+//{
+//     "email": "userjon@mail.com",
+//     "password": "@1Userjon1@"
 //}
+
+
 
 
 

@@ -1,14 +1,11 @@
 package com.example.kun_Uz_Lesson_1.controller;
 
-import com.example.kun_Uz_Lesson_1.dto.FilterProfileDTO;
-import com.example.kun_Uz_Lesson_1.dto.JWTDTO;
+import com.example.kun_Uz_Lesson_1.dto.profile.FilterProfileDTO;
 import com.example.kun_Uz_Lesson_1.dto.profile.CreatedProfileDTO;
-import com.example.kun_Uz_Lesson_1.dto.FilterProfileDTO;
 import com.example.kun_Uz_Lesson_1.dto.profile.Profile;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.ProfileService;
 import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
-import com.example.kun_Uz_Lesson_1.utils.JWTUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,8 +16,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 @Slf4j
 @Tag(name = "Profile API list",description = "API list for Profile")
@@ -32,10 +29,11 @@ public class ProfileController {
 
     @PostMapping("/adm")
     @Operation( summary = "Api for create", description = "this api is used to create profile ")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody CreatedProfileDTO dto,
                                     HttpServletRequest request) {
         log.info("Create profile {}",dto.getEmail());
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+//        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(profileService.create(dto));
     }
 
@@ -45,16 +43,16 @@ public class ProfileController {
                                     @PathVariable("id") Integer id,
                                     HttpServletRequest request) {
         log.info("Update profile by id {}",dto.getEmail());
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(profileService.update(dto, id));
     }
 
-    @PutMapping("/adm/updateDetail")
+    @PutMapping("/any/updateDetail")
     @Operation( summary = "Api for updateDetail", description = "this api is used to Update profile (only his own) ")
     public ResponseEntity<?> updateDetail(@RequestBody Profile dto,
                                           HttpServletRequest request) {
-        Integer id = HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN, ProfileRole.USER,
-                ProfileRole.MODERATOR, ProfileRole.PUBLISHER);
+        Integer id = HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN, ProfileRole.Role_USER,
+                ProfileRole.ROLE_MODERATOR, ProfileRole.ROLE_PUBLISHER);
         log.info("Update profile by id (only his own) {}",dto.getEmail());
         return ResponseEntity.ok(profileService.updateDetail(dto, id));
     }
@@ -64,7 +62,7 @@ public class ProfileController {
     public ResponseEntity<?> delete(@PathVariable("id") Integer id,
                                     HttpServletRequest request) {
         log.info("Delete profile by id (only his own) {}",id);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(profileService.delete(id));
     }
 

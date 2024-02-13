@@ -1,13 +1,10 @@
 package com.example.kun_Uz_Lesson_1.service;
 
-import com.example.kun_Uz_Lesson_1.dto.FilterProfileDTO;
+import com.example.kun_Uz_Lesson_1.dto.profile.FilterProfileDTO;
 import com.example.kun_Uz_Lesson_1.dto.profile.CreatedProfileDTO;
-import com.example.kun_Uz_Lesson_1.dto.FilterProfileDTO;
 import com.example.kun_Uz_Lesson_1.dto.PaginationResultDTO;
 import com.example.kun_Uz_Lesson_1.dto.profile.Profile;
 import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
-import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
-import com.example.kun_Uz_Lesson_1.enums.ProfileStatus;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.CustomRepository;
 import com.example.kun_Uz_Lesson_1.repository.ProfileRepository;
@@ -98,6 +95,13 @@ public class ProfileService {
         dto.setSurname(entity.getSurname());
         dto.setEmail(entity.getEmail());
         dto.setCreatedDate(entity.getCreatedDate());
+        return dto;
+    }
+    public Profile toDoForComment(ProfileEntity entity){
+        Profile dto = new Profile();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setSurname(entity.getSurname());
         return dto;
     }
 

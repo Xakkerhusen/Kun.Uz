@@ -56,7 +56,9 @@ public class AuthService {
         dto.setName(entity.getName());
         dto.setSurname(entity.getSurname());
         dto.setRole(entity.getRole());
-        dto.setJwt(JWTUtil.encode(entity.getId(), entity.getRole()));
+//        dto.setJwt(JWTUtil.encode(entity.getId(), entity.getRole()));
+
+        dto.setJwt(JWTUtil.encodeForSpringSecurity(entity.getEmail(), entity.getRole()));
 
         return dto;
     }
@@ -135,7 +137,7 @@ public class AuthService {
         entity.setEmail(dto.getEmail());
         entity.setPassword(MD5Util.encode(dto.getPassword()));
         entity.setStatus(ProfileStatus.REGISTRATION);
-        entity.setRole(ProfileRole.USER);
+        entity.setRole(ProfileRole.Role_USER);
         profileRepository.save(entity);
 
         String code = RandomUtil.getRandomCode();
@@ -152,7 +154,7 @@ public class AuthService {
         entity.setEmail(dto.getEmail());
         entity.setPassword(MD5Util.encode(dto.getPassword()));
         entity.setStatus(ProfileStatus.REGISTRATION);
-        entity.setRole(ProfileRole.USER);
+        entity.setRole(ProfileRole.Role_USER);
         profileRepository.save(entity);
 
         String jwt = JWTUtil.encodeForEmail(entity.getId());

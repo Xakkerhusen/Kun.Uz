@@ -1,4 +1,4 @@
-package com.example.kun_Uz_Lesson_1.dto;
+package com.example.kun_Uz_Lesson_1.dto.profile;
 
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.enums.ProfileStatus;

@@ -32,7 +32,7 @@ public class ArticleNewsTypeService {
 
     public void merge(String articleId, List<Integer> newList) {
         List<ArticleNewsTypeEntity> old = articleNwsTypeRepository.findByArticleId(articleId);
-        if (old == null|| old.isEmpty()) {
+        if (old == null || old.isEmpty()) {
             return;
         }
         for (ArticleNewsTypeEntity entity : old) {

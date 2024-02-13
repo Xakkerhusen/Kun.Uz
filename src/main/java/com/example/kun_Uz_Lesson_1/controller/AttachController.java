@@ -36,8 +36,8 @@ public class AttachController {
     public ResponseEntity<AttachDTO> upload(@RequestParam("file") MultipartFile file,
                                             HttpServletRequest request) {
         log.info("Upload {}",file);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN, ProfileRole.MODERATOR,
-                ProfileRole.USER, ProfileRole.PUBLISHER);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN, ProfileRole.ROLE_MODERATOR,
+                ProfileRole.Role_USER, ProfileRole.ROLE_PUBLISHER);
 
         AttachDTO dto = attachService.save(file);
         return ResponseEntity.ok().body(dto);
@@ -70,7 +70,7 @@ public class AttachController {
     public ResponseEntity<?>getByPagination(@RequestParam(name = "page",defaultValue = "1")Integer page,
                                             @RequestParam(name = "size",defaultValue = "2")Integer size,
                                             HttpServletRequest request){
-        HTTPRequestUtil.getProfileId(request,ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request,ProfileRole.ROLE_ADMIN);
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdDate");
         log.info("Get attach  {}",pageable);
         return ResponseEntity.ok(attachService.getByPagination(pageable));
@@ -80,7 +80,7 @@ public class AttachController {
     @Operation(summary = "API for delete",description = "this api is used to delete  files ")
     public ResponseEntity<?>delete(@PathVariable("uuid")String uuid, HttpServletRequest request){
         log.info("Delete attach  {}",uuid);
-        HTTPRequestUtil.getProfileId(request,ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request,ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(attachService.delete(uuid));
     }
     @GetMapping("/download/{fineName}")

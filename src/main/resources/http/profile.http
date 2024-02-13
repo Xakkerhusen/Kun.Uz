@@ -1,14 +1,15 @@
 ###Created Profile
 POST localhost:8080/profile/adm
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDcyMDk5NTAsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDcyOTYzNTAsImlzcyI6Ikt1blV6VGVzdCJ9.KSgDH7r8t_T4qSAW0m4nia3Rof8rViBnue4hm8ll_egkJi8rzKH0_aCNJBpt-Q0ZYAw1VmM1I_aMjePuxK16eQ
+#admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
 
 {
-  "name": "publer",
-  "surname": "pub",
-  "email": "pulisher@mail.com",
-  "password": "@Publisher777",
-  "role": "PUBLISHER"
+  "name": "user2",
+  "surname": "bek",
+  "email": "userbek@mail.com",
+  "password": "@1Userbek1@",
+  "role": "Role_USER"
 }
 
 //{

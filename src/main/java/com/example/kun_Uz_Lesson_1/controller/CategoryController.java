@@ -2,12 +2,10 @@ package com.example.kun_Uz_Lesson_1.controller;
 
 import com.example.kun_Uz_Lesson_1.dto.category.Category;
 import com.example.kun_Uz_Lesson_1.dto.category.CreateCategoryDTO;
-import com.example.kun_Uz_Lesson_1.dto.region.Region;
 import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.CategoryService;
 import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
-import com.example.kun_Uz_Lesson_1.utils.JWTUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +33,7 @@ public class CategoryController {
     public ResponseEntity<?> create(@Valid @RequestBody CreateCategoryDTO dto,
                                     HttpServletRequest request) {
         log.info("Create category{}", dto);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(categoryService.create(dto));
     }
 
@@ -46,7 +43,7 @@ public class CategoryController {
                                     @RequestBody Category dto,
                                     HttpServletRequest request) {
         log.info("Update category{}", dto);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(categoryService.update(id, dto));
     }
 
@@ -55,7 +52,7 @@ public class CategoryController {
     public ResponseEntity<?> delete(@PathVariable("id") Integer id,
                                     HttpServletRequest request) {
         log.info("Delete category{}", id);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(categoryService.delete(id));
     }
 
@@ -65,7 +62,7 @@ public class CategoryController {
     public ResponseEntity<?> getAll(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                     @RequestParam(value = "size", defaultValue = "2") Integer size,
                                     HttpServletRequest request) {
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "orderNumber");
         log.info("Get category by pagination{}", pageable);
         return ResponseEntity.ok(categoryService.all(pageable));

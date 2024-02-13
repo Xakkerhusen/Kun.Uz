@@ -1,22 +1,23 @@
 ####Create Article
 POST localhost:8080/article/mod
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc0MDQ3MjYsImlkIjoyMiwicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTcwNzQ5MTEyNiwiaXNzIjoiS3VuVXpUZXN0In0.cK0C-SdMKbq-RHBPmFOXUu6VXbmz4E5j0G0NO4C6eXW3KxX1EDOw-1mqFxuAnFamlz5Z7gZFhkdEFnClOqQTpw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc1NTkwOTMsImlkIjoyMiwicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTcwNzY0NTQ5MywiaXNzIjoiS3VuVXpUZXN0In0.1cBHXMqzdfRhwWxuDZkFQviIQ7Phss1Wf4UTkMMD_wQjMGj-s3DZuxRd1oklr6D8Y1oWqM_GSkgDSSqu1gLeSA
 
 {
-  "titleUz": "tu5",
-  "titleRu": "tr5",
-  "titleEn": "te5",
-  "descriptionUz": "du5",
-  "descriptionRu": "dr5",
-  "descriptionEn": "de5",
-  "contentUz": "cu5",
-  "contentRu": "cr5",
-  "contentEn": "ce5",
+  "titleUz": "tu6",
+  "titleRu": "tr6",
+  "titleEn": "te6",
+  "descriptionUz": "du6",
+  "descriptionRu": "dr6",
+  "descriptionEn": "de6",
+  "contentUz": "cu6",
+  "contentRu": "cr6",
+  "contentEn": "ce6",
   "imageId": "7f8c907e-246b-4847-ba5d-0980003aa1a2",
   "regionId": 3,
   "categoryId": 5,
-  "newsType": [6,2]
+  "newsType": [6,2],
+  "tagName": [1]
 }
 
 ####Update article
@@ -47,7 +48,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDcyMzAxMDgsImlkIjozMSwic
 GET localhost:8080/article/3?limit=2
 
 ###list Of Articles Except Given Ids
-GET localhost:8080/article/articleId?ids=40cd0011-44cc-4be0-9630-70dfda83c9b3&limit=8
+GET localhost:8080/article/articleId?ids=6d1f5580-8693-48a3-8c62-3af71e95a654&limit=8
 
 ###increase Article View Count
 PUT localhost:8080/article/viewCount/6d1f5580-8693-48a3-8c62-3af71e95a654
@@ -55,7 +56,25 @@ PUT localhost:8080/article/viewCount/6d1f5580-8693-48a3-8c62-3af71e95a654
 PUT localhost:8080/article/shareCount/6d1f5580-8693-48a3-8c62-3af71e95a654
 
 ###get Article By Id And Language
-GET localhost:8080/article/language?id=6d1f5580-8693-48a3-8c62-3af71e95a654&language=UZ
+GET localhost:8080/article/language?id=e4ff3e10-2558-4ef3-8445-9178f18d3e03 & language=EN
 
 ###get most Read Articles
 GET localhost:8080/article/mostReaArticle?limit=4
+
+###get Article By News Type Id And Region Id
+GET localhost:8080/article/getArticleByNewsTypeIdAndRegionId/3?regionId=5
+###get Article By Region Id Pagination
+GET localhost:8080/article/getArticleByRegionIdPagination/3?page=1
+###get Last Article Category Id
+GET localhost:8080/article/getLastArticleCategoryId/3?limit=5
+###get Article By Ctegory Id Pagination
+GET localhost:8080/article/getLastArticleCategoryIdAndByPagination/3?page=1
+###Article filter
+POST localhost:8080/article/pub/filter
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc1NzUyMzUsImlkIjozMSwicm9sZSI6IlBVQkxJU0hFUiIsImV4cCI6MTcwNzY2MTYzNSwiaXNzIjoiS3VuVXpUZXN0In0.-hVZ4if6HAa2_xHaOwil2pvmhjSBknqLYbKJLHPdJMl8ivFqjkKIk0S5LaeFRygzIDd5m1F6wjUqrJec_GZD2Q
+
+{
+  "titleUz": "t5",
+  "regionId": 3
+}

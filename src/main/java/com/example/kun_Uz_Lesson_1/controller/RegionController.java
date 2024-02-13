@@ -1,19 +1,19 @@
 package com.example.kun_Uz_Lesson_1.controller;
 
+import com.example.kun_Uz_Lesson_1.controller.config.CustomUserDetails;
 import com.example.kun_Uz_Lesson_1.dto.region.CreatedRegionDTO;
 import com.example.kun_Uz_Lesson_1.dto.region.Region;
 import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.RegionService;
 import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
-import com.example.kun_Uz_Lesson_1.utils.JWTUtil;
+import com.example.kun_Uz_Lesson_1.utils.SpringSecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +31,9 @@ public class RegionController {
     public ResponseEntity<?> create(@Valid @RequestBody CreatedRegionDTO dto,
                                     HttpServletRequest request) {
        log.info("Create region {}",dto);
-       HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+//       HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        CustomUserDetails currentUser = SpringSecurityUtil.getCurrentUser();
+
         return ResponseEntity.ok(regionService.create(dto));
     }
 
@@ -41,7 +43,7 @@ public class RegionController {
                                     @RequestBody Region region,
                                     HttpServletRequest request) {
         log.info("Update region by id{}",region.getNameUz());
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(regionService.update(id,region));
     }
 
@@ -50,7 +52,7 @@ public class RegionController {
     public ResponseEntity<?> delete(@PathVariable("id") Integer id,
                                     HttpServletRequest request) {
         log.info("Delete region by id {}",id);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(regionService.delete(id));
     }
 
@@ -59,7 +61,7 @@ public class RegionController {
     @Operation( summary = "Api for all", description = "this api is used to get all region ")
     public ResponseEntity<?> all(HttpServletRequest request) {
         log.info("Get all region {}");
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
+        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(regionService.all());
     }
 
@@ -69,4 +71,7 @@ public class RegionController {
         log.info("Get  region by language {}",language);
         return ResponseEntity.ok(regionService.getAllByLang(language));
     }
+
+
+    
 }

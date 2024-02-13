@@ -1,0 +1,51 @@
+###Create comment
+POST localhost:8080/comment/any/837bb237-a501-4d61-a08b-86308252b9a7
+Content-Type: application/json
+##publisher
+#Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc2NTM5MTQsImlkIjozMSwicm9sZSI6IlBVQkxJU0hFUiIsImV4cCI6MTcwNzc0MDMxNCwiaXNzIjoiS3VuVXpUZXN0In0.JGaxt3clud_o1TxsfE8eh5od5ZtkTPwR5kEQzEVQliivlfuYfg9yXsHDstjIsKlahMsbIIiKd92--5p1Rq_yYg
+##moderator
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc2NTkxODAsImlkIjoyMiwicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTcwNzc0NTU4MCwiaXNzIjoiS3VuVXpUZXN0In0.nTsSu-4aAv934q-Lypts4rAw2TyGv67L5fvYPlPnp_nJN8YQWuZppr-kk4YdD0cUX87gPfQBNUiN0qcsNc7SZQ
+
+
+{
+  "content": "c12",
+  "replyId": 10
+}
+###Update comment
+PUT localhost:8080/comment/any/1
+Content-Type: application/json
+##publisher
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc2NTM5MTQsImlkIjozMSwicm9sZSI6IlBVQkxJU0hFUiIsImV4cCI6MTcwNzc0MDMxNCwiaXNzIjoiS3VuVXpUZXN0In0.JGaxt3clud_o1TxsfE8eh5od5ZtkTPwR5kEQzEVQliivlfuYfg9yXsHDstjIsKlahMsbIIiKd92--5p1Rq_yYg
+##moderator
+#Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc2NTkxODAsImlkIjoyMiwicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTcwNzc0NTU4MCwiaXNzIjoiS3VuVXpUZXN0In0.nTsSu-4aAv934q-Lypts4rAw2TyGv67L5fvYPlPnp_nJN8YQWuZppr-kk4YdD0cUX87gPfQBNUiN0qcsNc7SZQ
+
+{
+  "content": "bbbbbbbbbb",
+  "articleId": "6b5e983f-ff4f-45f4-a7e3-f122bbd9b238"
+}
+###Delete comment
+DELETE localhost:8080/comment/any/7
+##admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc3Mjg5NDYsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDc4MTUzNDYsImlzcyI6Ikt1blV6VGVzdCJ9.vXaLsIhGByKKzLgPaUeMTB5DlXA1wr5xDmUNLorqUCrzxbsSKLU5y-5DwxWLtYzpYPOXRumqHf59Skuhod456Q
+#moderator
+#Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc3MjkwMDksImlkIjoyMiwicm9sZSI6Ik1PREVSQVRPUiIsImV4cCI6MTcwNzgxNTQwOSwiaXNzIjoiS3VuVXpUZXN0In0.AdDAFVP6x9M39k9jgdLK8Njp3QjhKVxJr2hl5Kc_zs998nDluANuYXKzW70Ws_92l_xpcEfd_TMjjOfY7frWlQ
+##pulisher
+#Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc2NTM5MTQsImlkIjozMSwicm9sZSI6IlBVQkxJU0hFUiIsImV4cCI6MTcwNzc0MDMxNCwiaXNzIjoiS3VuVXpUZXN0In0.JGaxt3clud_o1TxsfE8eh5od5ZtkTPwR5kEQzEVQliivlfuYfg9yXsHDstjIsKlahMsbIIiKd92--5p1Rq_yYg
+
+###Get comment by article id
+GET localhost:8080/comment/837bb237-a501-4d61-a08b-86308252b9a7
+###Get comment by pagination
+GET localhost:8080/comment?page=1
+
+###Get comment by filter
+POST localhost:8080/comment/adm/filter?page=1
+Content-Type: application/json
+##admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc2NjU2NzQsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDc3NTIwNzQsImlzcyI6Ikt1blV6VGVzdCJ9.oTmUgpjuJBnTHi-H_lYxzJKOgpBQhoh0ZvIzcZVvLx0_E7QECTtGFaT7ApRA60wf60AT3EdPNHlOFJkEJ67wKw
+
+{
+  "profileId": 31
+}
+
+###Get Replied Comment List By Comment Id
+GET localhost:8080/comment/getReplied/2

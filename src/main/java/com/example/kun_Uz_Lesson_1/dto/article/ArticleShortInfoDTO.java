@@ -27,6 +27,7 @@ public class ArticleShortInfoDTO {
     private String contentRu;
     private String contentEn;
     private String content;
+    private Integer regionId;
     private LocalDateTime publishedDate;
     private AttachDTO image;
 }

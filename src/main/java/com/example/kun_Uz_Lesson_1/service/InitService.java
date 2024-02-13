@@ -27,7 +27,7 @@ public class InitService {
         admin.setSurname("Teshayev");
         admin.setEmail(adminEmail);
         admin.setStatus(ProfileStatus.ACTIVE);
-        admin.setRole(ProfileRole.ADMIN);
+        admin.setRole(ProfileRole.ROLE_ADMIN);
         admin.setPassword(MD5Util.encode("1999"));
         profileRepository.save(admin);
     }
