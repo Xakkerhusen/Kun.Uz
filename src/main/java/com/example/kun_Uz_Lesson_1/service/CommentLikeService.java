@@ -19,7 +19,7 @@ public class CommentLikeService {
 
     public Object create(Integer commentId, Integer profileId, CreatedCommentLikeDTO dto) {
         commentService.get(commentId);
-        Optional<CommentLikeEntity> optional = commentLikeRepository.findTop1ByCommentId(commentId);
+        Optional<CommentLikeEntity> optional = commentLikeRepository.findTop1ByCommentId(commentId,profileId);
 
         CommentLikeEntity commentEntity = new CommentLikeEntity();
 
@@ -31,8 +31,7 @@ public class CommentLikeService {
             return "SUCCESS save";
         }
         CommentLikeEntity entity = optional.get();
-        if (entity.getStatus().equals(dto.getStatus()) &&
-                entity.getCommentId().equals(commentId) && entity.getProfileId().equals(profileId)) {
+        if (entity.getStatus().equals(dto.getStatus())) {
             commentLikeRepository.deleteById(entity.getId());
             return "SUCCESS delete";
         } else if (entity.getCommentId().equals(commentId) && !entity.getProfileId().equals(profileId)) {

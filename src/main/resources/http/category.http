@@ -1,19 +1,21 @@
 ###Create category type
 POST localhost:8080/category/adm
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
+#admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
 
 {
-  "orderNumber": 8,
+  "orderNumber": 10,
   "nameEn": "en",
   "nameRu" : "ru",
   "nameUz": "uz"
 }
 
 ###Update category type
-PUT localhost:8080/category/adm/6
+PUT localhost:8080/category/adm/9
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
+#admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
 
 {
   "nameUz": "aaa",
@@ -22,12 +24,14 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb
 }
 
 ###Delete category type
-DELETE localhost:8080/category/adm/6
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
+DELETE localhost:8080/category/adm/10
+#admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
 
 ###Get category type list
 GET localhost:8080/category/adm/pagination
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY0Mzk3NjMsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDY1MjYxNjMsImlzcyI6Ikt1blV6VGVzdCJ9.Es5Cl7Btme8r1fdBhYTbstW-1GVraShPfl_-xOzcE4KDyagfLSF6rJlHssNnyoGQaf__CbHQ_m36At4CM1vyoA
+#admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
 
 ###Get category type list By Language
 GET localhost:8080/category/lang?lang=UZ

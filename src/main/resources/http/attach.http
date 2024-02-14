@@ -1,12 +1,13 @@
 ### Create
 POST http://localhost:8080/attach/adm/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDcyMTk4MzIsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDczMDYyMzIsImlzcyI6Ikt1blV6VGVzdCJ9.74UlartfQLTJOCXBTrnl2P8SHLjffwtDkqjJVlEXrh7b2NjWpWH425zznz17UL5ujZ5kGyHFlcAIcuPb95zSeQ
+#admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="photo_2024-02-06_16-42-23.jpg"
+Content-Disposition: form-data; name="file"; filename="Ehaam_-_Bezan_Baran_61394266.mp3"
 
-< D:\Asosiy modul(JAVA)\kun.uz\foto\photo_2024-02-06_16-42-23.jpg
+< C:\Users\user\Music\Ehaam_-_Bezan_Baran_61394266.mp3
 
 ###Get attach
 GET localhost:8080/attach/open/eyfel.jpg
@@ -16,8 +17,10 @@ GET localhost:8080/attach/open_general/cfc7adc2-7f78-4731-a764-b4599da19626.mp3
 
 ###Get attach By Pagination
 GET localhost:8080/attach/adm/pagination?page=1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY5NTM5MjQsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDcwNDAzMjQsImlzcyI6Ikt1blV6VGVzdCJ9.JQP8cv1YO_2FWoGsQFQ_-Fs7qsN1fYdaCCVtV7hJ1iE4KEXbbYCeMAO0SgafMmdE4NeL8tlHzxWNQflRlUcsIQ
+#admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
 
 ###Delate attach By id
-DELETE localhost:8080/attach/adm/1d34de16-c1db-434c-9665-682eb1bf3cf5
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDY5NTM5MjQsImlkIjoxLCJyb2xlIjoiQURNSU4iLCJleHAiOjE3MDcwNDAzMjQsImlzcyI6Ikt1blV6VGVzdCJ9.JQP8cv1YO_2FWoGsQFQ_-Fs7qsN1fYdaCCVtV7hJ1iE4KEXbbYCeMAO0SgafMmdE4NeL8tlHzxWNQflRlUcsIQ
+DELETE localhost:8080/attach/adm/25d70a65-2659-4784-b470-698f6ee082db
+#admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg

@@ -7,6 +7,7 @@ import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.ArticleService;
 import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
+import com.example.kun_Uz_Lesson_1.utils.SpringSecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,44 +31,42 @@ public class ArticleController {
     private ArticleService articleService;
 
     @PostMapping("/mod")
-    @PreAuthorize("hasRole('MODERATOR')")
     @Operation(summary = "API for create", description = "this api is used to create article")
-    public ResponseEntity<?> create(@Valid @RequestBody CreatedArticleDTO dto,
-                                    HttpServletRequest request) {
+    @PreAuthorize("hasRole('MODERATOR')")
+    public ResponseEntity<?> create(@Valid @RequestBody CreatedArticleDTO dto) {
         log.info("Create article{}", dto.getTitleUz());
-        Integer profileId = HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_MODERATOR);
+        Integer profileId = SpringSecurityUtil.getCurrentUser().getId();
         return ResponseEntity.ok(articleService.create(dto, profileId));
     }
 
     @PutMapping("/mod/{uuid}")
     @Operation(summary = "API for update", description = "this api is used to update article")
-    public ResponseEntity<?> update(@Valid @RequestBody CreatedArticleDTO dto, @PathVariable(name = "uuid") String id,
-                                    HttpServletRequest request) {
+    @PreAuthorize("hasRole('MODERATOR')")
+    public ResponseEntity<?> update(@Valid @RequestBody CreatedArticleDTO dto, @PathVariable(name = "uuid") String id) {
         log.info("Update article By Id {}", dto);
-        Integer moderatorId = HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_MODERATOR);
+        Integer moderatorId = SpringSecurityUtil.getCurrentUser().getId();
         return ResponseEntity.ok(articleService.update(dto, id, moderatorId));
     }
 
     @DeleteMapping("/mod/{uuid}")
     @Operation(summary = "API for delete", description = "this api is used to delete article")
-    public ResponseEntity<?> delete(@PathVariable(name = "uuid") String id,
-                                    HttpServletRequest request) {
+    @PreAuthorize("hasRole('MODERATOR')")
+    public ResponseEntity<?> delete(@PathVariable(name = "uuid") String id) {
         log.info("Delete article By Id {}", id);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_MODERATOR);
         return ResponseEntity.ok(articleService.delete(id));
     }
 
     @PostMapping("/pub/{uuid}")
     @Operation(summary = "API for changeStatusById", description = "this api is used to change article status")
-    public ResponseEntity<?> changeStatusById(@PathVariable("uuid") String id,
-                                              HttpServletRequest request) {
+    @PreAuthorize("hasRole('PUBLISHER')")
+    public ResponseEntity<?> changeStatusById(@PathVariable("uuid") String id) {
         log.info("Change article status By Id {}", id);
-        Integer publisherId = HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_PUBLISHER);
+        Integer publisherId = SpringSecurityUtil.getCurrentUser().getId();
         return ResponseEntity.ok(articleService.changeStatusById(id, publisherId));
     }
 
     //5,6
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     @Operation(summary = "API for getLastFiveArticleByTypes", description = "This api is used to get the last five articles of the given type")
     public ResponseEntity<?> getLastFiveArticleByTypes(@PathVariable("id") Integer id,
                                                        @RequestParam(value = "limit", defaultValue = "5") Integer limit) {
@@ -170,11 +169,11 @@ public class ArticleController {
     //18
     @PostMapping("/pub/filter")
     @Operation( summary = "Api for filter", description = "this api is used to filter article ")
+    @PreAuthorize("hasRole('PUBLISHER')")
     public ResponseEntity<PageImpl<ArticleShortInfoDTO>>filter(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                @RequestParam(value = "size", defaultValue = "2") Integer size,
-                                                               @RequestBody FilterArticleDTO filter,
-                                                               HttpServletRequest request) {
-        Integer publisherId = HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_PUBLISHER);
+                                                               @RequestBody FilterArticleDTO filter) {
+        Integer publisherId = SpringSecurityUtil.getCurrentUser().getId();
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdDate");
         log.info("Get profile by filter{}", pageable);
         return ResponseEntity.ok(articleService.filter(filter, pageable,publisherId));

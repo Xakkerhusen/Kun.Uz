@@ -29,7 +29,7 @@ public interface ArticleRepository extends CrudRepository<ArticleEntity, String>
     @Query("from ArticleEntity where visible=true order by createdDate desc ")
     List<ArticleEntity> findAllArticle();
 
-    @Query("from ArticleEntity where id=?1 and status='PUBLISHED'")
+    @Query("from ArticleEntity where id=?1 and status='PUBLISHED' and visible=true ")
     Optional<ArticleEntity> getArticle(String id);
 
     @Query("from ArticleEntity a where a.viewCount>0 order by a.viewCount desc limit ?1")

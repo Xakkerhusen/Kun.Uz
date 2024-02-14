@@ -2,7 +2,9 @@ package com.example.kun_Uz_Lesson_1.service;
 
 import com.example.kun_Uz_Lesson_1.dto.article.CreateArticleLikeDTO;
 import com.example.kun_Uz_Lesson_1.entity.ArticleLikeEntity;
+import com.example.kun_Uz_Lesson_1.enums.LikeStatus;
 import com.example.kun_Uz_Lesson_1.repository.article.ArticleLikeRepository;
+import com.example.kun_Uz_Lesson_1.repository.article.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +17,13 @@ public class ArticleLikeService {
     private ArticleLikeRepository articleLikeRepository;
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private ArticleRepository articleRepository;
 
     public Object create(String articleId, Integer profileId, CreateArticleLikeDTO dto) {
-        articleService.get(articleId);
+        articleService.getArticle(articleId);
 
-        Optional<ArticleLikeEntity> optional = articleLikeRepository.findTop1ByArticleId(articleId);
+        Optional<ArticleLikeEntity> optional = articleLikeRepository.findTop1ByArticleId(articleId,profileId);
 
         ArticleLikeEntity articleLikeEntity = new ArticleLikeEntity();
 
@@ -31,8 +35,8 @@ public class ArticleLikeService {
             return "SUCCESS save";
         }
         ArticleLikeEntity entity = optional.get();
-        if (entity.getStatus().equals(dto.getStatus()) &&
-                entity.getArticleId().equals(articleId) && entity.getProfileId().equals(profileId)) {
+        LikeStatus status = entity.getStatus();
+        if (status.equals(dto.getStatus())) {
             articleLikeRepository.deleteById(entity.getId());
             return "SUCCESS delete";
         } else if (entity.getArticleId().equals(articleId) && !entity.getProfileId().equals(profileId)) {
@@ -45,5 +49,9 @@ public class ArticleLikeService {
             return articleLikeRepository.update(entity.getId(), dto.getStatus(), LocalDateTime.now()) != 0 ? "update" : "articleId not found";
         }
 
+    }
+
+    public Integer getLikeCount(String id) {
+        return articleLikeRepository.countByArticleId(id).size();
     }
 }

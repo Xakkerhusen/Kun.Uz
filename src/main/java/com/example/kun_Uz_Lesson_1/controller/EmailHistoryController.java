@@ -4,6 +4,7 @@ import com.example.kun_Uz_Lesson_1.dto.EmailHistoryDTO;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.EmailHistoryService;
 import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
+import com.example.kun_Uz_Lesson_1.utils.SpringSecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -42,10 +44,11 @@ public class EmailHistoryController {
 
     @GetMapping("/adm/pagination")
     @Operation( summary = "Api for getByPagination", description = "this api is used to get all email history by pagination ")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PageImpl<EmailHistoryDTO>> getByPagination(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                      @RequestParam(value = "size", defaultValue = "2") Integer size,
                                                                      HttpServletRequest request) {
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
+        SpringSecurityUtil.getCurrentUser();
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdDate");
         log.info("Get email history by pagination {}",pageable);
         return ResponseEntity.ok(emailHistoryService.getByPagination(pageable));

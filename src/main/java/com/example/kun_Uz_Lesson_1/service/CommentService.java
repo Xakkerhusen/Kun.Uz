@@ -36,6 +36,7 @@ public class CommentService {
 
     public CreateCommentDTO create(String id, CreateCommentDTO dto, Integer profileId) {
         CommentEntity entity = new CommentEntity();
+        articleService.getArticle(id);
         entity.setContent(dto.getContent());
         entity.setArticleId(id);
         entity.setProfileId(profileId);
@@ -61,7 +62,9 @@ public class CommentService {
             throw new AppBadException("This profile has not left such a comment");
         }
         entity.setContent(dto.getContent());
-        entity.setArticleId(dto.getArticleId());
+        if (dto.getArticleId() != null) {
+            entity.setArticleId(dto.getArticleId());
+        }
         entity.setUpdatedDate(LocalDateTime.now());
         commentRepository.save(entity);
         return dto;
@@ -70,18 +73,18 @@ public class CommentService {
     public boolean delete(Integer id, Integer profileId) {
         ProfileEntity profileEntity = profileService.get(profileId);
         get(id);
-        Integer effectiveRows =0;
-        if (profileEntity.getRole().equals(ProfileRole.ROLE_ADMIN)){
-         effectiveRows = commentRepository.deleteCommentById(id);
-        }else {
+        Integer effectiveRows = 0;
+        if (profileEntity.getRole().equals(ProfileRole.ROLE_ADMIN)) {
+            effectiveRows = commentRepository.deleteCommentById(id);
+        } else {
             Optional<CommentEntity> top1ByProfileId = commentRepository.findTop1ByProfileId(profileId);
-            if (top1ByProfileId.isEmpty()){
+            if (top1ByProfileId.isEmpty()) {
                 log.warn("No comments were found for this profile");
                 throw new AppBadException("No comments were found for this profile");
             }
-            if (profileEntity.getId().equals(profileId)&&
-                    profileEntity.getId().equals(top1ByProfileId.get().getProfileId())){
-             effectiveRows = commentRepository.deleteCommentById(id);
+            if (profileEntity.getId().equals(profileId) &&
+                    profileEntity.getId().equals(top1ByProfileId.get().getProfileId())) {
+                effectiveRows = commentRepository.deleteCommentById(id);
             }
         }
         if (effectiveRows == 0) {
@@ -99,6 +102,7 @@ public class CommentService {
         }
         return dtoList;
     }
+
     public PageImpl<CommentDTO> getCommentListByPagination(Pageable pageable) {
         Page<CommentEntity> all = commentRepository.findAll(pageable);
         List<CommentEntity> content = all.getContent();
@@ -110,26 +114,25 @@ public class CommentService {
     }
 
 
-
     public PageImpl<CommentDTO> filter(FilterCommentDTO dto, Pageable pageable) {
         PaginationResultDTO<CommentEntity> resultFilter = customRepository.filterComment(dto, pageable);
         List<CommentDTO> dtoList = new LinkedList<>();
         for (CommentEntity entity : resultFilter.getList()) {
-            if (entity.getVisible().equals(true)){
-            dtoList.add(toDo2(entity));
+            if (entity.getVisible().equals(true)) {
+                dtoList.add(toDo2(entity));
             }
         }
         return new PageImpl<>(dtoList, pageable, dtoList.size());
     }
+
     public List<GetCommentDTO> getRepliedCommentListByCommentId(Integer id) {
         List<CommentEntity> allByReplyId = commentRepository.findAllByReplyId(id);
-        List<GetCommentDTO>dtoList=new LinkedList<>();
+        List<GetCommentDTO> dtoList = new LinkedList<>();
         for (CommentEntity entity : allByReplyId) {
             dtoList.add(toDo(entity));
         }
         return dtoList;
     }
-
 
 
     private GetCommentDTO toDo(CommentEntity entity) {
@@ -141,7 +144,8 @@ public class CommentService {
         dto.setUpdateDate(entity.getUpdatedDate());
         return dto;
     }
-        private CommentDTO toDo2(CommentEntity entity) {
+
+    private CommentDTO toDo2(CommentEntity entity) {
         CommentDTO dto = new CommentDTO();
         dto.setId(entity.getId());
         dto.setContent(entity.getContent());
@@ -153,10 +157,12 @@ public class CommentService {
         dto.setVisible(entity.getVisible());
         return dto;
     }
+
     private CommentDTO toDo3(CommentEntity entity) {
         CommentDTO dto = new CommentDTO();
         ProfileEntity profileEntity = profileService.get(entity.getProfileId());
-        ArticleEntity articleEntity = articleService.get(entity.getArticleId());
+        String articleId = entity.getArticleId();
+        ArticleEntity articleEntity = articleService.get(articleId);
         dto.setId(entity.getId());
         dto.setProfile(profileService.toDoForComment(profileEntity));
         dto.setArticle(articleService.getForComment(articleEntity));
@@ -164,7 +170,6 @@ public class CommentService {
         dto.setUpdateDate(entity.getUpdatedDate());
         return dto;
     }
-
 
 
 }

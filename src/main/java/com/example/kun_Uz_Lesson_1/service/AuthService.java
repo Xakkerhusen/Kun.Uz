@@ -51,6 +51,10 @@ public class AuthService {
             log.warn("Profile not active {}",optional.get().getStatus());
             throw new AppBadException("Profile not active");
         }
+        if (!optional.get().getVisible()) {
+            log.warn("Profile not found {}",optional.get().getStatus());
+            throw new AppBadException("Profile not found");
+        }
         ProfileEntity entity = optional.get();
         Profile dto = new Profile();
         dto.setName(entity.getName());
@@ -64,7 +68,7 @@ public class AuthService {
     }
 
     public Boolean registration(RegistrationProfileDTO dto) {
-        if (dto.getPhoneNumber()!=null&&!dto.getPhoneNumber().matches("^\\+(?:[0-9] ?){6,14}[0-9]$")) {
+        if (dto.getPhoneNumber()!=null&&!dto.getPhoneNumber().matches("^(?:[0-9] ?){6,14}[0-9]$")) {
             log.warn("phone number required {}",dto.getPhoneNumber());
             throw new AppBadException(" phone number required");
         }
@@ -88,10 +92,10 @@ public class AuthService {
             log.warn("To many attempt. Please try after 1 minute. {}",dto.getEmail());
             throw new AppBadException("To many attempt. Please try after 1 minute.");
         }
-        if (smsHistoryRepository.countSendPhone(dto.getPhoneNumber(), from, to) >= 1) {
-            log.warn("To many attempt. Please try after 1 minute. {}",dto.getPhoneNumber());
-            throw new AppBadException("To many attempt. Please try after 1 minute.");
-        }
+//        if (smsHistoryRepository.countSendPhone(dto.getPhoneNumber(), from, to) >= 1) {
+//            log.warn("To many attempt. Please try after 1 minute. {}",dto.getPhoneNumber());
+//            throw new AppBadException("To many attempt. Please try after 1 minute.");
+//        }
 
         if (dto.getEmail() != null && dto.getPhoneNumber() == null) {
             registrationByEmail(dto);
@@ -141,7 +145,7 @@ public class AuthService {
         profileRepository.save(entity);
 
         String code = RandomUtil.getRandomCode();
-        //        smsSenderService.send(dto.getPhoneNumber(), " Salom sizning verification kodingiz:", code);
+                smsSenderService.send(dto.getPhoneNumber(), " Salom sizning verification kodingiz:", code);
 
         smsHistoryService.create(dto, code);
     }

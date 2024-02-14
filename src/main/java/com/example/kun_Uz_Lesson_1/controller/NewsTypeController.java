@@ -17,53 +17,50 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @Slf4j
 @Tag(name = "News type API list",description = "API list for News type")
 @RestController
-@RequestMapping("/articleType")
+@RequestMapping("/newsType")
 public class NewsTypeController {
     @Autowired
     private NewsTypeService articleTypeService;
 
     @PostMapping("/adm")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for create", description = "this api is used to create news type ")
-    public ResponseEntity<?> create(@Valid @RequestBody CreatedNewsTypeDTO articleType,
-                                    HttpServletRequest request) {
+    public ResponseEntity<?> create(@Valid @RequestBody CreatedNewsTypeDTO articleType) {
          log.info("Create news type{} ",articleType);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(articleTypeService.create(articleType));
     }
 
 
     @PutMapping("/adm/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for update", description = "this api is used to update news type ")
     public ResponseEntity<?> update(@PathVariable("id") Integer id,
-                                    @RequestBody NewsType dto,
-                                    HttpServletRequest request) {
+                                    @RequestBody NewsType dto) {
         log.info("Update news type by id {}",dto);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(articleTypeService.update(id, dto));
     }
 
     @DeleteMapping("/adm/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for delete", description = "this api is used to delete news type ")
-    public ResponseEntity<?> delete(@PathVariable("id") Integer id,
-                                    HttpServletRequest request) {
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         log.info("Delete nws type by id{}",id);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(articleTypeService.delete(id));
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/adm/pagination")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for all", description = "this api is used to get all news type ")
     public ResponseEntity<?> all(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                 @RequestParam(value = "size", defaultValue = "2") Integer size,
-                                 HttpServletRequest request) {
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
+                                 @RequestParam(value = "size", defaultValue = "2") Integer size) {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdDate");
         log.info("Get all nws type by pagination{}",pageable);
         return ResponseEntity.ok(articleTypeService.all(pageable));

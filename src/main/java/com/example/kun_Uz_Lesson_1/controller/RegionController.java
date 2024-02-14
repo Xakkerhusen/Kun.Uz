@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,41 +28,38 @@ public class RegionController {
     private RegionService regionService;
 
     @PostMapping("/adm")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for create", description = "this api is used to create region ")
-    public ResponseEntity<?> create(@Valid @RequestBody CreatedRegionDTO dto,
-                                    HttpServletRequest request) {
+    public ResponseEntity<?> create(@Valid @RequestBody CreatedRegionDTO dto) {
        log.info("Create region {}",dto);
-//       HTTPRequestUtil.getProfileId(request, ProfileRole.ADMIN);
         CustomUserDetails currentUser = SpringSecurityUtil.getCurrentUser();
 
         return ResponseEntity.ok(regionService.create(dto));
     }
 
     @PutMapping("/adm/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for update", description = "this api is used to update region ")
     public ResponseEntity<?> update(@PathVariable("id") Integer id,
-                                    @RequestBody Region region,
-                                    HttpServletRequest request) {
+                                    @RequestBody Region region) {
         log.info("Update region by id{}",region.getNameUz());
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(regionService.update(id,region));
     }
 
     @DeleteMapping("/adm/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for delete", description = "this api is used to delete region ")
-    public ResponseEntity<?> delete(@PathVariable("id") Integer id,
-                                    HttpServletRequest request) {
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         log.info("Delete region by id {}",id);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(regionService.delete(id));
     }
 
     @CrossOrigin(value = "*")
     @GetMapping("/adm")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for all", description = "this api is used to get all region ")
-    public ResponseEntity<?> all(HttpServletRequest request) {
-        log.info("Get all region {}");
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
+    public ResponseEntity<?> all() {
+        log.info("Get all region ");
         return ResponseEntity.ok(regionService.all());
     }
 

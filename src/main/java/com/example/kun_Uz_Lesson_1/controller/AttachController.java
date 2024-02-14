@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,12 +33,10 @@ public class AttachController {
 //    }
 
     @PostMapping("/adm/upload")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "API for upload",description = "this api is used to save files (jpg,png,mp3,mp4.....)")
-    public ResponseEntity<AttachDTO> upload(@RequestParam("file") MultipartFile file,
-                                            HttpServletRequest request) {
+    public ResponseEntity<AttachDTO> upload(@RequestParam("file") MultipartFile file) {
         log.info("Upload {}",file);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN, ProfileRole.ROLE_MODERATOR,
-                ProfileRole.Role_USER, ProfileRole.ROLE_PUBLISHER);
 
         AttachDTO dto = attachService.save(file);
         return ResponseEntity.ok().body(dto);
@@ -66,21 +65,20 @@ public class AttachController {
     }
 
     @GetMapping("/adm/pagination")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "API for getByPagination",description = "this api is used to get all files ")
     public ResponseEntity<?>getByPagination(@RequestParam(name = "page",defaultValue = "1")Integer page,
-                                            @RequestParam(name = "size",defaultValue = "2")Integer size,
-                                            HttpServletRequest request){
-        HTTPRequestUtil.getProfileId(request,ProfileRole.ROLE_ADMIN);
+                                            @RequestParam(name = "size",defaultValue = "2")Integer size){
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdDate");
         log.info("Get attach  {}",pageable);
         return ResponseEntity.ok(attachService.getByPagination(pageable));
     }
 
     @DeleteMapping("/adm/{uuid}")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "API for delete",description = "this api is used to delete  files ")
-    public ResponseEntity<?>delete(@PathVariable("uuid")String uuid, HttpServletRequest request){
+    public ResponseEntity<?>delete(@PathVariable("uuid")String uuid){
         log.info("Delete attach  {}",uuid);
-        HTTPRequestUtil.getProfileId(request,ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(attachService.delete(uuid));
     }
     @GetMapping("/download/{fineName}")

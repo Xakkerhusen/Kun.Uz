@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +26,8 @@ public class TagNameController {
 
     @PostMapping("/adm")
     @Operation(summary = "Api for create",description = "this api is used to create tag name")
-    public ResponseEntity<TagNameDTO> create(@RequestBody TagNameDTO dto, HttpServletRequest request) {
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<TagNameDTO> create(@RequestBody TagNameDTO dto) {
         return ResponseEntity.ok(tagNameService.create(dto));
     }
 }

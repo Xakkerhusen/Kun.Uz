@@ -4,26 +4,37 @@ POST localhost:8080/auth/login
 Content-Type: application/json
 //#admin
 
-{
-  "email": "husen@mail.ru",
-  "password": "1999"
-}
+//{
+//  "email": "husen@mail.ru",
+//  "password": "1999"
+//}
 
 //#moderator
-//{
-//  "email": "moderator@mail.com",
-//  "password": "$Maderotor$"
-//}
+{
+  "email": "moderator@mail.com",
+  "password": "$1Maderotor1$"
+}
 
 //#publisher
 //{
 //  "email": "pulisher@mail.com",
 //  "password": "@Publisher777"
+//}
+//#user
+//{
+//  "email": "ccccccccc@mail.com",
+//  "password": "@1Usercccccccc1@"
+//}
 
-//}//#user
+//#user
 //{
 //     "email": "userjon@mail.com",
 //     "password": "@1Userjon1@"
+//}
+//#user2
+//{
+//     "email": "aaaaaa@mail.com",
+//     "password": "@1Useraaaaaa1@"
 //}
 
 
@@ -35,20 +46,21 @@ POST localhost:8080/auth/registration
 Content-Type: application/json
 
 {
-  "name": "Husen",
-  "surname": "Husenjon",
-  "email": "hasdfgh@gmail.com",
-  "password": "Husenjon123@"
+  "phoneNumber": "998991339906",
+  "name": "Registratsiya2",
+  "surname": "Registratsiyabek",
+  "email": "husenhusenov8@gmail.com",
+  "password": "Registratsiyabek1123@"
 }
 
 ###Verification By email
 GET localhost:8080/auth/verification/email/1
 ###Verification By phone number
-POST localhost:8080/auth/verification/phone/
+POST localhost:8080/auth/verification/phone
 Content-Type: application/json
 
 {
-  "code": "37348",
-  "phoneNumber": "998939559030"
+  "code": "51188",
+  "phoneNumber": "998991339906"
 }
 

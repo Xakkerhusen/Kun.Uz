@@ -46,10 +46,10 @@ public class AuthController {
     @Operation( summary = "Api for verification by email", description = "this api used for authorization")
     public ResponseEntity<Profile> emailVerification(@PathVariable("jwt") String jwt) {
         log.info("verification {}", jwt);
-        return ResponseEntity.ok(authService.   emailVerification(jwt));
+        return ResponseEntity.ok(authService.emailVerification(jwt));
     }
 
-    @PostMapping("/verification/phone/")
+    @PostMapping("/verification/phone")
     @Operation( summary = "Api for verification by phone number", description = "this api used for authorization")
     public ResponseEntity<?> SmsVerification(@RequestBody SmsSendDTO dto) {
         log.info("verification {}", dto.getPhoneNumber());

@@ -17,6 +17,7 @@ import com.example.kun_Uz_Lesson_1.repository.article.ArticleTagNameRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -43,6 +44,9 @@ public class ArticleService {
     private ArticleNewsTypeService articleNewsTypeService;
     @Autowired
     private ArticleTagNameService articleTagNameService;
+    @Autowired
+    @Lazy
+    private ArticleLikeService articleLikeService;
     @Autowired
     private AttachService attachService;
     @Autowired
@@ -153,20 +157,23 @@ public class ArticleService {
         ArticleFullInfoDTO dto = new ArticleFullInfoDTO();
         Region region = new Region();
         Category category = new Category();
-        TagNameDTO tagNameDTO = new TagNameDTO();
+        List<String> tagNameDTOList = new LinkedList<>();
 
         RegionEntity regionEntity = regionService.get(entity.getRegionId());
         CategoryEntity categoryEntity = categoryService.get(entity.getCategoryId());
-        Optional<ArticleTagNameEntity> articleTagNameEntity = articleTagNameRepository.findByArticleId(id);
+        List<ArticleTagNameEntity> articleTagNameEntity = articleTagNameRepository.findByArticleId(id);
         if (articleTagNameEntity.isEmpty()) {
-            log.warn("No articles with this tag name were found{}",id);
+            log.warn("No articles with this tag name were found{}", id);
             throw new AppBadException("No articles with this tag name were found");
         }
-        TagNameEntity tagNameEntity = tagNameService.get(articleTagNameEntity.get().getTagNameId());
+        for (ArticleTagNameEntity tagNameEntity : articleTagNameEntity) {
+            if (tagNameService.get(tagNameEntity.getTagNameId()) != null) {
+                tagNameDTOList.add(tagNameEntity.getTagName().getTagName());
+            }
+        }
 
         region.setId(regionEntity.getId());
         category.setId(categoryEntity.getId());
-        tagNameDTO.setName(tagNameEntity.getTagName());
 
         dto.setId(entity.getId());
         dto.setShareCount(entity.getSharedCount());
@@ -198,7 +205,8 @@ public class ArticleService {
         }
         dto.setRegion(region);
         dto.setCategory(category);
-        dto.setTagName(tagNameDTO);
+        dto.setTagName(tagNameDTOList);
+        dto.setLikeCount(articleLikeService.getLikeCount(id));
         return dto;
     }
 
@@ -324,6 +332,7 @@ public class ArticleService {
         dto.setImage(attachDTO);
         return dto;
     }
+
     public ArticleDTO toDoForComment(ArticleEntity entity) {
         ArticleDTO dto = new ArticleDTO();
         dto.setId(entity.getId());
@@ -342,7 +351,7 @@ public class ArticleService {
         });
     }
 
-    private ArticleEntity getArticle(String id) {
+    public ArticleEntity getArticle(String id) {
         return articleRepository.getArticle(id).orElseThrow(() -> {
             log.warn("Article not found{}", id);
             return new AppBadException("Article not found");
@@ -358,7 +367,8 @@ public class ArticleService {
         }
         return articleIds;
     }
-    public ArticleDTO getForComment(ArticleEntity entity){
+
+    public ArticleDTO getForComment(ArticleEntity entity) {
         ArticleDTO dto = new ArticleDTO();
         dto.setId(entity.getId());
         dto.setTitleUz(entity.getTitleUz());
@@ -366,9 +376,6 @@ public class ArticleService {
         dto.setTitleEn(entity.getTitleEn());
         return dto;
     }
-
-
-
 
 
 }

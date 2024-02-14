@@ -9,14 +9,19 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ArticleLikeRepository extends CrudRepository<ArticleLikeEntity, Integer> {
-    Optional<ArticleLikeEntity> findTop1ByArticleId(String id);
 
     @Transactional
     @Modifying
     @Query("update ArticleLikeEntity set status=?2,updatedDate=?3 where id=?1")
     Integer update(Integer id, LikeStatus status, LocalDateTime now);
+
+    @Query("from ArticleLikeEntity where articleId=?1 and profileId=?2 ")
+    Optional<ArticleLikeEntity> findTop1ByArticleId(String articleId, Integer profileId);
+    @Query("from ArticleLikeEntity where status='LIKE' and articleId=?1")
+    List<ArticleLikeEntity> countByArticleId(String id);
 }

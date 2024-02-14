@@ -12,6 +12,6 @@ public interface ArticleTagNameRepository extends CrudRepository<ArticleTagNameE
 //    List<ArticleTagNameEntity> findAllByTagsIdOrderByCreatedDateDesc(Long tagId);
     List<ArticleTagNameEntity> findAllByTagNameIdOrderByCreatedDateDesc(Long tagId);
 
-    Optional<ArticleTagNameEntity> findByArticleId(String articleID);
+    List<ArticleTagNameEntity> findByArticleId(String articleID);
 
 }

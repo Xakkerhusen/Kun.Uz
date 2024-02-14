@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Setter
 @Getter
@@ -39,7 +40,8 @@ public class ArticleFullInfoDTO {
 
     private Region region;
     private Category category;
-    private TagNameDTO tagName;
+    private List<String> tagName;
+    private TagNameDTO tagName1;
 
 
 

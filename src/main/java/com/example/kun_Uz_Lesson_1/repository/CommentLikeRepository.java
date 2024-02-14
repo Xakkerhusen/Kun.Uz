@@ -1,7 +1,5 @@
 package com.example.kun_Uz_Lesson_1.repository;
 
-import com.example.kun_Uz_Lesson_1.entity.ArticleLikeEntity;
-import com.example.kun_Uz_Lesson_1.entity.CommentEntity;
 import com.example.kun_Uz_Lesson_1.entity.CommentLikeEntity;
 import com.example.kun_Uz_Lesson_1.enums.LikeStatus;
 import jakarta.transaction.Transactional;
@@ -15,8 +13,9 @@ import java.util.Optional;
 
 @Repository
 public interface CommentLikeRepository extends CrudRepository<CommentLikeEntity, Integer> {
-//    @Query("from CommentLikeEntity where visible=true and commentId=?1 limit 1")
-    Optional<CommentLikeEntity> findTop1ByCommentId(Integer commentId);
+    @Query("from CommentLikeEntity where  commentId=?1 and profileId=?2")
+    Optional<CommentLikeEntity> findTop1ByCommentId(Integer commentId, Integer profileId);
+
 
     @Transactional
     @Modifying

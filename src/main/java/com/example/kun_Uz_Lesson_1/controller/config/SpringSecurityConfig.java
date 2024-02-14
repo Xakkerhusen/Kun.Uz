@@ -22,12 +22,26 @@ public class SpringSecurityConfig {
     private UserDetailsService userDetailsService;
     @Autowired
     private JWTTokenFilter jwtTokenFilter;
-    public static String [] AUTH_WHITELIST={"/auth/*", "/init/admin", "/init/**",
-            "/article/*","/article/*/*",
-            "/profile/filter",
-
-
+    public static String[] AUTH_WHITELIST = {"/auth/*", "/auth/verification/email/*", "/auth/verification/phone",
+            "/init/admin", "/init/**",
+            "/attach/open/*", "/attach/open_general/*", "/attach/download/*",
+            "/category/lang",
             "/region/lang",
+            "/newsType/lang",
+            "/comment",
+            "/comment/*",
+            "/comment/getReplied/*",
+
+            "/emailHistory/*",
+            "/emailHistory/date",
+            "/smsHistory",
+            "/smsHistory/*",
+
+            "/article/get/*", "/article/articleId", "/article/language", "/article/mostReaArticle",
+            "/article/getLastArticleByTagName/*", "/article/getArticleByNewsTypeIdAndRegionId/*", "/article/shareCount/*",
+            "/article/getLastArticleCategoryId/*", "/article/getLastArticleCategoryIdAndByPagination/*",
+            "/article/viewCount/*", "/article/getArticleByRegionIdPagination/*", "/profile/filter",
+
 
             "/v2/api-docs",
             "/configuration/ui",
@@ -39,6 +53,7 @@ public class SpringSecurityConfig {
             "/swagger-resources",
             "/swagger-resources/**",
     };
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
        /* // authentication
@@ -59,6 +74,7 @@ public class SpringSecurityConfig {
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
+
     public PasswordEncoder passwordEncoder() {
         return new PasswordEncoder() {
             @Override
@@ -85,7 +101,7 @@ public class SpringSecurityConfig {
             authorizationManagerRequestMatcherRegistry
                     .requestMatchers(AUTH_WHITELIST).permitAll()
                     .requestMatchers("/region/adm/**").hasRole("ADMIN")
-                    .requestMatchers("/profile/adm","/profile/adm/**").hasRole("ADMIN")
+                    .requestMatchers("/profile/adm", "/profile/adm/**").hasRole("ADMIN")
                     .anyRequest()
                     .authenticated();
         });

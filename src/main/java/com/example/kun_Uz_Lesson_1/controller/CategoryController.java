@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,40 +30,37 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping("/adm")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for create", description = "this api is used to create category ")
-    public ResponseEntity<?> create(@Valid @RequestBody CreateCategoryDTO dto,
-                                    HttpServletRequest request) {
+    public ResponseEntity<?> create(@Valid @RequestBody CreateCategoryDTO dto) {
         log.info("Create category{}", dto);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(categoryService.create(dto));
     }
 
     @PutMapping("/adm/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for update", description = "this api is used to update category ")
     public ResponseEntity<?> update(@PathVariable("id") Integer id,
-                                    @RequestBody Category dto,
-                                    HttpServletRequest request) {
+                                    @RequestBody Category dto) {
         log.info("Update category{}", dto);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(categoryService.update(id, dto));
     }
 
     @DeleteMapping("/adm/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for delete", description = "this api is used to delete category ")
-    public ResponseEntity<?> delete(@PathVariable("id") Integer id,
-                                    HttpServletRequest request) {
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
         log.info("Delete category{}", id);
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
         return ResponseEntity.ok(categoryService.delete(id));
     }
 
     @CrossOrigin(value = "*")
     @GetMapping("/adm/pagination")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for getAll", description = "this api is used to get all category ")
     public ResponseEntity<?> getAll(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                    @RequestParam(value = "size", defaultValue = "2") Integer size,
-                                    HttpServletRequest request) {
-        HTTPRequestUtil.getProfileId(request, ProfileRole.ROLE_ADMIN);
+                                    @RequestParam(value = "size", defaultValue = "2") Integer size) {
+
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "orderNumber");
         log.info("Get category by pagination{}", pageable);
         return ResponseEntity.ok(categoryService.all(pageable));
