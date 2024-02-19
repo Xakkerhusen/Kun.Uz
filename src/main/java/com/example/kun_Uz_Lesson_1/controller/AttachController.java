@@ -1,6 +1,7 @@
 package com.example.kun_Uz_Lesson_1.controller;
 
 import com.example.kun_Uz_Lesson_1.dto.AttachDTO;
+import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.AttachService;
 import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
@@ -44,11 +45,12 @@ public class AttachController {
 
     @GetMapping(value = "/open/{fileName}", produces = MediaType.IMAGE_PNG_VALUE)
     @Operation(summary = "API for open",description = "this api is used to open images")
-    public byte[] open(@PathVariable("fileName") String fileName) {
+    public byte[] open(@PathVariable("fileName") String fileName,
+                       @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Open {}",fileName);
         if (fileName != null && !fileName.isEmpty()) {
             try {
-                return this.attachService.loadImage(fileName);
+                return this.attachService.loadImage(fileName,language);
             } catch (Exception e) {
                 e.printStackTrace();
                 return new byte[0];
@@ -59,9 +61,10 @@ public class AttachController {
 
     @GetMapping(value = "/open_general/{fileName}", produces = MediaType.ALL_VALUE)
     @Operation(summary = "API for open_general",description = "this api is used to open all files")
-    public byte[] open_general(@PathVariable("fileName") String fileName) {
+    public byte[] open_general(@PathVariable("fileName") String fileName,
+                               @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Open general {}",fileName);
-        return attachService.open_general(fileName);
+        return attachService.open_general(fileName,language);
     }
 
     @GetMapping("/adm/pagination")
@@ -77,15 +80,17 @@ public class AttachController {
     @DeleteMapping("/adm/{uuid}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "API for delete",description = "this api is used to delete  files ")
-    public ResponseEntity<?>delete(@PathVariable("uuid")String uuid){
+    public ResponseEntity<?>delete(@PathVariable("uuid")String uuid,
+                                   @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language){
         log.info("Delete attach  {}",uuid);
-        return ResponseEntity.ok(attachService.delete(uuid));
+        return ResponseEntity.ok(attachService.delete(uuid,language));
     }
     @GetMapping("/download/{fineName}")
     @Operation(summary = "API for download",description = "this api is used to download  files ")
-    public ResponseEntity<?> download(@PathVariable("fineName") String fileName) {
+    public ResponseEntity<?> download(@PathVariable("fineName") String fileName,
+                                      @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Download attach  {}",fileName);
-        return attachService.download(fileName);
+        return attachService.download(fileName,language);
 //        Resource file = attachService.download(fileName);
 //        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
 //                "attachment; filename=\"" + file.getFilename() + "\"").body(file);

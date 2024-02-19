@@ -1,4 +1,4 @@
-package com.example.kun_Uz_Lesson_1.controller.config;
+package com.example.kun_Uz_Lesson_1.config;
 
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.enums.ProfileStatus;

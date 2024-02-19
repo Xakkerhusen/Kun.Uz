@@ -2,6 +2,7 @@ package com.example.kun_Uz_Lesson_1.service;
 
 import com.example.kun_Uz_Lesson_1.dto.AttachDTO;
 import com.example.kun_Uz_Lesson_1.entity.AttachEntity;
+import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.AttachRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,8 @@ public class AttachService {
     private AttachRepository attachRepository;
     @Value("${server.url}")
     private String serverUrl;
+    @Autowired
+    private ResourceBundleService resourceBundleService;
 
 //    public String saveToSystem(MultipartFile file) { // mazgi.png
 //        try {
@@ -69,18 +72,15 @@ public class AttachService {
 //            return new byte[0];
 //        }
 //    }
-    public byte[] loadImage(String attachId) { // dasdasd-dasdasda-asdasda-asdasd.jpg
-        return getBytes(attachId);
+    public byte[] loadImage(String attachId, Language language) { // dasdasd-dasdasda-asdasda-asdasd.jpg
+        return getBytes(attachId,language);
     }
 
-    public byte[] open_general(String attachId) {
-        return getBytes(attachId);
+    public byte[] open_general(String attachId, Language language) {
+        return getBytes(attachId, language);
     }
 
     public String getYmDString() {
-//        int year = Calendar.getInstance().get(Calendar.YEAR);
-//        int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
-//        int day = Calendar.getInstance().get(Calendar.DATE);
         int year = LocalDate.now().getYear();
         int month = LocalDate.now().getMonth().getValue();
         int day = LocalDate.now().getDayOfMonth();
@@ -126,9 +126,9 @@ public class AttachService {
         return null;
     }
 
-    private byte[] getBytes(String attachId) {
+    private byte[] getBytes(String attachId, Language language) {
         String id = attachId.substring(0, attachId.lastIndexOf("."));
-        AttachEntity entity = get(id);
+        AttachEntity entity = get(id,language);
         byte[] data;
         try {
             Path file = Paths.get("uploads/" + entity.getPath() + "/" + attachId);
@@ -141,8 +141,8 @@ public class AttachService {
         return new byte[0];
     }
 
-    public AttachEntity get(String id) {
-        return attachRepository.findById(id).orElseThrow(() -> new AppBadException("File not found"));
+    public AttachEntity get(String id, Language language) {
+        return attachRepository.findById(id).orElseThrow(() -> new AppBadException(resourceBundleService.getMessage("file.not.found",language)));
     }
 
 
@@ -173,16 +173,16 @@ public class AttachService {
         return dto;
     }
 
-    public boolean delete(String uuid) {
-        AttachEntity attachEntity = get(uuid);
+    public boolean delete(String uuid, Language language) {
+        AttachEntity attachEntity = get(uuid,language);
         new File(String.valueOf(Path.of("uploads/" + attachEntity.getPath() + "/" + attachEntity.getId() + "." + attachEntity.getExtension()))).deleteOnExit();
         Integer effectiveRows = attachRepository.deleteAttach(uuid);
         return effectiveRows != 0;
     }
 
-    public ResponseEntity download(String attachId) {
+    public ResponseEntity download(String attachId, Language language) {
         String id = attachId.substring(0, attachId.lastIndexOf("."));
-        AttachEntity entity = get(id);
+        AttachEntity entity = get(id,language);
         try {
             Path file = Paths.get("uploads/" + entity.getPath() + "/" + entity.getId() + "." + entity.getExtension());
             Resource resource = new UrlResource(file.toUri());

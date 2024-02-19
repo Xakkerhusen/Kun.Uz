@@ -1,22 +1,18 @@
 package com.example.kun_Uz_Lesson_1.service;
 
-import com.example.kun_Uz_Lesson_1.dto.EmailHistoryDTO;
 import com.example.kun_Uz_Lesson_1.dto.SmsHistoryDTO;
 import com.example.kun_Uz_Lesson_1.dto.profile.RegistrationProfileDTO;
 import com.example.kun_Uz_Lesson_1.entity.SmsHistoryEntity;
+import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.SmsHistoryRepository;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.*;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,15 +23,17 @@ import java.util.List;
 public class SmsHistoryService {
     @Autowired
     private SmsHistoryRepository smsHistoryRepository;
+    @Autowired
+    private ResourceBundleService resourceBundleService;
 
-    public List<SmsHistoryDTO> getSmsHistoryByPhoneNumber(String phone) {
+    public List<SmsHistoryDTO> getSmsHistoryByPhoneNumber(String phone, Language language) {
         if (phone.startsWith("+")) {
             phone=phone.substring(1);
         }
         List<SmsHistoryEntity> byPhone = smsHistoryRepository.findByPhone(phone);
         if (byPhone.isEmpty()) {
             log.warn("History not found{}",phone);
-            throw new AppBadException("History not found");
+            throw new AppBadException(resourceBundleService.getMessage("sms.history.not.found",language));
         }
         List<SmsHistoryDTO>dtoList=new LinkedList<>();
         for (SmsHistoryEntity entity : byPhone) {

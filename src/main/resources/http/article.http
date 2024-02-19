@@ -2,28 +2,29 @@
 POST localhost:8080/article/mod
 Content-Type: application/json
 #moderator(name=moder)
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjQwNzMsImVtYWlsIjoibW9kZXJhdG9yQG1haWwuY29tIiwicm9sZSI6IlJPTEVfTU9ERVJBVE9SIiwiZXhwIjoxNzA3OTEwNDczLCJpc3MiOiJLdW5VelRlc3QifQ.yRBjKFAdxCCOQURNJWjIL8ngW3P91Laz34_OnyE97LodXaS7mrzDlyv0gRCunVi6eMgCnvuOm_r3ETs0p-6ogA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDgxNTY5MjAsImVtYWlsIjoibW9kZXJhdG9yQG1haWwuY29tIiwicm9sZSI6IlJPTEVfTU9ERVJBVE9SIiwiZXhwIjoxNzA4MjQzMzIwLCJpc3MiOiJLdW5VelRlc3QifQ.rep6TC3nL1BKSsWgkQTdvBTQ_oJwhbTRo_dBqxDemxdHH5ESiaMa6rCeNtahrhj0F8g5zAzIAesi2-VWP86xaw
 
 {
-  "titleUz": "tu1",
-  "titleRu": "tr1",
-  "titleEn": "te1",
-  "descriptionUz": "du1",
-  "descriptionRu": "dr1",
-  "descriptionEn": "de1",
-  "contentUz": "cu1",
-  "contentRu": "cr1",
-  "contentEn": "ce1",
-  "regionId": 1,
-  "categoryId": 1,
-  "imageId": "54c36205-5d51-495d-a0dc-9d110e957768",
-  "newsType": [1,9],
-  "tagName": [2]
+  "titleUz": "tu2",
+  "titleRu": "tr2",
+  "titleEn": "te2",
+  "descriptionUz": "du2",
+  "descriptionRu": "dr2",
+  "descriptionEn": "de2",
+  "contentUz": "cu2",
+  "contentRu": "cr2",
+  "contentEn": "ce2",
+  "regionId": 2,
+  "categoryId": 2,
+  "imageId": "97d519ae-3695-43fa-824f-94d8f9575921",
+  "newsType": [3],
+  "tagName": [1,2]
 }
 ###  "imageId": "530336f1-19d2-456e-8192-bc392df16416",
 
 ####Update article
 PUT localhost:8080/article/mod/f37f3370-7eef-41cb-adfc-9fe61e744c30
+Accept-Language: RU
 Content-Type: application/json
 #moderator(name=moder)
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjQwNzMsImVtYWlsIjoibW9kZXJhdG9yQG1haWwuY29tIiwicm9sZSI6IlJPTEVfTU9ERVJBVE9SIiwiZXhwIjoxNzA3OTEwNDczLCJpc3MiOiJLdW5VelRlc3QifQ.yRBjKFAdxCCOQURNJWjIL8ngW3P91Laz34_OnyE97LodXaS7mrzDlyv0gRCunVi6eMgCnvuOm_r3ETs0p-6ogA
@@ -46,42 +47,53 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjQwNzMsImVtYWlsIjoib
 
 ###Delete article
 DELETE localhost:8080/article/mod/50eb9593-36aa-4cc2-840b-d88a8aff566d
+Accept-Language: RU
 #moderator(name=moder)
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjQwNzMsImVtYWlsIjoibW9kZXJhdG9yQG1haWwuY29tIiwicm9sZSI6IlJPTEVfTU9ERVJBVE9SIiwiZXhwIjoxNzA3OTEwNDczLCJpc3MiOiJLdW5VelRlc3QifQ.yRBjKFAdxCCOQURNJWjIL8ngW3P91Laz34_OnyE97LodXaS7mrzDlyv0gRCunVi6eMgCnvuOm_r3ETs0p-6ogA
 
 ###Change status by id
-POST localhost:8080/article/pub/50eb9593-36aa-4cc2-840b-d88a8aff566d
+POST localhost:8080/article/pub/95363822-48d3-4374-b24e-7ca7fc2a1c82
 Content-Type: application/json
 ##publisher
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjgxMDEsImVtYWlsIjoicHVsaXNoZXJAbWFpbC5jb20iLCJyb2xlIjoiUk9MRV9QVUJMSVNIRVIiLCJleHAiOjE3MDc5MTQ1MDEsImlzcyI6Ikt1blV6VGVzdCJ9.rY59MariqdM5Tf0bcCVaoN-WY75lMcXgwHS_RK2rhtoNK4wWqD9oKC3_kWkK0vtuTQ1SABd2hhiFCmLaWruR_A
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDgxNTgyNDMsImVtYWlsIjoicHVibGlzaGVyQG1haWwuY29tIiwicm9sZSI6IlJPTEVfUFVCTElTSEVSIiwiZXhwIjoxNzA4MjQ0NjQzLCJpc3MiOiJLdW5VelRlc3QifQ.94JkIo3hDR3pzxWoH-8ojh07QvGN7hJH3pO9RtckhFbpM2kkMZDo9GSc_oE_e_orS7ivJ6HB3j9ouc2jUeBilg
 
 ###get last five article by types
 GET localhost:8080/article/get/3?limit=5
+Accept-Language: RU
 
 ###list Of Articles Except Given Ids
 GET localhost:8080/article/articleId?ids=6d1f5580-8693-48a3-8c62-3af71e95a654&limit=8
+Accept-Language: RU
 
 ###increase Article View Count
 PUT localhost:8080/article/viewCount/335beca1-30bc-4f3f-99dc-76c0a93f8019
+Accept-Language: RU
+
 ###increase Article Share Count
 PUT localhost:8080/article/shareCount/335beca1-30bc-4f3f-99dc-76c0a93f8019
+Accept-Language: RU
 
 ###get Article By Id And Language
 GET localhost:8080/article/language?id=31b74a7b-8773-4257-bdcf-65a4609c42e3 & language=EN
-
+Accept-Language: RU
 ###get most Read Articles
 GET localhost:8080/article/mostReaArticle?limit=4
-
+Accept-Language: RU
 ###get Article By News Type Id And Region Id
 GET localhost:8080/article/getArticleByNewsTypeIdAndRegionId/3?regionId=5
+Accept-Language: RU
 ###get Article By Region Id Pagination
 GET localhost:8080/article/getArticleByRegionIdPagination/3?page=1
+Accept-Language: RU
 ###get Last Article Category Id
 GET localhost:8080/article/getLastArticleCategoryId/3?limit=5
+Accept-Language: RU
 ###get Article By Ctegory Id Pagination
 GET localhost:8080/article/getLastArticleCategoryIdAndByPagination/3?page=1
+Accept-Language: RU
 ###Article filter
 POST localhost:8080/article/pub/filter
+Accept-Language: RU
 Content-Type: application/json
 ##publisher
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjgxMDEsImVtYWlsIjoicHVsaXNoZXJAbWFpbC5jb20iLCJyb2xlIjoiUk9MRV9QVUJMSVNIRVIiLCJleHAiOjE3MDc5MTQ1MDEsImlzcyI6Ikt1blV6VGVzdCJ9.rY59MariqdM5Tf0bcCVaoN-WY75lMcXgwHS_RK2rhtoNK4wWqD9oKC3_kWkK0vtuTQ1SABd2hhiFCmLaWruR_A

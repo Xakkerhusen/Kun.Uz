@@ -2,6 +2,7 @@ package com.example.kun_Uz_Lesson_1.service;
 
 import com.example.kun_Uz_Lesson_1.dto.TagNameDTO;
 import com.example.kun_Uz_Lesson_1.entity.TagNameEntity;
+import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.TagNameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import java.time.LocalDateTime;
 public class TagNameService {
     @Autowired
     private TagNameRepository tagNameRepository;
+    @Autowired
+    private ResourceBundleService resourceBundleService;
     public TagNameDTO create(TagNameDTO dto) {
 
         TagNameEntity entity=new TagNameEntity();
@@ -24,7 +27,8 @@ public class TagNameService {
         dto.setName(entity.getTagName());
         return dto;
     }
-    public TagNameEntity get(Long tagId){
-        return tagNameRepository.findById(tagId).orElseThrow(() -> new AppBadException("Tag name not found"));
+    public TagNameEntity get(Long tagId, Language language){
+        return tagNameRepository.findById(tagId).orElseThrow(() ->
+                new AppBadException(resourceBundleService.getMessage("tag.name.not.found",language)));
     }
 }

@@ -42,17 +42,19 @@ public class NewsTypeController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for update", description = "this api is used to update news type ")
     public ResponseEntity<?> update(@PathVariable("id") Integer id,
-                                    @RequestBody NewsType dto) {
+                                    @RequestBody NewsType dto,
+                                    @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Update news type by id {}",dto);
-        return ResponseEntity.ok(articleTypeService.update(id, dto));
+        return ResponseEntity.ok(articleTypeService.update(id, dto,language));
     }
 
     @DeleteMapping("/adm/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for delete", description = "this api is used to delete news type ")
-    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id,
+                                    @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Delete nws type by id{}",id);
-        return ResponseEntity.ok(articleTypeService.delete(id));
+        return ResponseEntity.ok(articleTypeService.delete(id,language));
     }
 
     @CrossOrigin(origins = "*")
@@ -68,7 +70,7 @@ public class NewsTypeController {
 
     @GetMapping("/lang")
     @Operation( summary = "Api for getAllByLang", description = "this api is used to get all news type by language ")
-    public ResponseEntity<List<NewsType>> getAllByLang(@RequestParam(value = "language", defaultValue = "uz") Language language) {
+    public ResponseEntity<List<NewsType>> getAllByLang(@RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Get all nws type by language{}",language);
         return ResponseEntity.ok(articleTypeService.allByLang(language));
     }

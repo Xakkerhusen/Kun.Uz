@@ -1,27 +1,37 @@
 ###Created Profile
 POST localhost:8080/profile/adm
+Accept-Language: RU
 Content-Type: application/json
 #admin
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDgxNTY2MjIsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA4MjQzMDIyLCJpc3MiOiJLdW5VelRlc3QifQ.EmyC8Af2XWn6f0HqZDNwDdJTMHhDF8zBDsihuKFUjtYOE9ix3gkXowL5enILhRvXtM3P199tvBJm8jHXZiNogw
 
 {
-  "name": "cccccccc",
-  "surname": "cccccccc",
-  "email": "ccccccccc@mail.com",
-  "password": "@1Usercccccccc1@",
-  "role": "Role_USER"
+  "name": "pulisher",
+  "surname": "publisherov",
+  "email": "publisher@mail.com",
+  "password": "@1Publisher1@",
+  "role": "ROLE_PUBLISHER"
 }
+
+//{
+//  "name": "cccccccc",
+//  "surname": "cccccccc",
+//  "email": "ccccccccc@mail.com",
+//  "password": "@1Usercccccccc1@",
+//  "role": "ROLE_USER"
+//}
 
 //{
 //  "name": "modera",
 //  "surname": "tor",
 //  "email": "moderator@mail.com",
-//  "password": "$Maderotor$",
-//  "role": "MODERATOR"
+//  "password": "$1Maderotor1$",
+//  "role": "ROLE_MODERATOR"
 //}
 
 ###Update profile
 PUT localhost:8080/profile/adm/6
+Accept-Language: RU
 Content-Type: application/json
 #admin
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
@@ -36,6 +46,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoia
 
 ###Update profile detail
 PUT localhost:8080/profile/any/updateDetail
+Accept-Language: RU
 Content-Type: application/json
 #admin
 #Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
@@ -49,6 +60,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjI5NjEsImVtYWlsIjoiY
 
 ###Delete profile
 DELETE localhost:8080/profile/adm/7
+Accept-Language: RU
 #admin
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
 

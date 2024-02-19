@@ -1,31 +1,38 @@
 
 ###Created Admin
 POST localhost:8080/auth/login
+Accept-Language: UZ
 Content-Type: application/json
-//#admin
+//#admin1
+#
+#{
+#  "email": "Adminceek123@gmail.com",
+#  "password": "58e7dbf8dc93865be732403e79fbd4eb"
+#}
 
+//#admin2
 //{
 //  "email": "husen@mail.ru",
 //  "password": "1999"
 //}
 
 //#moderator
-{
-  "email": "moderator@mail.com",
-  "password": "$1Maderotor1$"
-}
+//{
+//  "email": "moderator@mail.com",
+//  "password": "$1Maderotor1$"
+//}
 
 //#publisher
-//{
-//  "email": "pulisher@mail.com",
-//  "password": "@Publisher777"
-//}
+{
+  "email": "publisher@mail.com",
+  "password": "@1Publisher1@"
+}
 //#user
 //{
 //  "email": "ccccccccc@mail.com",
 //  "password": "@1Usercccccccc1@"
 //}
-
+####
 //#user
 //{
 //     "email": "userjon@mail.com",
@@ -36,13 +43,14 @@ Content-Type: application/json
 //     "email": "aaaaaa@mail.com",
 //     "password": "@1Useraaaaaa1@"
 //}
-
+####
 
 
 
 
 ####Registration
 POST localhost:8080/auth/registration
+Accept-Language: RU
 Content-Type: application/json
 
 {
@@ -55,8 +63,10 @@ Content-Type: application/json
 
 ###Verification By email
 GET localhost:8080/auth/verification/email/1
+Accept-Language: UZ
 ###Verification By phone number
 POST localhost:8080/auth/verification/phone
+Accept-Language: EN
 Content-Type: application/json
 
 {

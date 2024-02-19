@@ -50,6 +50,10 @@ public class ArticleEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ArticleStatus status = ArticleStatus.NOT_PUBLISHED;
+    @Column(name = "like_count")
+    private Integer likeCount=0;
+    @Column(name = "dislike_count")
+    private Integer dislikeCount=0;
 
     @Column(name = "image_id")
     private String imageId;

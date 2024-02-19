@@ -5,6 +5,7 @@ import com.example.kun_Uz_Lesson_1.dto.profile.CreatedProfileDTO;
 import com.example.kun_Uz_Lesson_1.dto.PaginationResultDTO;
 import com.example.kun_Uz_Lesson_1.dto.profile.Profile;
 import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
+import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.CustomRepository;
 import com.example.kun_Uz_Lesson_1.repository.ProfileRepository;
@@ -25,11 +26,13 @@ public class ProfileService {
     private ProfileRepository profileRepository;
     @Autowired
     private CustomRepository customRepository;
+    @Autowired
+    private ResourceBundleService resourceBundleService;
 
-    public CreatedProfileDTO create(CreatedProfileDTO dto) {
+    public CreatedProfileDTO create(CreatedProfileDTO dto, Language language) {
         if (!dto.getPassword().matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,}$")) {
             log.warn("Profile password required{}",dto.getPassword());
-            throw new AppBadException("Profile password required");
+            throw new AppBadException(resourceBundleService.getMessage("password.required",language));
         }
         ProfileEntity entity = new ProfileEntity();
         entity.setName(dto.getName());
@@ -42,8 +45,8 @@ public class ProfileService {
         return dto;
     }
 
-    public Profile update(Profile dto, Integer id) {
-        ProfileEntity entity = get(id);
+    public Profile update(Profile dto, Integer id, Language language) {
+        ProfileEntity entity = get(id,language);
 
         if (dto.getName() != null) {
             entity.setName(dto.getName());
@@ -69,12 +72,12 @@ public class ProfileService {
         profileRepository.update(dto.getName(), dto.getSurname(), dto.getRole(), dto.getStatus(), entity.getId());
         return dto;
     }
-    public Boolean delete(Integer id) {
-        ProfileEntity profileEntity = get(id);
+    public Boolean delete(Integer id,Language language) {
+        ProfileEntity profileEntity = get(id,language);
         Integer effectiveRows = profileRepository.deleteByIdProfile(profileEntity.getId());
         if (effectiveRows == 0) {
             log.warn("Profile not found{}",effectiveRows);
-            throw new AppBadException("Profile not found");
+            throw new AppBadException(resourceBundleService.getMessage("profile.not.found",language));
         }
         return true;
     }
@@ -105,17 +108,17 @@ public class ProfileService {
         return dto;
     }
 
-    public ProfileEntity get(Integer id) {
+    public ProfileEntity get(Integer id,Language language) {
 //        return profileRepository.findById(id).orElseThrow(() -> new AppBadException("Profile not found"));
         return profileRepository.findById(id).orElseThrow(() -> {
             log.warn("Profile not found{}",id);
-            return new AppBadException("Profile not found");
+            return new AppBadException(resourceBundleService.getMessage("profile.not.found",language));
         });
     }
 
 
-    public Profile updateDetail(Profile dto, Integer id) {
-        ProfileEntity entity = get(id);
+    public Profile updateDetail(Profile dto, Integer id, Language language) {
+        ProfileEntity entity = get(id,language);
         if (dto.getName() != null) {
             entity.setName(dto.getName());
         }else {

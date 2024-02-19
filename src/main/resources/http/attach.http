@@ -2,18 +2,20 @@
 POST http://localhost:8080/attach/adm/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 #admin
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDgxNTY2MjIsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA4MjQzMDIyLCJpc3MiOiJLdW5VelRlc3QifQ.EmyC8Af2XWn6f0HqZDNwDdJTMHhDF8zBDsihuKFUjtYOE9ix3gkXowL5enILhRvXtM3P199tvBJm8jHXZiNogw
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="Ehaam_-_Bezan_Baran_61394266.mp3"
+Content-Disposition: form-data; name="file"; filename="photo_2024-02-06_16-42-23.jpg"
 
-< C:\Users\user\Music\Ehaam_-_Bezan_Baran_61394266.mp3
+< D:\Asosiy modul(JAVA)\kun.uz\foto\photo_2024-02-06_16-42-23.jpg
 
 ###Get attach
 GET localhost:8080/attach/open/eyfel.jpg
+Accept-Language: RU
 
 ###Get attach
 GET localhost:8080/attach/open_general/cfc7adc2-7f78-4731-a764-b4599da19626.mp3
+Accept-Language: RU
 
 ###Get attach By Pagination
 GET localhost:8080/attach/adm/pagination?page=1
@@ -22,5 +24,6 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoia
 
 ###Delate attach By id
 DELETE localhost:8080/attach/adm/25d70a65-2659-4784-b470-698f6ee082db
+Accept-Language: RU
 #admin
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg

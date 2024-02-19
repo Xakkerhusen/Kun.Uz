@@ -21,7 +21,8 @@ import java.util.List;
 public class NewsTypeService {
     @Autowired
     private NewsTypeRepository articleTypeRepository;
-
+    @Autowired
+    private ResourceBundleService resourceBundleService;
     public CreatedNewsTypeDTO create(CreatedNewsTypeDTO articleType) {
         NewsTypeEntity entity = new NewsTypeEntity();
         entity.setOrderNumber(articleType.getOrderNumber());
@@ -32,8 +33,8 @@ public class NewsTypeService {
         return articleType;
     }
 
-    public NewsType update(Integer id, NewsType dto) {
-        NewsTypeEntity entity = get(id);
+    public NewsType update(Integer id, NewsType dto, Language language) {
+        NewsTypeEntity entity = get(id,language);
 
         if (dto.getOrderNumber() != null) {
             entity.setOrderNumber(dto.getOrderNumber());
@@ -63,11 +64,11 @@ public class NewsTypeService {
         return dto;
     }
 
-    public boolean delete(Integer id) {
+    public boolean delete(Integer id,Language language) {
         Integer effectiveRows = articleTypeRepository.deleteArticleTypeById(id);
         if (effectiveRows == 0) {
-            log.warn("Article type not found{}",id);
-            throw new AppBadException("Article type not found");
+            log.warn("News type not found{}",id);
+            throw new AppBadException(resourceBundleService.getMessage("news.type.not.found",language));
         }
         return true;
     }
@@ -87,8 +88,8 @@ public class NewsTypeService {
         List<NewsTypeEntity> allArticleType = articleTypeRepository.findAllArticleType();
         List<NewsType> listAll = new LinkedList<>();
         if (allArticleType.isEmpty()) {
-            log.warn("Article type not found{}",language);
-            throw new AppBadException("Article is empty");
+            log.warn("News type not found{}",language);
+            throw new AppBadException(resourceBundleService.getMessage("news.type.is.empty",language));
         }
         for (NewsTypeEntity entity : allArticleType) {
             NewsType dto = new NewsType();
@@ -120,11 +121,11 @@ public class NewsTypeService {
         dto.setVisible(entity.getVisible());
         return dto;
     }
-    public NewsTypeEntity get(Integer id) {
+    public NewsTypeEntity get(Integer id,Language language) {
 //        return articleTypeRepository.findById(id).orElseThrow(() -> new AppBadException("Article not found"));
         return articleTypeRepository.findById(id).orElseThrow(() -> {
             log.warn("Article not found{}",id);
-            return new AppBadException("Article not found");
+            return new AppBadException(resourceBundleService.getMessage("news.type.not.found",language));
         });
     }
 

@@ -20,8 +20,13 @@ public interface ArticleLikeRepository extends CrudRepository<ArticleLikeEntity,
     @Query("update ArticleLikeEntity set status=?2,updatedDate=?3 where id=?1")
     Integer update(Integer id, LikeStatus status, LocalDateTime now);
 
-    @Query("from ArticleLikeEntity where articleId=?1 and profileId=?2 ")
+    @Query("from ArticleLikeEntity where articleId=?1 and profileId=?2 and visible=true ")
     Optional<ArticleLikeEntity> findTop1ByArticleId(String articleId, Integer profileId);
     @Query("from ArticleLikeEntity where status='LIKE' and articleId=?1")
     List<ArticleLikeEntity> countByArticleId(String id);
+
+    @Transactional
+    @Modifying
+    @Query("update ArticleLikeEntity set visible=false where id=?1")
+    Integer deleteLikeById(Integer id);
 }

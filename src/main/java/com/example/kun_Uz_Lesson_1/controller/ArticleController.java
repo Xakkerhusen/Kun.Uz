@@ -42,51 +42,57 @@ public class ArticleController {
     @PutMapping("/mod/{uuid}")
     @Operation(summary = "API for update", description = "this api is used to update article")
     @PreAuthorize("hasRole('MODERATOR')")
-    public ResponseEntity<?> update(@Valid @RequestBody CreatedArticleDTO dto, @PathVariable(name = "uuid") String id) {
+    public ResponseEntity<?> update(@Valid @RequestBody CreatedArticleDTO dto, @PathVariable(name = "uuid") String id,
+                                    @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Update article By Id {}", dto);
         Integer moderatorId = SpringSecurityUtil.getCurrentUser().getId();
-        return ResponseEntity.ok(articleService.update(dto, id, moderatorId));
+        return ResponseEntity.ok(articleService.update(dto, id, moderatorId,language));
     }
 
     @DeleteMapping("/mod/{uuid}")
     @Operation(summary = "API for delete", description = "this api is used to delete article")
     @PreAuthorize("hasRole('MODERATOR')")
-    public ResponseEntity<?> delete(@PathVariable(name = "uuid") String id) {
+    public ResponseEntity<?> delete(@PathVariable(name = "uuid") String id,
+                                    @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Delete article By Id {}", id);
-        return ResponseEntity.ok(articleService.delete(id));
+        return ResponseEntity.ok(articleService.delete(id,language));
     }
 
     @PostMapping("/pub/{uuid}")
     @Operation(summary = "API for changeStatusById", description = "this api is used to change article status")
     @PreAuthorize("hasRole('PUBLISHER')")
-    public ResponseEntity<?> changeStatusById(@PathVariable("uuid") String id) {
+    public ResponseEntity<?> changeStatusById(@PathVariable("uuid") String id,
+                                              @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Change article status By Id {}", id);
         Integer publisherId = SpringSecurityUtil.getCurrentUser().getId();
-        return ResponseEntity.ok(articleService.changeStatusById(id, publisherId));
+        return ResponseEntity.ok(articleService.changeStatusById(id, publisherId,language));
     }
 
     //5,6
     @GetMapping("/get/{id}")
     @Operation(summary = "API for getLastFiveArticleByTypes", description = "This api is used to get the last five articles of the given type")
     public ResponseEntity<?> getLastFiveArticleByTypes(@PathVariable("id") Integer id,
-                                                       @RequestParam(value = "limit", defaultValue = "5") Integer limit) {
+                                                       @RequestParam(value = "limit", defaultValue = "5") Integer limit,
+                                                       @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Get Last Five Article By Types {}", id);
-        return ResponseEntity.ok(articleService.getLastFiveArticleByTypes(id, limit));
+        return ResponseEntity.ok(articleService.getLastFiveArticleByTypes(id, limit,language));
     }
 
     //7,9
     @GetMapping("/articleId")
     @Operation(summary = "API for listOfArticlesExceptGivenIds", description = "This api is used to get the list of articles except given IDs")
-    public ResponseEntity<?> listOfArticlesExceptGivenIds(@RequestParam("ids") String[] id, @RequestParam(value = "limit", defaultValue = "4") Integer limit) {
+    public ResponseEntity<?> listOfArticlesExceptGivenIds(@RequestParam("ids") String[] id, @RequestParam(value = "limit", defaultValue = "4") Integer limit,
+                                                          @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
 
         log.info("List Of Articles Except Given Ids {}", (Object) id);
-        return ResponseEntity.ok(articleService.listOfArticlesExceptGivenIds(id, limit));
+        return ResponseEntity.ok(articleService.listOfArticlesExceptGivenIds(id, limit,language));
     }
 
     //8
     @GetMapping("/language")
     @Operation(summary = "API for getArticleByIdAndLanguage", description = "This api is used to get article by language")
-    public ResponseEntity<?> getArticleByIdAndLanguage(@RequestParam("id") String id, @RequestParam("language") Language language) {
+    public ResponseEntity<?> getArticleByIdAndLanguage(@RequestParam("id") String id,
+                                                       @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Get Article By Id And Language{}", id);
         return ResponseEntity.ok(articleService.getArticleByIdAndLanguage(id, language));
     }
@@ -94,18 +100,20 @@ public class ArticleController {
     //10
     @GetMapping("/mostReaArticle")
     @Operation(summary = "API for mostReadArticles", description = "This api is used to get most read article ")
-    public ResponseEntity<?> mostReadArticles(@RequestParam(value = "limit", defaultValue = "1000") Integer limit) {
+    public ResponseEntity<?> mostReadArticles(@RequestParam(value = "limit", defaultValue = "1000") Integer limit,
+                                              @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Most Read Articles");
-        return ResponseEntity.ok(articleService.mostReadArticles(limit));
+        return ResponseEntity.ok(articleService.mostReadArticles(limit,language));
     }
 
     //11
     @GetMapping("/getLastArticleByTagName/{id}")
     @Operation(summary = "API for getLastArticleByTagName", description = "This api is used to get last article by tag name ")
     public ResponseEntity<?> getLastArticleByTagName(@PathVariable("id")Long id,
-                                                     @RequestParam(value = "limit", defaultValue = "4") Integer limit) {
+                                                     @RequestParam(value = "limit", defaultValue = "4") Integer limit,
+                                                     @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Get Last Article By TagName{}", id);
-        return ResponseEntity.ok(articleService.getLastArticleByTagName(id,limit));
+        return ResponseEntity.ok(articleService.getLastArticleByTagName(id,limit,language));
     }
 
 
@@ -114,9 +122,10 @@ public class ArticleController {
     @Operation(summary = "API for getArticleByNewsTypeIdAndRegionId", description = "This api is used to get article by news type id and region id")
     public ResponseEntity<?> getArticleByNewsTypeIdAndRegionId(@PathVariable("id") Integer typeId,
                                                                @RequestParam(value = "limit", defaultValue = "5") Integer limit,
-                                                               @RequestParam("regionId") Integer regionId) {
+                                                               @RequestParam("regionId") Integer regionId,
+                                                               @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Get Last Five Article By Types {}", typeId);
-        return ResponseEntity.ok(articleService.getArticleByNewsTypeIdAndRegionId(typeId, limit, regionId));
+        return ResponseEntity.ok(articleService.getArticleByNewsTypeIdAndRegionId(typeId, limit, regionId,language));
     }
 
     //13
@@ -125,18 +134,20 @@ public class ArticleController {
     public ResponseEntity<?> getArticleByRegionIdPagination(
             @PathVariable("id") Integer regionId,
             @RequestParam(value = "page", defaultValue = "1") Integer page,
-            @RequestParam(value = "size", defaultValue = "2") Integer size) {
+            @RequestParam(value = "size", defaultValue = "2") Integer size,
+            @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdDate");
         log.info("Get Last Five Article By Types {}", regionId);
-        return ResponseEntity.ok(articleService.getArticleByRegionIdPagination( regionId, pageable));
+        return ResponseEntity.ok(articleService.getArticleByRegionIdPagination( regionId, pageable,language));
     }
 
     //14
     @GetMapping("/getLastArticleCategoryId/{id}")
     @Operation(summary = "API for getLastArticleCategoryId", description = "This api is used to get article by category id and by limit")
-    public ResponseEntity<?> getLastArticleCategoryId(@PathVariable("id") Integer categoryId,@RequestParam(value = "limit",defaultValue = "5")Integer limit) {
+    public ResponseEntity<?> getLastArticleCategoryId(@PathVariable("id") Integer categoryId,@RequestParam(value = "limit",defaultValue = "5")Integer limit,
+                                                      @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Get Last Five Article By Types {}", categoryId);
-        return ResponseEntity.ok(articleService.getLastArticleCategoryId( categoryId,limit));
+        return ResponseEntity.ok(articleService.getLastArticleCategoryId( categoryId,limit,language));
     }
 
     //15
@@ -144,26 +155,29 @@ public class ArticleController {
     @Operation(summary = "API for getLastArticleCategoryIdAndByPagination", description = "This api is used to get category by region id and by pagination")
     public ResponseEntity<?> getLastArticleCategoryIdAndByPagination(@PathVariable("id") Integer categoryId,
                                                                      @RequestParam(value = "page", defaultValue = "1") Integer page,
-                                                                     @RequestParam(value = "size", defaultValue = "2") Integer size) {
+                                                                     @RequestParam(value = "size", defaultValue = "2") Integer size,
+                                                                     @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdDate");
         log.info("Get Last Five Article By Types {}", categoryId);
-        return ResponseEntity.ok(articleService.getLastArticleCategoryIdAndByPagination( categoryId,pageable));
+        return ResponseEntity.ok(articleService.getLastArticleCategoryIdAndByPagination( categoryId,pageable,language));
     }
 
     //16
     @PutMapping("/viewCount/{id}")
     @Operation(summary = "API for increaseArticleViewCount", description = "This api works to change view count of article")
-    public ResponseEntity<?> increaseArticleViewCount(@PathVariable("id") String id) {
+    public ResponseEntity<?> increaseArticleViewCount(@PathVariable("id") String id,
+                                                      @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Increase Article View Count {}", id);
-        return ResponseEntity.ok(articleService.increaseArticleViewCount(id));
+        return ResponseEntity.ok(articleService.increaseArticleViewCount(id,language));
     }
 
     //17
     @PutMapping("/shareCount/{id}")
     @Operation(summary = "API for increaseArticleViewCount", description = "This api works to change Share count of article")
-    public ResponseEntity<?> increaseArticleShareCount(@PathVariable("id") String id) {
+    public ResponseEntity<?> increaseArticleShareCount(@PathVariable("id") String id,
+                                                       @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Increase Article Share Count {}", id);
-        return ResponseEntity.ok(articleService.increaseArticleShareCount(id));
+        return ResponseEntity.ok(articleService.increaseArticleShareCount(id,language));
     }
 
     //18
@@ -172,11 +186,12 @@ public class ArticleController {
     @PreAuthorize("hasRole('PUBLISHER')")
     public ResponseEntity<PageImpl<ArticleShortInfoDTO>>filter(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                                @RequestParam(value = "size", defaultValue = "2") Integer size,
-                                                               @RequestBody FilterArticleDTO filter) {
+                                                               @RequestBody FilterArticleDTO filter,
+                                                               @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         Integer publisherId = SpringSecurityUtil.getCurrentUser().getId();
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdDate");
         log.info("Get profile by filter{}", pageable);
-        return ResponseEntity.ok(articleService.filter(filter, pageable,publisherId));
+        return ResponseEntity.ok(articleService.filter(filter, pageable,publisherId,language));
     }
 
 }

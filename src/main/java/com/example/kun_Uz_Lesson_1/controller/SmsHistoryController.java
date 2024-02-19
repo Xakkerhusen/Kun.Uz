@@ -2,6 +2,7 @@ package com.example.kun_Uz_Lesson_1.controller;
 
 
 import com.example.kun_Uz_Lesson_1.dto.SmsHistoryDTO;
+import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.SmsHistoryService;
 import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
@@ -32,9 +33,10 @@ public class SmsHistoryController {
 
     @PostMapping("")
     @Operation(summary = "Api for getHistoryByPhoneNumber", description = "this api is used to get sms history by phone number ")
-    public ResponseEntity<List<SmsHistoryDTO>> getHistoryByPhoneNumber(@RequestBody SmsHistoryDTO dto) {
+    public ResponseEntity<List<SmsHistoryDTO>> getHistoryByPhoneNumber(@RequestBody SmsHistoryDTO dto,
+                                                                       @RequestHeader(value = "Accept-Language",defaultValue = "UZ")Language language) {
         log.info("Get sms History By Phone Number{}", dto.getPhone());
-        return ResponseEntity.ok(smsHistoryService.getSmsHistoryByPhoneNumber(dto.getPhone()));
+        return ResponseEntity.ok(smsHistoryService.getSmsHistoryByPhoneNumber(dto.getPhone(),language));
     }
 
     @GetMapping("/date")

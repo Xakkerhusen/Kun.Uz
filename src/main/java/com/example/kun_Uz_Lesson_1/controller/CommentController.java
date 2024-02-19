@@ -3,6 +3,7 @@ package com.example.kun_Uz_Lesson_1.controller;
 import com.example.kun_Uz_Lesson_1.dto.comment.CreateCommentDTO;
 import com.example.kun_Uz_Lesson_1.dto.comment.FilterCommentDTO;
 import com.example.kun_Uz_Lesson_1.dto.comment.UpdateCommentDTO;
+import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.CommentService;
 import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
@@ -30,9 +31,10 @@ public class CommentController {
     @Operation(summary = "API for create", description = "this api is used to create comment")
     @PostMapping("/any/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','USER','MODERATOR','PUBLISHER')")
-    public ResponseEntity<?> create(@PathVariable("id") String articleId, @RequestBody(required = false) CreateCommentDTO dto) {
+    public ResponseEntity<?> create(@PathVariable("id") String articleId, @RequestBody(required = false) CreateCommentDTO dto,
+                                    @RequestHeader(value = "Accept-Language",defaultValue = "UZ")Language language) {
         Integer profileId = SpringSecurityUtil.getCurrentUser().getId();
-        return ResponseEntity.ok(commentService.create(articleId, dto, profileId));
+        return ResponseEntity.ok(commentService.create(articleId, dto, profileId,language));
     }
 
     //2
@@ -48,25 +50,28 @@ public class CommentController {
     @Operation(summary = "API for delete", description = "this api is used to delete comment")
     @DeleteMapping("/any/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','USER','MODERATOR','PUBLISHER')")
-    public ResponseEntity<?> delete(@PathVariable("id") Integer commnetId) {
+    public ResponseEntity<?> delete(@PathVariable("id") Integer commnetId,
+                                    @RequestHeader(value = "Accept-Language",defaultValue = "UZ")Language language) {
         Integer profileId = SpringSecurityUtil.getCurrentUser().getId();
-        return ResponseEntity.ok(commentService.delete(commnetId,profileId));
+        return ResponseEntity.ok(commentService.delete(commnetId,profileId,language));
     }
 
     //4
     @Operation(summary = "API for getCommentListByArticleId", description = "this api is used to get all Comment List By Article Id ")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCommentListByArticleId(@PathVariable("id") String articleId) {
-        return ResponseEntity.ok(commentService.getCommentListByArticleId(articleId));
+    public ResponseEntity<?> getCommentListByArticleId(@PathVariable("id") String articleId,
+                                                       @RequestHeader(value = "Accept-Language",defaultValue = "UZ")Language language) {
+        return ResponseEntity.ok(commentService.getCommentListByArticleId(articleId,language));
     }
 
     //5
     @Operation(summary = "API for getCommentListByPagination", description = "this api is used to get all  Comment List By Pagination")
     @GetMapping("")
     public ResponseEntity<?> getCommentListByPagination(@RequestParam(value = "page",defaultValue = "1")Integer page,
-                                                        @RequestParam(value = "size",defaultValue = "2")Integer size) {
+                                                        @RequestParam(value = "size",defaultValue = "2")Integer size,
+                                                        @RequestHeader(value = "Accept-Language",defaultValue = "UZ")Language language) {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, "createdDate");
-        return ResponseEntity.ok(commentService.getCommentListByPagination(pageable));
+        return ResponseEntity.ok(commentService.getCommentListByPagination(pageable,language));
     }
 
     //6
@@ -83,8 +88,9 @@ public class CommentController {
     //7
     @Operation(summary = "API for getRepliedCommentListByCommentId", description = "this api is used to Get Replied Comment List by Comment Id")
     @GetMapping("/getReplied/{id}")
-    public ResponseEntity<?> getRepliedCommentListByCommentId(@PathVariable("id")Integer id) {
-        return ResponseEntity.ok(commentService.getRepliedCommentListByCommentId(id));
+    public ResponseEntity<?> getRepliedCommentListByCommentId(@PathVariable("id")Integer id,
+                                                              @RequestHeader(value = "Accept-Language",defaultValue = "UZ")Language language) {
+        return ResponseEntity.ok(commentService.getRepliedCommentListByCommentId(id,language));
     }
 
 

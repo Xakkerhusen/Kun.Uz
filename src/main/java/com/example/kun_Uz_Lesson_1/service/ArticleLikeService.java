@@ -2,6 +2,7 @@ package com.example.kun_Uz_Lesson_1.service;
 
 import com.example.kun_Uz_Lesson_1.dto.article.CreateArticleLikeDTO;
 import com.example.kun_Uz_Lesson_1.entity.ArticleLikeEntity;
+import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.enums.LikeStatus;
 import com.example.kun_Uz_Lesson_1.repository.article.ArticleLikeRepository;
 import com.example.kun_Uz_Lesson_1.repository.article.ArticleRepository;
@@ -20,8 +21,8 @@ public class ArticleLikeService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public Object create(String articleId, Integer profileId, CreateArticleLikeDTO dto) {
-        articleService.getArticle(articleId);
+    public Object create(String articleId, Integer profileId, CreateArticleLikeDTO dto, Language language) {
+        articleService.getArticle(articleId,language);
 
         Optional<ArticleLikeEntity> optional = articleLikeRepository.findTop1ByArticleId(articleId,profileId);
 
@@ -37,7 +38,8 @@ public class ArticleLikeService {
         ArticleLikeEntity entity = optional.get();
         LikeStatus status = entity.getStatus();
         if (status.equals(dto.getStatus())) {
-            articleLikeRepository.deleteById(entity.getId());
+//            return articleLikeRepository.deleteLikeById(entity.getId())>0?"SUCCESS delete":"o'chirilmadi";
+             articleLikeRepository.deleteById(entity.getId());
             return "SUCCESS delete";
         } else if (entity.getArticleId().equals(articleId) && !entity.getProfileId().equals(profileId)) {
             articleLikeEntity.setArticleId(articleId);

@@ -1,6 +1,7 @@
 package com.example.kun_Uz_Lesson_1.controller;
 
 import com.example.kun_Uz_Lesson_1.dto.article.CreateArticleLikeDTO;
+import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.ArticleLikeService;
 import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
@@ -24,9 +25,10 @@ public class ArticleLikeController {
     @PostMapping("/any/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','USER','MODERATOR','PUBLISHER')")
     public ResponseEntity<?> create(@PathVariable("id")String articleId,
-                                    @RequestBody CreateArticleLikeDTO dto){
+                                    @RequestBody CreateArticleLikeDTO dto,
+                                    @RequestHeader(value = "Accept-Language",defaultValue = "UZ")Language language){
         log.info("Create article like ");
         Integer profileId = SpringSecurityUtil.getCurrentUser().getId();
-        return ResponseEntity.ok(articleLikeService.create(articleId, profileId,dto));
+        return ResponseEntity.ok(articleLikeService.create(articleId, profileId,dto,language));
     }
 }

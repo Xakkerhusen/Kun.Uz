@@ -2,7 +2,6 @@ package com.example.kun_Uz_Lesson_1.service;
 
 import com.example.kun_Uz_Lesson_1.dto.region.CreatedRegionDTO;
 import com.example.kun_Uz_Lesson_1.dto.region.Region;
-import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
 import com.example.kun_Uz_Lesson_1.entity.RegionEntity;
 import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
@@ -14,12 +13,14 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
+
 @Slf4j
 @Service
 public class RegionService {
     @Autowired
     private RegionRepository regionRepository;
+    @Autowired
+    private ResourceBundleService resourceBundleService;
 
     public CreatedRegionDTO create(CreatedRegionDTO dto) {
         RegionEntity entity = new RegionEntity();
@@ -31,8 +32,8 @@ public class RegionService {
         return dto;
     }
 
-    public Region update(Integer id, Region dto) {
-        RegionEntity entity = get(id);
+    public Region update(Integer id, Region dto, Language language) {
+        RegionEntity entity = get(id,language);
 
         if (dto.getOrderNumber() != null) {
             entity.setOrderNumber(dto.getOrderNumber());
@@ -58,16 +59,16 @@ public class RegionService {
         Integer effectiveRows = regionRepository.update(id, entity.getNameUz(), entity.getNameEn(), entity.getNameEn());
         if (effectiveRows == 0) {
             log.warn("Region not found{}",effectiveRows);
-            throw new AppBadException("Region not found");
+            throw new AppBadException(resourceBundleService.getMessage("region.not.found",language));
         }
         return dto;
     }
 
-    public Boolean delete(Integer id) {
+    public Boolean delete(Integer id, Language language) {
         Integer effectiveRows = regionRepository.deleteRegionById(id);
         if (effectiveRows == 0) {
             log.warn("Region not found{}",effectiveRows);
-            throw new AppBadException("Region not found");
+            throw new AppBadException(resourceBundleService.getMessage("region.not.found",language));
         }
         return true;
     }
@@ -110,11 +111,11 @@ public class RegionService {
     }
 
 
-    public  RegionEntity get(Integer id) {
+    public  RegionEntity get(Integer id,Language language) {
 //        return regionRepository.findById(id).orElseThrow(() -> new AppBadException("Region not found"));
         return regionRepository.findById(id).orElseThrow(() -> {
             log.warn("Region not found{}",id);
-            return new AppBadException("Region not found");
+            return new AppBadException(resourceBundleService.getMessage("region.not.found",language));
         });
     }
 

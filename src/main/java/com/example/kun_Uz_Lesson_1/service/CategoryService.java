@@ -2,10 +2,7 @@ package com.example.kun_Uz_Lesson_1.service;
 
 import com.example.kun_Uz_Lesson_1.dto.category.Category;
 import com.example.kun_Uz_Lesson_1.dto.category.CreateCategoryDTO;
-import com.example.kun_Uz_Lesson_1.dto.region.Region;
 import com.example.kun_Uz_Lesson_1.entity.CategoryEntity;
-import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
-import com.example.kun_Uz_Lesson_1.entity.RegionEntity;
 import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.CategoryRepository;
@@ -19,12 +16,14 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
+
 @Slf4j
 @Service
 public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ResourceBundleService resourceBundleService;
 
     public CreateCategoryDTO create(CreateCategoryDTO dto) {
         CategoryEntity entity = new CategoryEntity();
@@ -36,8 +35,8 @@ public class CategoryService {
         return dto;
     }
 
-    public Category update(Integer id, Category dto) {
-        CategoryEntity entity = get(id);
+    public Category update(Integer id, Category dto, Language language) {
+        CategoryEntity entity = get(id,language);
         if (dto.getOrderNumber() != null) {
             entity.setOrderNumber(dto.getOrderNumber());
         } else {
@@ -63,19 +62,19 @@ public class CategoryService {
         return dto;
     }
 
-    public CategoryEntity get(Integer id) {
+    public CategoryEntity get(Integer id,Language language) {
 //        return categoryRepository.findById(id).orElseThrow(() -> new AppBadException("Category not found"));
         return categoryRepository.findById(id).orElseThrow(() -> {
             log.warn("Category not found{}",id);
-            return new AppBadException("Category not found");
+            return new AppBadException(resourceBundleService.getMessage("category.not.found",language));
         });
     }
 
-    public Boolean delete(Integer id) {
+    public Boolean delete(Integer id,Language language) {
         Integer effectiveRows = categoryRepository.deleteCategoryById(id);
         if (effectiveRows == 0) {
             log.warn("Category not found {}",effectiveRows);
-            throw new AppBadException("Category not found");
+            throw new AppBadException(resourceBundleService.getMessage("category.not.found",language));
         }
         return true;
     }
@@ -110,7 +109,7 @@ public class CategoryService {
         List<CategoryEntity> allCategoryByLang = categoryRepository.findAllCategoryByLang();
         if (allCategoryByLang.isEmpty()) {
             log.warn("Category not found {}",allCategoryByLang);
-            throw new AppBadException("Category is empty");
+            throw new AppBadException(resourceBundleService.getMessage("category.is.empty",language));
         }
         List<Category> categoryList = new LinkedList<>();
         for (CategoryEntity entity : allCategoryByLang) {

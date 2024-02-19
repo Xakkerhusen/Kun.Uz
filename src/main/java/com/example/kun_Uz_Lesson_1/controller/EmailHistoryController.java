@@ -1,6 +1,7 @@
 package com.example.kun_Uz_Lesson_1.controller;
 
 import com.example.kun_Uz_Lesson_1.dto.EmailHistoryDTO;
+import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.EmailHistoryService;
 import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
@@ -30,9 +31,10 @@ public class EmailHistoryController {
 
     @GetMapping("/{email}")
     @Operation( summary = "Api for getByEmail", description = "this api is used to get email history by email ")
-    public ResponseEntity<List<EmailHistoryDTO>> getByEmail(@PathVariable("email") String email) {
+    public ResponseEntity<List<EmailHistoryDTO>> getByEmail(@PathVariable("email") String email,
+                                                            @RequestHeader(value = "Accept-Language",defaultValue = "UZ")Language language) {
         log.info("Get all email history {}",email);
-        return ResponseEntity.ok(emailHistoryService.getByEmail(email));
+        return ResponseEntity.ok(emailHistoryService.getByEmail(email,language));
     }
 
     @GetMapping("/date")

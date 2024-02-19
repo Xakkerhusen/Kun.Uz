@@ -5,6 +5,7 @@ import com.example.kun_Uz_Lesson_1.dto.comment.*;
 import com.example.kun_Uz_Lesson_1.entity.ArticleEntity;
 import com.example.kun_Uz_Lesson_1.entity.CommentEntity;
 import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
+import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.exp.AppBadException;
 import com.example.kun_Uz_Lesson_1.repository.CommentRepository;
@@ -34,9 +35,9 @@ public class CommentService {
     @Autowired
     private CustomRepository customRepository;
 
-    public CreateCommentDTO create(String id, CreateCommentDTO dto, Integer profileId) {
+    public CreateCommentDTO create(String id, CreateCommentDTO dto, Integer profileId, Language language) {
         CommentEntity entity = new CommentEntity();
-        articleService.getArticle(id);
+        articleService.getArticle(id,language);
         entity.setContent(dto.getContent());
         entity.setArticleId(id);
         entity.setProfileId(profileId);
@@ -70,8 +71,8 @@ public class CommentService {
         return dto;
     }
 
-    public boolean delete(Integer id, Integer profileId) {
-        ProfileEntity profileEntity = profileService.get(profileId);
+    public boolean delete(Integer id, Integer profileId, Language language) {
+        ProfileEntity profileEntity = profileService.get(profileId,language);
         get(id);
         Integer effectiveRows = 0;
         if (profileEntity.getRole().equals(ProfileRole.ROLE_ADMIN)) {
@@ -94,21 +95,21 @@ public class CommentService {
         return true;
     }
 
-    public List<GetCommentDTO> getCommentListByArticleId(String id) {
+    public List<GetCommentDTO> getCommentListByArticleId(String id, Language language) {
         List<CommentEntity> allByArticleId = commentRepository.getAllByArticleId(id);
         List<GetCommentDTO> dtoList = new LinkedList<>();
         for (CommentEntity entity : allByArticleId) {
-            dtoList.add(toDo(entity));
+            dtoList.add(toDo(entity,language));
         }
         return dtoList;
     }
 
-    public PageImpl<CommentDTO> getCommentListByPagination(Pageable pageable) {
+    public PageImpl<CommentDTO> getCommentListByPagination(Pageable pageable, Language language) {
         Page<CommentEntity> all = commentRepository.findAll(pageable);
         List<CommentEntity> content = all.getContent();
         List<CommentDTO> dtoList = new LinkedList<>();
         for (CommentEntity entity : content) {
-            dtoList.add(toDo3(entity));
+            dtoList.add(toDo3(entity,language));
         }
         return new PageImpl<>(dtoList, pageable, all.getTotalElements());
     }
@@ -125,19 +126,19 @@ public class CommentService {
         return new PageImpl<>(dtoList, pageable, dtoList.size());
     }
 
-    public List<GetCommentDTO> getRepliedCommentListByCommentId(Integer id) {
+    public List<GetCommentDTO> getRepliedCommentListByCommentId(Integer id, Language language) {
         List<CommentEntity> allByReplyId = commentRepository.findAllByReplyId(id);
         List<GetCommentDTO> dtoList = new LinkedList<>();
         for (CommentEntity entity : allByReplyId) {
-            dtoList.add(toDo(entity));
+            dtoList.add(toDo(entity,language));
         }
         return dtoList;
     }
 
 
-    private GetCommentDTO toDo(CommentEntity entity) {
+    private GetCommentDTO toDo(CommentEntity entity,Language language) {
         GetCommentDTO dto = new GetCommentDTO();
-        ProfileEntity profileEntity = profileService.get(entity.getProfileId());
+        ProfileEntity profileEntity = profileService.get(entity.getProfileId(),language);
         dto.setId(entity.getId());
         dto.setProfile(profileService.toDoForComment(profileEntity));
         dto.setCreatedDate(entity.getCreatedDate());
@@ -158,11 +159,11 @@ public class CommentService {
         return dto;
     }
 
-    private CommentDTO toDo3(CommentEntity entity) {
+    private CommentDTO toDo3(CommentEntity entity,Language language) {
         CommentDTO dto = new CommentDTO();
-        ProfileEntity profileEntity = profileService.get(entity.getProfileId());
+        ProfileEntity profileEntity = profileService.get(entity.getProfileId(),language);
         String articleId = entity.getArticleId();
-        ArticleEntity articleEntity = articleService.get(articleId);
+        ArticleEntity articleEntity = articleService.get(articleId,language);
         dto.setId(entity.getId());
         dto.setProfile(profileService.toDoForComment(profileEntity));
         dto.setArticle(articleService.getForComment(articleEntity));

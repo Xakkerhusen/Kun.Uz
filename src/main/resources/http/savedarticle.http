@@ -1,0 +1,26 @@
+###Create Saved Article
+POST localhost:8080/savedArticle/any
+Accept-Language: RU
+#admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDgxNTY2MjIsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA4MjQzMDIyLCJpc3MiOiJLdW5VelRlc3QifQ.EmyC8Af2XWn6f0HqZDNwDdJTMHhDF8zBDsihuKFUjtYOE9ix3gkXowL5enILhRvXtM3P199tvBJm8jHXZiNogw
+Content-Type: application/json
+
+{
+  "articleId": "95363822-48d3-4374-b24e-7ca7fc2a1c82"
+}
+###Delete Saved Article
+DELETE localhost:8080/savedArticle/any/95363822-48d3-4374-b24e-7ca7fc2a1c82
+#Accept-Language: RU
+#admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDgxNTY2MjIsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA4MjQzMDIyLCJpc3MiOiJLdW5VelRlc3QifQ.EmyC8Af2XWn6f0HqZDNwDdJTMHhDF8zBDsihuKFUjtYOE9ix3gkXowL5enILhRvXtM3P199tvBJm8jHXZiNogw
+
+###Get all Saved Article
+GET localhost:8080/savedArticle/any
+Accept-Language: RU
+#admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDgxNTY2MjIsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA4MjQzMDIyLCJpc3MiOiJLdW5VelRlc3QifQ.EmyC8Af2XWn6f0HqZDNwDdJTMHhDF8zBDsihuKFUjtYOE9ix3gkXowL5enILhRvXtM3P199tvBJm8jHXZiNogw
+#moderator(name=moder)
+#Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDgxNTY5MjAsImVtYWlsIjoibW9kZXJhdG9yQG1haWwuY29tIiwicm9sZSI6IlJPTEVfTU9ERVJBVE9SIiwiZXhwIjoxNzA4MjQzMzIwLCJpc3MiOiJLdW5VelRlc3QifQ.rep6TC3nL1BKSsWgkQTdvBTQ_oJwhbTRo_dBqxDemxdHH5ESiaMa6rCeNtahrhj0F8g5zAzIAesi2-VWP86xaw
+
+###
+#95363822-48d3-4374-b24e-7ca7fc2a1c82

@@ -1,5 +1,6 @@
 ###Get sms history by phone number
 POST localhost:8080/smsHistory
+Accept-Language: RU
 Content-Type: application/json
 
 {

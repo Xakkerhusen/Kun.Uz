@@ -7,6 +7,7 @@ import com.example.kun_Uz_Lesson_1.dto.profile.Profile;
 import com.example.kun_Uz_Lesson_1.dto.profile.RegistrationProfileDTO;
 import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
 import com.example.kun_Uz_Lesson_1.entity.SmsHistoryEntity;
+import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.enums.ProfileStatus;
 import com.example.kun_Uz_Lesson_1.enums.SmsStatus;
@@ -43,17 +44,19 @@ public class AuthService {
     private EmailHistoryService emailHistoryService;
     @Autowired
     private SmsSenderService smsSenderService;
+    @Autowired
+    private ResourceBundleService resourceBundleService;
 
-    public Profile auth(Auth auth) {
+    public Profile auth(Auth auth, Language language) {
         Optional<ProfileEntity> optional =
                 profileRepository.findByEmailAndPassword(auth.getEmail(), MD5Util.encode(auth.getPassword()));
+        if (optional.isEmpty()||!optional.get().getVisible()){
+            log.warn("email.password.wrong {}",auth.getEmail());
+            throw new AppBadException(resourceBundleService.getMessage("email.password.wrong",language));
+        }
         if (!optional.get().getStatus().equals(ProfileStatus.ACTIVE)) {
             log.warn("Profile not active {}",optional.get().getStatus());
-            throw new AppBadException("Profile not active");
-        }
-        if (!optional.get().getVisible()) {
-            log.warn("Profile not found {}",optional.get().getStatus());
-            throw new AppBadException("Profile not found");
+            throw new AppBadException(resourceBundleService.getMessage("profile.not.active",language));
         }
         ProfileEntity entity = optional.get();
         Profile dto = new Profile();
@@ -67,14 +70,14 @@ public class AuthService {
         return dto;
     }
 
-    public Boolean registration(RegistrationProfileDTO dto) {
+    public Boolean registration(RegistrationProfileDTO dto, Language language) {
         if (dto.getPhoneNumber()!=null&&!dto.getPhoneNumber().matches("^(?:[0-9] ?){6,14}[0-9]$")) {
             log.warn("phone number required {}",dto.getPhoneNumber());
-            throw new AppBadException(" phone number required");
+            throw new AppBadException(resourceBundleService.getMessage("phone.number.required",language));
         }
         if (!dto.getPassword().matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,}$")) {
             log.warn("Password required {}",dto.getPassword());
-            throw new AppBadException("Password required");
+            throw new AppBadException(resourceBundleService.getMessage("password.required",language));
         }
         Optional<ProfileEntity> optional = profileRepository.findByEmail(dto.getEmail());
         if (optional.isPresent()) {
@@ -82,7 +85,7 @@ public class AuthService {
                 profileRepository.delete(optional.get());
             } else {
             log.warn("Email exists {}",dto.getEmail());
-                throw new AppBadException("Email exists");
+                throw new AppBadException(resourceBundleService.getMessage("email.exists",language));
             }
         }
 
@@ -90,7 +93,7 @@ public class AuthService {
         LocalDateTime to = LocalDateTime.now();
         if (emailSendHistoryRepository.countSendEmail(dto.getEmail(), from, to) >= 4) {
             log.warn("To many attempt. Please try after 1 minute. {}",dto.getEmail());
-            throw new AppBadException("To many attempt. Please try after 1 minute.");
+            throw new AppBadException(resourceBundleService.getMessage("after.1.minute",language));
         }
 //        if (smsHistoryRepository.countSendPhone(dto.getPhoneNumber(), from, to) >= 1) {
 //            log.warn("To many attempt. Please try after 1 minute. {}",dto.getPhoneNumber());
@@ -105,7 +108,7 @@ public class AuthService {
         return true;
     }
 
-    public Profile emailVerification(String jwt) {
+    public Profile emailVerification(String jwt, Language language) {
         try {
             JWTDTO jwtDTO = JWTUtil.decode(jwt);
 
@@ -117,7 +120,7 @@ public class AuthService {
             ProfileEntity entity = optional.get();
             if (!entity.getStatus().equals(ProfileStatus.REGISTRATION)) {
                 log.warn("Profile in wrong status {}",entity.getStatus());
-                throw new AppBadException("Profile in wrong status");
+                throw new AppBadException(resourceBundleService.getMessage("profile.in.wrong.status",language));
             }
             Profile profile = new Profile();
             profileRepository.updateStatus(entity.getId(), ProfileStatus.ACTIVE);
@@ -128,7 +131,7 @@ public class AuthService {
 
         } catch (JwtException e) {
                 log.warn("Please tyre again. {}",jwt);
-            throw new AppBadException("Please tyre again.");
+            throw new AppBadException(resourceBundleService.getMessage("please.tyre.again",language));
         }
         return null;
     }
@@ -141,7 +144,7 @@ public class AuthService {
         entity.setEmail(dto.getEmail());
         entity.setPassword(MD5Util.encode(dto.getPassword()));
         entity.setStatus(ProfileStatus.REGISTRATION);
-        entity.setRole(ProfileRole.Role_USER);
+        entity.setRole(ProfileRole.ROLE_USER);
         profileRepository.save(entity);
 
         String code = RandomUtil.getRandomCode();
@@ -158,7 +161,7 @@ public class AuthService {
         entity.setEmail(dto.getEmail());
         entity.setPassword(MD5Util.encode(dto.getPassword()));
         entity.setStatus(ProfileStatus.REGISTRATION);
-        entity.setRole(ProfileRole.Role_USER);
+        entity.setRole(ProfileRole.ROLE_USER);
         profileRepository.save(entity);
 
         String jwt = JWTUtil.encodeForEmail(entity.getId());
@@ -178,12 +181,12 @@ public class AuthService {
         emailHistoryService.create(dto, text);
     }
 
-    public Profile smsVerification(SmsSendDTO dto) {
+    public Profile smsVerification(SmsSendDTO dto, Language language) {
 
         Optional<SmsHistoryEntity> bySentSms = smsHistoryRepository.findBySentSmsAndPhone(dto.getCode(), dto.getPhoneNumber());
         LocalDateTime createdDate = bySentSms.get().getCreatedDate();
         if (LocalDateTime.now().minusMinutes(1).isAfter(createdDate) || bySentSms.get().getStatus().equals(SmsStatus.USED)) {
-            throw new AppBadException("SMS is invalid");
+            throw new AppBadException(resourceBundleService.getMessage("SMS.is.invalid",language));
         }
         profileRepository.updateStatusActive(bySentSms.get().getPhone(), ProfileStatus.ACTIVE);
 

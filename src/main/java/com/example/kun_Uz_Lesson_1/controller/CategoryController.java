@@ -41,17 +41,19 @@ public class CategoryController {
     @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for update", description = "this api is used to update category ")
     public ResponseEntity<?> update(@PathVariable("id") Integer id,
-                                    @RequestBody Category dto) {
+                                    @RequestBody Category dto,
+                                    @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language language) {
         log.info("Update category{}", dto);
-        return ResponseEntity.ok(categoryService.update(id, dto));
+        return ResponseEntity.ok(categoryService.update(id, dto,language));
     }
 
     @DeleteMapping("/adm/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation( summary = "Api for delete", description = "this api is used to delete category ")
-    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id,
+                                    @RequestHeader(value = "Accept-Language",defaultValue = "UZ")Language language) {
         log.info("Delete category{}", id);
-        return ResponseEntity.ok(categoryService.delete(id));
+        return ResponseEntity.ok(categoryService.delete(id,language));
     }
 
     @CrossOrigin(value = "*")

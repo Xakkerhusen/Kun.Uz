@@ -3,6 +3,7 @@ package com.example.kun_Uz_Lesson_1.controller;
 import com.example.kun_Uz_Lesson_1.dto.profile.FilterProfileDTO;
 import com.example.kun_Uz_Lesson_1.dto.profile.CreatedProfileDTO;
 import com.example.kun_Uz_Lesson_1.dto.profile.Profile;
+import com.example.kun_Uz_Lesson_1.enums.Language;
 import com.example.kun_Uz_Lesson_1.enums.ProfileRole;
 import com.example.kun_Uz_Lesson_1.service.ProfileService;
 import com.example.kun_Uz_Lesson_1.utils.HTTPRequestUtil;
@@ -31,35 +32,39 @@ public class ProfileController {
     @PostMapping("/adm")
     @Operation( summary = "Api for create", description = "this api is used to create profile ")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> create(@Valid @RequestBody CreatedProfileDTO dto) {
+    public ResponseEntity<?> create(@Valid @RequestBody CreatedProfileDTO dto,
+                                    @RequestHeader(value = "Accept-Language",defaultValue = "UZ")Language language) {
         log.info("Create profile {}",dto.getEmail());
-        return ResponseEntity.ok(profileService.create(dto));
+        return ResponseEntity.ok(profileService.create(dto,language));
     }
 
     @PutMapping("/adm/{id}")
     @Operation( summary = "Api for update", description = "this api is used to update profile ")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@RequestBody(required = false) Profile dto,
-                                    @PathVariable("id") Integer id) {
+                                    @PathVariable("id") Integer id,
+                                    @RequestHeader(value = "Accept-Language",defaultValue = "UZ")Language language) {
         log.info("Update profile by id {}",dto.getEmail());
-        return ResponseEntity.ok(profileService.update(dto, id));
+        return ResponseEntity.ok(profileService.update(dto, id,language));
     }
 
     @PutMapping("/any/updateDetail")
     @Operation( summary = "Api for updateDetail", description = "this api is used to Update profile (only his own) ")
     @PreAuthorize("hasAnyRole('ADMIN','USER','MODERATOR','PUBLISHER')")
-    public ResponseEntity<?> updateDetail(@RequestBody Profile dto) {
+    public ResponseEntity<?> updateDetail(@RequestBody Profile dto,
+                                          @RequestHeader(value = "Accept-Language",defaultValue = "UZ")Language language) {
         log.info("Update profile by id (only his own) {}",dto.getEmail());
         Integer id = SpringSecurityUtil.getCurrentUser().getId();
-        return ResponseEntity.ok(profileService.updateDetail(dto, id));
+        return ResponseEntity.ok(profileService.updateDetail(dto, id,language));
     }
 
     @DeleteMapping("/adm/{id}")
     @Operation( summary = "Api for delete", description = "this api is used to delete profile ")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id,
+                                    @RequestHeader(value = "Accept-Language",defaultValue = "UZ")Language language) {
         log.info("Delete profile by id (only his own) {}",id);
-        return ResponseEntity.ok(profileService.delete(id));
+        return ResponseEntity.ok(profileService.delete(id,language));
     }
 
     @PostMapping("/filter")

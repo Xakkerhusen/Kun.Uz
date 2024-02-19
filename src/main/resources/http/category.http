@@ -12,7 +12,8 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoia
 }
 
 ###Update category type
-PUT localhost:8080/category/adm/9
+PUT localhost:8080/category/adm/30
+Accept-Language: RU
 Content-Type: application/json
 #admin
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
@@ -25,6 +26,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoia
 
 ###Delete category type
 DELETE localhost:8080/category/adm/10
+Accept-Language: RU
 #admin
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoiaHVzZW5AbWFpbC5ydSIsInJvbGUiOiJST0xFX0FETUlOIiwiZXhwIjoxNzA3OTA3NjczLCJpc3MiOiJLdW5VelRlc3QifQ.C_FcVg-aFkBq-D23OHoeGjBm5c788bck9YKKKOISvCQjyBad3uxkpFQHEPscIpTVHMbJmpTLZd7kyUGP_jkrYg
 
@@ -35,3 +37,4 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MDc4MjEyNzMsImVtYWlsIjoia
 
 ###Get category type list By Language
 GET localhost:8080/category/lang?lang=UZ
+Accept-Language: RU

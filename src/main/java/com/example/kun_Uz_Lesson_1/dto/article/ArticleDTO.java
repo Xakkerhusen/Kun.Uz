@@ -1,5 +1,6 @@
 package com.example.kun_Uz_Lesson_1.dto.article;
 
+import com.example.kun_Uz_Lesson_1.dto.AttachDTO;
 import com.example.kun_Uz_Lesson_1.entity.CategoryEntity;
 import com.example.kun_Uz_Lesson_1.entity.ProfileEntity;
 import com.example.kun_Uz_Lesson_1.entity.RegionEntity;
@@ -47,4 +48,5 @@ public class ArticleDTO {
     private Integer moderatorId;
     private Integer publishedId;
 
+    private AttachDTO attach;
 }
